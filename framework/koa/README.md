@@ -10,9 +10,9 @@
     - [response](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter01/05.md)
     - [context](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter01/06.md)
 
-* 2. koa的原理
-    - 核心库-compose
-    - 洋葱模型
+* 2. koa的中间件原理
+    - [核心库-compose](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter02/01.md)
+    - [洋葱模型](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter02/02.md)
 
 * 3. koa的中间件设计
     - 请求/响应拦截
