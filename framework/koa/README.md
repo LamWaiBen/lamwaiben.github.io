@@ -19,8 +19,8 @@
     - [请求/响应拦截](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter03/02.md)
     - [context挂载](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter03/03.md)
     - [间接中间件代理](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter03/04.md)
-* 4. 自己写的一些中间件 (todo)
-    - websocket
-    - upload-file
-    - static-server
-    - hook
+* 4. 自己写的一些中间件
+    - [websocket]((https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_websocket/app.js))
+    - [upload-file]((https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_upload-file/upload-file.js))
+    - [static-server]((https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_static-server/static-server.js))
+    - [hook]((https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_hook))
