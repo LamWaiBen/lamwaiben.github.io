@@ -1,0 +1,1 @@
+本目录用于学习记录nodejs中[mysql](https://github.com/mysqljs/mysql)的用法
