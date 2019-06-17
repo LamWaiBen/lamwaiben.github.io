@@ -2,12 +2,14 @@
 > 超棒的可视化的[git模拟工具](https://learngitbranching.js.org/)
 ## 更新提交
 ```
-$ git pull
-$ git fetch
-$ git rebase newbase [branch]       # 把newbase当做branch[HEAD]的父节点, 原来的分支会废弃,从X分支继续延续下去, (变基)
+$ git pull <repository>       # 获取分支更新并自动merge
+$ git fetch <repository>      # 获取所有分支的更新, 仅更新origin那部分(origin/master)
+$ git rebase newbase [branch] # 把newbase当做branch[HEAD]的父节点, 原来的分支会废弃,从X分支继续延续下去, (变基)
 $ git merge branch_X          # 把X分支合并到当前分支中,并生成新的节点
 
-$ git push
+$ git push <repository>       # 把本地产库的修改提交到repository
+$ git push origin foo:master  # 把本地foo分支提交到远程仓库的master分支
+$ git push origin :foo        # 删除远程仓库foo分支
 
 ```
 
@@ -79,6 +81,9 @@ $ ssh-keygen -f ~/.ssh/somebody             # 生成公钥密钥，如~/.ssh文�
 $ ssh -T git@github.com                     # 测试密钥是否能连通github
 $ git clone -b <branch> <repo> [<dir>] # 克隆指定分支
 $ git remote add [<options>] <name> <url>      # 添加远程仓库
+
+
+
 ```
 
 ## 配置信息
