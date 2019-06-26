@@ -1,7 +1,7 @@
 
 /**
  * 由于nodejs中很多函数都是异步执行，在回调中返回结果（错误先行）， 所以我们可以把异步操作promise化
- * 把nodejs中的api改造成promise
+ * 等价于Node.js 8 util.promisify
  * @param {nodejsCallBack API} api 
  */
 function promisify(api){
