@@ -86,6 +86,12 @@ $ git remote add [<options>] <name> <url>      # 添加远程仓库
 
 ```
 
+## 删除
+
+```
+$ git rm -r --cached node_modules       # 移除git对node_modules的记录
+```
+
 ## 配置信息
 
     ```
