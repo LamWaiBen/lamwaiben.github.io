@@ -144,5 +144,93 @@
         // 使用 `obj` 作为 `this` 来调用 `foo(..)`
         [1, 2, 3].forEach( foo, obj ); // 1 awesome  2 awesome  3 awesome
         ```
-    4. new绑定
-    
+    4. new绑定 - 使用new操作符来创造一个全新对象,并把`this`绑定到这个对象
+        ```javascript
+        function foo(a){
+            this.a = a
+        }
+        let bar = new foo(2)
+        console.log(bra.a) // 2
+        ```
+
+        `new`操作符做了以下事情:
+        1. 创建一个全新的对象
+        2. 这个新对象会被接入构造函数的原型对象, 接入原型链
+        3. 这个新对象会被设置为函数调用的`this`绑定
+        4. 除非函数返回另外的对象, 否则这个新对象将自动返回
+
+- 一切皆有顺序
+    由于 new 和 call/apply不能同时使用, 但是我们仍然可以通过bind来测试:
+    ```javascript
+    function foo(some){
+        this.a = some
+    }
+    var obj = {}
+    var bar = foo.bind(obj)
+    bar(2)
+    console.log("obj.a:", obj.a)
+    var obj2 = new bar(3)
+    console.log("obj.a:", obj.a)
+    console.log("obj2.a:", obj2.a)
+    // 可以知道 new绑定 比 明确绑定 的优先级高
+    // 我们可以利用 new 可以覆盖硬绑定(bind)来实现默认"柯里化"
+
+    function curry(p1, p2){
+        this.val = p1 + p2
+    }
+    var p1 = curry.bind(null, "p1")     // 传null是因为后面可以使用new操作符重新更改this
+    var p = new p1("p2")
+    console.log('p.val:', p.val)        // p1p2
+    ```
+
+    总结一下从函数调用的调用点来判定`this`的规则:
+
+        new 绑定 > 明确绑定 > 隐含绑定 > 默认绑定
+        new foo() > foo.call(obj) > obj.foo() > foo()
+
+- 绑定的特例
+
+    1. 当把`null`或`undefined`作为call, apply或bind的`this`绑定参数时,这些值会被忽略掉,而采取默认绑定的规则
+        ```javascript
+        function foo(a,b){
+            console.log(`a:${a}, b:${b}`)
+            this.a = a
+        }
+        foo.apply(null, [2, 3])  // a:2, b:3
+        // 注意! 这时候会的污染全局对象, 我们正确的做法是:
+        let empty = Object.create(null)     // 创造一个完全为空的对象, 与{}的区别在于, 没有Object.prototype
+        foo.apply(empty, [2, 3])  // a:2, b:3
+        ```
+    2. 函数的间接引用, 当一个函数的间接引用被调用时,默认绑定规则也适用
+        ```javascript
+        function foo(){console.log(this.a)}
+        var a = 2
+        var o = {a: 3, foo}
+        var p = {a: 4}
+        o.foo()     // 3
+        (p.foo = o.foo)()   // 2,  p.foo = o.foo返回foo函数的间接引用, 这时候this适用默认绑定的规则
+        ```
+
+- 词法 this
+    上面讨论的四种规则, 在箭头函数内不适用.箭头函数从他的作用域采用`this`绑定, 即采用作用域里面的`this`作为箭头函数内部的`this`, 有种类似于继承的感觉.
+
+## 对象
+- 内建对象
+
+
+- 内容
+
+
+- 属性(Property) vs 方法(Method)
+
+
+- 数组
+
+
+- 复制对象
+
+
+- 属性描述符(Property Descriptors)
+
+
+- 不可变性(Immutability)
