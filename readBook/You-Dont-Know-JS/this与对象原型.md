@@ -215,22 +215,146 @@
     上面讨论的四种规则, 在箭头函数内不适用.箭头函数从他的作用域采用`this`绑定, 即采用作用域里面的`this`作为箭头函数内部的`this`, 有种类似于继承的感觉.
 
 ## 对象
-- 内建对象
+- 内建对象  
+    `function`是对象的一种子类型(可调用的对象), 而下列内建对象看起来像`类(class)`,实际上是`函数`
+    * String
+    * Number
+    * Boolean
+    * Object
+    * Array
+    * Date - 仅有构造对象形式,没有字面形式
+    * Regexp
+    * Error
+    ```javascript
+    var nStr = new String('a')
+    var str = "a"
+    typeof nStr     // "object"
+    typeof str      // "string"
+    Object.prototype.toString.call(nStr)        // "[object String]"
+    Object.prototype.toString.call(str)         // "[object String]"
+    nStr instanceof String;         // true
+    str instanceof String;          // false
+
+    // 那么为什么有时候我们平时使用string基本类型的时候, 能正常使用String对象类型的方法呢?
+    // 是因为引擎在必要的时候会自动把基本类型强制转换成内建对象类型
+    ```
+
+- 内容  
+    对象的内容其实并不是真正的在对象上, 对象这个容器其实只是保存了这些属性名,以及属性名所对应的指针, 通过指针来引用真正的值储存的地方.
+
+    访问内容,我们通过键(key)来访问, 通常有两种方式:
+    ```javascript
+    let a = "a"
+    var mObject = {
+        a: 1,
+        [a + "_"]: 2,       // 计算型属性名
+    }
+    mObject.a              // 1
+    mObject[a + "_"]       // 2
+    ```
+
+- 数组  
+    数组是一个结构化的对象, 采用数字索引作为key, 虽然也可以使用点语法或[]操作符对其定义属性,但是并不会改变数组的length
+    ```javascript
+    var myArray = [ "foo", 42, "bar" ];
+    myArray.baz = "baz";
+    myArray.length;	// 3
+    myArray.baz;	// "baz"
+    console.log(myArray)    //  ["foo", 42, "bar", baz: "baz"]
+    ```
 
 
-- 内容
+- 复制对象  
+    由于对象是引用类型的数据结构, 所以我们可以分为两种复制: 浅拷贝和深拷贝.
+    1. 函数
+        ```javascript
+        // 深拷贝
+        Function.prototype.clone=function(){
+            return eval( '('+this.toString()+')' );
+        }
+        ```
+    2. 数组/对象
+        ```javascript
+        //浅拷贝
+        let newObject_shallow = Object.assign({}, oldObject)
+
+        //深拷贝
+        let newObject_deep = JSON.parse(JSON.stringify())   // 简单方案, 无法拷贝原型链
+        ```
+
+- 属性描述符(Property Descriptors)  
+在es5之后,对象的所有属性都可以使用属性描述符来描述, 属性描述符主要有4个性质
+    1. 可写性 - writable
+        writable不能与getter/setter共存
+    2. 可枚举性 - enumerable    
+        为false的时候不会出现在for..in / Object.keys(obj)中
+    3. 可配置性 - configurable  
+        为false的时候所有描述符都不能改变(除了将writable由true改成false)    
+        也无法使用`delete`操作符
+    4. 值 - value / getter & setter
 
 
-- 属性(Property) vs 方法(Method)
+- 不可变性(Immutability)    
+    有时候我们期望一个对象的属性以及方法不改变,以免引用到它的其他对象方法函数收到影.   
+    为了达到这种不可变性, 我们可以有下面的方法:
+    1. 对象常量 - 在属性描述符上实现
+    2. 防止扩展 - Object.preventExtensions(obj). 不能添加属性
+    3. 封印 - Object.seal. 不能删除/配置属性. 实质上也是调用 Object.preventExtensions 并设置属性描述符 configurable:false.
+    4. 冻结 - Object.feeze 完全不能改变属性.调用 Object.seal(), 且属性描述符设置为 writable:false
 
+- 存在性(Existence) 
+想判断对象是否拥有特定属性值的时候可以使用 `in`操作符 或 `hasOwnroperty`方法
+    ```javascript
+    var myObject = {
+        a:2
+    }
+    "a" in myObject // true     若当前对象找不到时会根据原型链去寻找属性
+    "b" in myObject // false
+    myObject.hasOwnProperty( "a" );	// true     仅检查当前对象
+    myObject.hasOwnProperty( "b" );	// false
+    ```
 
-- 数组
+- 迭代(Iteration)   
+    1. 使用`for..in`可以迭代对象上所有可以迭代的属性名(包含原型链).
+    2. 使用`for..of`可以迭代数组上所有的值, 如果想要迭代对象, 则需要在对象上内建一个`@@iterator` 属性, 虽然`@@iterator`本身不是迭代器对象, 但是它是一个返回迭代器对象的方法.    
+    数组可以在for..of循环中自动迭代是因为数组内建了`@@iterator`, 但是对象是没有内建`@@iterator`的, 所以for..of方法是无法迭代对象的,除非我们自己在对象上实现一个`@@iterator`方法.
 
+    ```javascript
+    var myObject = {
+        a: 2,
+        b: 3
+    };
 
-- 复制对象
+    Object.defineProperty( myObject, Symbol.iterator, {
+        enumerable: false,
+        writable: false,
+        configurable: true,
+        value: function() {
+            var o = this;
+            var idx = 0;    // 存放不同的迭代器id
+            var ks = Object.keys( o );
+            return {    // 返回一个迭代器
+                next: function() {
+                    return {
+                        value: o[ks[idx++]],
+                        done: (idx > ks.length)
+                    };
+                }
+            };
+        }
+    } );
 
+    // 手动迭代 `myObject`
+    var it = myObject[Symbol.iterator]();
+    it.next(); // { value:2, done:false }
+    it.next(); // { value:3, done:false }
+    it.next(); // { value:undefined, done:true }
 
-- 属性描述符(Property Descriptors)
-
-
-- 不可变性(Immutability)
+    // 用 `for..of` 迭代 `myObject`
+    // 说明 for..of 是通过 Symbol.iterator 来获取迭代器it, 然后调用 it.next() 来迭代的
+    for (var v of myObject) {
+        console.log( v );
+    }
+    // 2
+    // 3
+    ```
