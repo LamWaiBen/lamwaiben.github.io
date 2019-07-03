@@ -358,3 +358,167 @@
     // 2
     // 3
     ```
+
+## 混合"类"的对象   
+面向对象编程的三个基本特征: 封装, 继承, 多态.
+- 多态（在继承链的不同层级上拥有同名的不同函数）也许看起来意味着一个从子类回到父类的相对引用链接，但是它仍然只是拷贝行为的结果。
+- JavaScript中没有真正的类, 只通过(原型)对象来模拟类, 
+
+## 原型 
+- [[Prototype]] 
+当在对象内读取一个属性的时候,如果读不到这个值,那么它就会在它的原型(prototype)上去找这个值, 顺着原型链找直至尽头, 若最后还是找不到则返回undefined.
+
+- 设置与遮蔽属性    
+当我们想要在一个对象上设置属性时,假如这个对象的原型链上已经存在同样的key时,对象的行为可能有3种情况:     
+myObject.foo = 'bar'   
+当foo不直接存在myObject, 但是存在于myObject的原型链上时:
+    1. foo在原型链上且`没有被标记为只读(writable:false)`时, foo直接添加到myObject上,形成一个遮蔽属性
+    2. foo在原型链上且`被标记为只读(writable:true)`时, foo是无法在myObject上创建遮蔽属性的, 假如在严格模式下,还会抛出错误
+    3. foo在圆形脸上且`它是一个setter`, 那么这个setter总是会被调用,导致foo不会被添加到myObject上 
+
+    以上的三种情况,只有第一种能成功创建遮蔽属性, 第二和第三中是无法使用`=`赋值的,必须要使用Object.defineProperty(..)    
+    此外遮蔽还会对给我们带来误导,我们提倡尽量不要创建遮蔽属性,如下:
+    ```javascript
+    var anotherObject = {
+        a: 2
+    };
+
+    var myObject = Object.create( anotherObject );
+
+    anotherObject.a; // 2
+    myObject.a; // 2
+
+    anotherObject.hasOwnProperty( "a" ); // true
+    myObject.hasOwnProperty( "a" ); // false
+
+    myObject.a++; // 噢，隐式遮蔽！ 相当于 myObject.a = anotherObject.a + 1
+
+    anotherObject.a; // 2
+    myObject.a; // 3
+
+    myObject.hasOwnProperty( "a" ); // true
+    ```
+- 类    
+其实JavaScript中并没有真正类, 只有对象,而且试图用对象来模拟类   
+在面向类的语言中,实例的属性时从类`拷贝`而来的,但是js并没有真正的类, 所以在js中是通过原型链把实例与原型对象`连接`起来,令实例可以访问到原型的属性而`模拟拷贝`的效果
+    ```javascript
+    function Foo() {
+        // ...
+    }
+    var a = new Foo();
+    Object.getPrototypeOf( a ) === Foo.prototype; // true
+    ```
+- 构造器(Constructors)  
+    > 实例的constructor属性并非完全真正指向其构造函数, 它仅能代表它的原型对象的constructor值, 而实例的原型对象是可以随时改变的!
+
+    我们来分析一个对象是如何从一个类中构造出来的.   
+    ```javascript
+    function Foo() {
+        console.log('doing something...')
+
+    }
+
+    Foo.prototype.constructor === Foo; // true
+
+    var a = new Foo();      // doing something...
+    a.constructor === Foo; // true
+
+    // 上面的代码, 我们可以看到函数Foo在定义的时候, 原型对象会自动创建一个构造器constructor的属性,值为Foo函数自身,当使用new操作符调用Foo时, Foo执行自身的内容并创建了一个新的对象a, a的构造器看起来指向Foo.
+    
+    ```
+    可是事实上真的是这样的吗?  
+
+    1. 任何函数在定义的时候, 该函数的fn.prototype上自动创建一个constructor属性, 该属性的值是该函数自身  
+    2. 实例的构造器constructor属性并非自己的属性,而是来自于其原型对象上的constructor属性, 当其原型对象找不到时则一直往原型链上游去寻找.     
+
+    我们来验证一下这些观点:
+    ```javascript
+    function Foo() { /* .. */ }
+
+    Foo.prototype = { /* .. */ }; // 创建一个新的 prototype 对象, 该原型对象是手动创建的, 所以其constructor属性为空
+
+    var a1 = new Foo();
+    a1.constructor === Foo; // false!  由于a1的原型对象已经变成一个自定义的原型对象, 所以其constructor属性自然不等于构造函数Foo
+    a1.constructor === Object; // true!  自定义的原型对象会往原型链的上游寻找constructor属性, Object.prototype的.constructor属性是内建的Object函数
+    ```
+    可以得出结论:
+    
+        实例的.constructor并非严格指向它的构造器函数, 它是可以人为改变的`(修改prototype或添加属性)`. 构造器不是意味着被XX构建!
+
+- 原型继承  
+    js中的继承只能通过原型来模拟, 称为原型继承. "类"与"类"之间的继承也是通过原型对象来模拟的.
+    ```javascript
+    // 加入我们有两个类Foo和Bar, 我们想要Bar类是继承自Foo类.
+    function Foo(name){
+        this.name = name
+    }
+    Foo.prototype.myName = function(){ return this.name }
+    function Bar(name, label){
+        Foo.call(this, name)
+        this.label = label
+    }
+
+    // 如何把两个类的原型连在一起呢?
+    // 第一种方法: 丢弃Bar原来的原型, 然后创建一个新的对象,并把Foo的原型作为改对象的原型, 然后再给Bar.prototype设置方法
+    /**
+    Bar.prototype = Object.create(Foo.prototype)
+    Bar.prototype.constructor = Bar         //由于原型被替换, 所以需要修复Bar.constructor
+    Bar.prototype.myLabel = function(){ return this.label }
+
+    // 扩展: 假如Object.create方法不存在时:
+    	Object.create = function(o) {
+            function F(){}
+            F.prototype = o;
+            return new F();
+        };
+    **/
+
+    // 第二种方法: ES6的语法 Object.setPrototypeOf(), 把Foo.prototype作为Bar.prototype的.prototype属性, 无需创建空对象
+    Bar.prototype.myLabel = function(){ return this.label }
+    Object.setPrototypeOf(Bar.prototype, Foo.prototype)
+    Object.getPrototypeOf(Bar.prototype) === Foo.prototype      // true
+
+    let a = new Bar("a", "obj a")
+    a.myName()      // "a"
+    a.myLabel()     // "obj a"
+    ```
+
+    在修改Bar.prototype的时候,经常会有两种常见的误区/困惑:
+    ```javascript
+    // 1. 并不会如期望中的那样工作, 而且会影响所有链接到Foo.prototype的对象
+    Bar.prototype = Foo.prototype;
+
+    // 2. 如期望中的那样工作, 但是会带来副作用(1. 构造函数内部的this可能会造成环境污染; 2. 执行一遍函数消耗性能)
+    Bar.prototype = new Foo()
+
+    ```
+- 考察"类"的关系    
+    
+    当我们想要知道两个对象是否存在原型关系, 我们有3种方法:
+    1. a instanceof A - 在a的原型链中, 有没有构造函数A的.prototype的存在
+    2. A.prototype.isPrototypeOf(b) - 在b的原型链中, 有没有A.prototype的存在
+    3. Object.getPrototypeOf(a) - 获取a的原型对象, 再手动进行比较
+    ```javascript
+        function A() {
+        }
+        A.prototype.blah = ...;
+
+        var a = new A();
+        var b = Object.create(a)
+
+        a instanceof A      // true
+        a.isPrototypeOf(b)      // true    
+        A.prototype.isPrototypeOf(b)    // true
+
+        Object.getPrototypeOf(b) === a      // true
+        Object.getPrototypeOf(b) === Object.getPrototypeOf(a)       // false
+        Object.getPrototypeOf(a) === A.prototype
+    ```
+
+## 行为委托 
+JavaScript中的继承其实更像`委托`,  继承的父类并不是拷贝属性而是委托连接.
+
+
+
+
+## 附录A: ES6 Class 

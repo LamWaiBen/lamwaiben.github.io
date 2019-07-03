@@ -3,7 +3,34 @@
 
 ### Symbol
 
-### Proxy
+### Proxy   
+拦截对象的方法, 并用新的方法来代理被拦截的方法, 常见的方法有:
+1. get/set
+2. apply    
+    ```javascript
+    function Foo(a, b){
+        this.a = a
+        this.b = b
+    }
+
+    // 代理apply方法, 可以不使用new操作符也能创建对象
+    var proxy = new Proxy(Foo, {
+        apply(target, ctx, args){
+            console.log('proxy param:', target, ctx, args)
+            // ctx为空的时候需要用new操作符, 以免this采用默认绑定规则, 污染全局对象
+            if(ctx === null || ctx === undefined) return new (target.bind(ctx, ...args))()
+            //若ctx存在, 则把他作为this
+            return target.bind(ctx, ...args)()
+        }
+    })
+
+    new proxy(1,2) // {a:1, b:2}
+    proxy(3,4)     // {a:3, b:4}
+
+    let ctx = {c: 3}
+    proxy.call(ctx, 1, 2)
+    ```
+
 
 ### Reflect
 `Reflect`对象与`Proxy`对象一样，也是ES6为了操作对象而提供的新API.目的是:
