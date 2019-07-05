@@ -501,24 +501,205 @@ myObject.foo = 'bar'
     ```javascript
         function A() {
         }
-        A.prototype.blah = ...;
+        A.prototype.blah = function(){};
+
+        function B(){
+        }
+        B.prototype = Object.create(A.prototype)
 
         var a = new A();
-        var b = Object.create(a)
+        var aa = Object.create(a)
+        var b = new B()
 
+
+        // A 与 a 与 aa 的关系
         a instanceof A      // true
-        a.isPrototypeOf(b)      // true    
-        A.prototype.isPrototypeOf(b)    // true
+        a.isPrototypeOf(aa)      // true    
+        A.prototype.isPrototypeOf(aa)    // true
 
-        Object.getPrototypeOf(b) === a      // true
-        Object.getPrototypeOf(b) === Object.getPrototypeOf(a)       // false
+        Object.getPrototypeOf(aa) === a      // true
+        Object.getPrototypeOf(aa) === Object.getPrototypeOf(a)       // false
         Object.getPrototypeOf(a) === A.prototype
+
+        // A 与 B 的关系
+        B.prototype instanceof A    // true
+        Object.getPrototypeOf(B.prototype) === A.prototype
+        A.prototype.isPrototypeOf(B.prototype)
+
+        // b 与 A 与 B的关系
+        b instanceof A          // true
+        b instanceof B          // true
+        Object.getPrototypeOf(b) === B.prototype    // true
+        A.prototype.isPrototypeOf(b)                // true
+        B.prototype.isPrototypeOf(b)                // true
+
     ```
 
 ## 行为委托 
-JavaScript中的继承其实更像`委托`,  继承的父类并不是拷贝属性而是委托连接.
+JavaScript中的继承其实更像`委托`,  继承的父类并不是拷贝属性而是委托连接.    
+深入了解js中的原型,之后其实原型最重要的实质`全部在于被连接到其他对象的对象`, 为了用好原型,我们可以学习一下面向委托的设计.
 
+- 原型-原型链-实例之间的关系图
+![YDKJS_prototype](../../pic/YDKJS_prototype.png)
 
+- 原型,class语法糖和OLOO之间的比较  
+    1. 基于原型的类设计
+        ```javascript
+        // 父类
+        function Widget(width,height) {
+            this.width = width || 50;
+            this.height = height || 50;
+            this.$elem = null;
+        }
 
+        Widget.prototype.render = function($where){
+            if (this.$elem) {
+                this.$elem.css( {
+                    width: this.width + "px",
+                    height: this.height + "px"
+                } ).appendTo( $where );
+            }
+        };
+
+        // 子类
+        function Button(width,height,label) {
+            // "super"构造器调用
+            Widget.call( this, width, height );
+            this.label = label || "Default";
+
+            this.$elem = $( "<button>" ).text( this.label );
+        }
+
+        // 使 `Button` “继承” `Widget`
+        Button.prototype = Object.create( Widget.prototype );
+
+        // 覆盖“继承来的” `render(..)`
+        Button.prototype.render = function($where) {
+            // "super"调用
+            Widget.prototype.render.call( this, $where );
+            this.$elem.click( this.onClick.bind( this ) );
+        };
+
+        Button.prototype.onClick = function(evt) {
+            console.log( "Button '" + this.label + "' clicked!" );
+        };
+
+        $( document ).ready( function(){
+            var $body = $( document.body );
+            var btn1 = new Button( 125, 30, "Hello" );
+            var btn2 = new Button( 150, 40, "World" );
+
+            btn1.render( $body );
+            btn2.render( $body );
+        } );
+        ```
+    2. class语法糖
+        ```javascript
+        class Widget {
+            constructor(width,height) {
+                this.width = width || 50;
+                this.height = height || 50;
+                this.$elem = null;
+            }
+            render($where){
+                if (this.$elem) {
+                    this.$elem.css( {
+                        width: this.width + "px",
+                        height: this.height + "px"
+                    } ).appendTo( $where );
+                }
+            }
+        }
+
+        class Button extends Widget {
+            constructor(width,height,label) {
+                super( width, height );
+                this.label = label || "Default";
+                this.$elem = $( "<button>" ).text( this.label );
+            }
+            render($where) {
+                super.render( $where );
+                this.$elem.click( this.onClick.bind( this ) );
+            }
+            onClick(evt) {
+                console.log( "Button '" + this.label + "' clicked!" );
+            }
+        }
+
+        $( document ).ready( function(){
+            var $body = $( document.body );
+            var btn1 = new Button( 125, 30, "Hello" );
+            var btn2 = new Button( 150, 40, "World" );
+
+            btn1.render( $body );
+            btn2.render( $body );
+        } );
+
+        ```
+
+    3. OLOO风格
+        ```javascript
+        // 字面量创建一个原型
+        var Widget = {
+            init: function(width,height){
+                this.width = width || 50;
+                this.height = height || 50;
+                this.$elem = null;
+            },
+            insert: function($where){
+                if (this.$elem) {
+                    this.$elem.css( {
+                        width: this.width + "px",
+                        height: this.height + "px"
+                    } ).appendTo( $where );
+                }
+            }
+        };
+
+        // Button继承原型
+        var Button = Object.create( Widget );
+
+        Button.setup = function(width,height,label){
+            // delegated call   委托调用
+            this.init( width, height );
+            this.label = label || "Default";
+
+            this.$elem = $( "<button>" ).text( this.label );
+        };
+        Button.build = function($where) {
+            // delegated call
+            this.insert( $where );
+            this.$elem.click( this.onClick.bind( this ) );
+        };
+        Button.onClick = function(evt) {
+            console.log( "Button '" + this.label + "' clicked!" );
+        };
+
+        $( document ).ready( function(){
+            var $body = $( document.body );
+
+            // 由于Button是一个对象, 所以使用Object.create创建一个链接Button的新对象
+            var btn1 = Object.create( Button );
+            btn1.setup( 125, 30, "Hello" );
+
+            var btn2 = Object.create( Button );
+            btn2.setup( 150, 40, "World" );
+
+            btn1.build( $body );
+            btn2.build( $body );
+        } );
+        ```
+    
+    OLOO的风格丢掉了`new` 和`.prototype`的使用, 可以不再关心JavaScript中那脆弱的constructor, 创建和初始化没必要合并在同一个操作中, 而且也可以不像类继承那样在子类中屏蔽父类的方法.
+
+- 鸭子类型(duck typing) 
+    > "如果它看起来像鸭子，叫起来像鸭子，那么它一定是一只鸭子"  
+
+    比如Promise的thenable判断: 假如一个对象拥有.then()方法, 则把它看成是promise对象, 期望它将按照所有的Promise标准行为一样运作
 
 ## 附录A: ES6 Class 
+- class解决的痛点
+    1. 假装修复 JS 中的类/继承设计模式, 使继承从杂乱的`.prototype`和不稳定可变的`.constructor`中解放出来.
+- class的坑
+    1. 由于class它并非真正的`类继承`,只是原型继承的语法糖,底层依然是依赖原型的, 所以如果替换了父类上的一些属性/方法的时候,所有子类都会受到影响,而且并不能直观的发现问题, 因为真正的`类继承`是拷贝属性的而不是`依赖`.
+    2. super的坑. super并不是动态绑定的,它声明的时候被"静态地"绑定, 在调用的时候`super里面的this是所在类的实例`.
