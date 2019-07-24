@@ -126,6 +126,7 @@ HTTP协议的作用是用来规范通信内容的,在HTTP协议中可以分为`�
     11. 403 --- Forbidden --- 服务器拒绝执行该请求
     12. 404 --- Not Found --- 服务器无法根据客户端的请求找到资源
     13. 405 ---	Method Not Allowed --- 客户端请求的方法被禁止
+    14. 413 --- Payload Too Larg --- 请求体载荷过大
     14. 500 --- Internal Server Error --- 服务器内部错误,处理请求是发生异常
     15. 502 ---	Bad Gateway --- 网关或代理服务器出错
     16. 503 --- Service Unavailable --- 服务不可用, 服务器超载/维护,无法处理客户端请求
