@@ -111,7 +111,33 @@
 
 
 
-- queries  查询
+- queries  查询     
+    1. 逻辑操作符   
+        - $or 或, 表达式最好支持索引
+            ```
+            db.inventory.find( { $or: [ { quantity: { $lt: 20 } }, { price: 10 } ] } )  
+            // 所有字段quantity小于20或者price等于10的所有文档
+            ```
+        - $and 并
+            ```
+            db.inventory.find( {
+                $and : [
+                    { $or : [ { price : 0.99 }, { price : 1.99 } ] },
+                    { $or : [ { sale : true }, { qty : { $lt : 20 } } ] }
+                ]
+            } )
+            // price字段值等于0.99或1.99并且sale字段值为true或者qty小于20的所有文档
+            ```
+        - $not 非或不存在
+            ```
+            db.inventory.find( { price: { $not: { $gt: 1.99 } } } )
+            // price字段小于等于1.99或者price不存在
+            ```
+        - $nor 或not
+            ```
+            db.inventory.find( { $nor: [ { price: 1.99 }, { qty: { $lt: 20 } }, { sale: true } ] }
+            // 字段price不等于1.99，字段qty不小于20，字段sale不等于true;查询的结果包含不存在的字段
+            ```
 
 
 
