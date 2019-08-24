@@ -138,8 +138,11 @@
             db.inventory.find( { $nor: [ { price: 1.99 }, { qty: { $lt: 20 } }, { sale: true } ] }
             // 字段price不等于1.99，字段qty不小于20，字段sale不等于true;查询的结果包含不存在的字段
             ```
+    2. 比较操作符
+        - > $gt , >= $gte, < $lt, <= $lte, != $ne
 
-
+    3. $in 与 $nin
+    
 
 - validation 校验
 
