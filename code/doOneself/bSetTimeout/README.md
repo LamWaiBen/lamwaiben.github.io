@@ -21,3 +21,8 @@
     > 设置Timeout时返回id, 并把id作为定时器回调的key放在闭包中. 执行clearTimeout时对闭包操作.
 2. 如何通过`setTimeout`实现`setInterval`?
     > 在setTimeout的回调里面再设置setTimeout.
+
+
+
+## 别人的实现
+1. [ref-timeout](./raf-timeout.js)

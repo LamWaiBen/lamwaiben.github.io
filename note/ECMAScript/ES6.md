@@ -1,9 +1,9 @@
-## ES6
+# ES6
 记录平时比较少用,但是又比较重要的ES6语法.
 
-### Symbol
+## Symbol
 
-### Proxy   
+## Proxy   
 拦截对象的方法, 并用新的方法来代理被拦截的方法, 常见的方法有:
 1. get/set
 2. apply    
@@ -32,7 +32,7 @@
     ```
 
 
-### Reflect
+## Reflect
 `Reflect`对象与`Proxy`对象一样，也是ES6为了操作对象而提供的新API.目的是:
 
 1. 将一些属于语言内部的方法(如 `Object.defineProperty`), 放到`Reflect`上.
@@ -42,23 +42,28 @@
     比如name in obj和delete obj[name]，而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为。
 4. eflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。可以避免`Proxy`方法拦截后, 无法再调用默认行为, 而通过`Reflect[方法名]`, 可以完成原来的默认行为
 
-### Iterator
+## Iterator
 
-### Generator函数
+## Generator函数
 
-### Class
+1. next(), throw(), return()
+2. yield* 表达式及返回值
+3. iterator
+4. Generator函数里的this
+
+## Class
 
 1. super
     - 作为函数使用时, 代表父类的构造函数
     - 作为对象使用时, 代表父类的原型对象
 
-### ArrayBuffer
+## ArrayBuffer
 
 
-## ES6.1
+# ES6.1
 
-### 数组的`includes`方法
+## 数组的`includes`方法
     [1,2,3,4].includes(2) // return true  判断数组是否包含指定值, 判断条件类似于'==='
 
-### 指数运算符
+## 指数运算符
     a ** b  等价于 Math.pow(a, b)
