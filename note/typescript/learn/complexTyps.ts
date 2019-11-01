@@ -74,10 +74,99 @@ const enum Directions {
  */
 
 
-class Aniame {
-    name = 'Jack';      // 实例属性
-    static num = 42;    // 静态属性
-    constructor() {
+abstract class Aniame {
+	public name: string
+	private readonly privateName: string
+	protected protectedName: string
+	public constructor(name: string, privateName: string, protectedName: string) {
+		this.name = name
+		this.privateName = privateName
+		this.protectedName = protectedName
+	}
+
+	public abstract sayName(): string // 抽象方法只能出现在抽象类中
+}
+
+class Person_Aniame extends Aniame {
+    public sayName() {
+        return this.name
+    }
+    // public sayPrivateName(): string {    // 会报错
+    //     return this.privateName
+    // }
+}
+
+let jack = new Person_Aniame("jack", "1", "2")
+console.log(jack.sayName())
+
+
+
+/**
+ * 类实现接口   implements
+ *   类之间的共有特性可以提取成接口(imterfaces), 用 implements 关键字来实现, 提高复用性
+ * 
+ */
+
+
+interface Alarm {
+    alert()
+}
+
+interface Light {
+    lightOn();
+    lightOff();
+}
+
+// 接口继承, extends 后的可以是interface 也可以是 class 
+interface LightableAlarm extends Alarm {    
+    lightOn();
+    lightOff();
+}
+
+class Door {
+
+}
+
+class SecurityDoor extends Door implements Alarm {
+    alert () {
+        console.log("SecurityDoor alert")
+    }
+}
+
+class Car implements Alarm, Light {     // 实现多个接口, 也可以通过接口继承
+    alert() {
+        console.log('Car alert')
+    }
+
+    lightOn(){
+
+    }
+    lightOff(){
 
     }
 }
+
+
+
+
+/**
+ * 混合类型  定义函数自身的属性和方法
+ */
+
+interface Counter {
+    (star: number) : string;
+    interval: number;
+    reset(): void;
+}
+
+function getCounter(): Counter {
+    let counter = <Counter>function (star: number) {}
+    counter.interval = 123
+    counter.reset = function () {}
+    return counter
+}
+
+let c = getCounter()
+c(10)
+c.reset()
+c.interval = 5.0
