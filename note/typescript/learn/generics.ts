@@ -5,12 +5,20 @@
 
 
 /**
- * 函数名后的 <T> 代表泛型, 用T指代任意输入的类型, 后续的未确定的类型可以用T代替
+ * 函数名后的 <T> 代表泛型变量, 用T指代任意输入的类型, 后续的未确定的类型可以用T代替
  */
 function createArray<T>(length: number, value: T): Array<T> {
     return Array(length).fill(value)
 }
 
+
+interface GenericIdentityFn<T>{
+    (arg: T): T;
+}
+function identity<T>(arg:T): T {
+    return arg
+}
+let myIdentity: GenericIdentityFn<number> = identity
 
 
 /**
