@@ -1,0 +1,28 @@
+language: node_js  # 运行环境
+node_js:           # 执行nodejs版本
+  - "8"         
+sudo: required     # 是否需要sudo权限
+before_install:    # 安装前所需要执行的代码
+  - cnpm i
+install: true      # 安装依赖, 为true时不执行任何脚本
+script:            # 运行脚本 
+  - npm run build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t xxx:latest .
+  - docker push xxx:latest          # 把docker镜像推到docker远程服务器
+
+services:          # 指定服务
+  - docker
+
+env:               # 定义环境变量
+  - DB=postgres
+  - SH=bash
+  - PACKAGE_VERSION="1.0.*"
+
+deploy:            # 部署github pages
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  on:
+    branch: master
