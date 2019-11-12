@@ -39,9 +39,11 @@
       ```
 3. href(引用): 指定网络资源的位置，从而在当前元素或者当前文档和由当前属性定义的需要的锚点或资源之间定义一个链接或者关系。
     - href 用于在当前文档和引用资源之间确立联系, 页面解析不会暂停
-    - 使用href的标签: &lt;link&gt; 
+    - 使用href的标签: &lt;link&gt; , &lt;a&gt;
     - ```
         <link href="style.css ref="stylesheet">
+        <a href="#header">
+        <a href="www.baidu.com">
       ```
 4. rel：用于定义链接的文件与HTML文档之间的关系.
     - StyleSheet: 表示是样式调用
