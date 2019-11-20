@@ -29,6 +29,8 @@
 # 相关题目
 1. [最长上升子序列](../LIS.js)
 2. [最长回文子串](../../leetcode/5.longest-palindromic-substring.js)
+3. [正则表达式匹配](../../leetcode/10.regular-expression-matching.js)
+4. [最长合法符号](../../leetcode/32.longest-valid-parentheses.js)
 
 
 # 参考

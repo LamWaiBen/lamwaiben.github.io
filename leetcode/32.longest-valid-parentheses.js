@@ -1,4 +1,4 @@
-dang/*
+/*
  * @lc app=leetcode id=32 lang=javascript
  *
  * [32] Longest Valid Parentheses
