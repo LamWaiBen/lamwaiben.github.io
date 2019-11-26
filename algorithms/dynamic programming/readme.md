@@ -13,7 +13,7 @@
     状态转移方程: 描述当前状态与过去状态之间的关系的方程
 
 ## 重叠子问题
-
+    使用缓存, 消除重叠子问题, 可以提供效率
 
 
 # 设计步骤
@@ -31,7 +31,10 @@
 2. [最长回文子串](../../leetcode/5.longest-palindromic-substring.js)
 3. [正则表达式匹配](../../leetcode/10.regular-expression-matching.js)
 4. [最长合法符号](../../leetcode/32.longest-valid-parentheses.js)
-
+5. [路径题]
+    - [最多有多少种不同的路线] (../../leetcode/62.unique-paths.js)
+    - [有障碍物时最多有多少种不同的路线] (../../leetcode/63.unique-paths-ii.js)
+    - [耗时最少路线] (../../leetcode/64.minimum-path-sum.js)
 
 # 参考
 [动态规划套路详解](https://zhuanlan.zhihu.com/p/78220312)
