@@ -1,6 +1,37 @@
 # ES6
 记录平时比较少用,但是又比较重要的ES6语法.
 
+## import/export
+    ```javascript
+    // a.js
+    import b, * as bModule from './b.js'
+    console.log(b, bModule)             // {b: 1}, {c: [Function], d: "d", default: {b: 1}}
+    console.log(b === bModule.default)  // true
+
+    // import { b } from './b.js'       // 报错, 因为b是在default对象上的, 而{}语法是相对于 * 的
+                                        // 又因为 * 中不存在 b 属性, 所以会报错
+
+    // b.js
+    const b = {b: 1}
+    export default b
+    export function c(){}
+
+    // 错误写法
+    // let d = "d"
+    // export d
+    // export "d"
+
+    // 正确写法(3种)
+    export var d = "d"
+
+    var d = "d"
+    export {d}
+
+    export {
+        d as d
+    }
+    ```
+
 ## Symbol
 
 ## Proxy   
