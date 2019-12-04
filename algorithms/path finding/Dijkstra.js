@@ -1,0 +1,6 @@
+/**
+    dijkstra
+ */
+function dijkstra(a){
+    
+}
