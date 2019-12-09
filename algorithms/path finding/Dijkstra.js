@@ -1,4 +1,8 @@
 /**
+ * dijkstra 算法
+ * 适用: 单源最短路径问题, 非负路径
+ * 原理: BFS, 贪心 
+ * 
  * 参考: https://blog.csdn.net/csdnxcn/article/details/80057574
  * 设计思路:
  * step1:
@@ -51,7 +55,7 @@ function dijkstra(matrix, index){
     let min, minIndex;
     for (let i = 0; i < n; i++) {
         min = Infinity
-        // 在一堆点中,找到最近的点, 并可以认为它是确定的最短距离
+        // 在一堆估计值点(!flag[j])中,找出最近的点, 则可以认为它也能确定为路径最短的点
         for (let j = 0; j < n; j++) {
             if (!flag[j] && dis[j] < min) {
                 min = dis[j]
