@@ -35,9 +35,19 @@
 ## Symbol
 
 ## Proxy   
-拦截对象的方法, 并用新的方法来代理被拦截的方法, 常见的方法有:
-1. get/set
-2. apply    
+拦截对象的方法, 并用新的方法来代理被拦截的方法, Proxy支持的拦截操作共有13种:
+1. get(target, propKey, receiver)
+2. set(target, propKey, value, receiver)
+3. has(target, propKey)             =>  拦截 propKey `in` target
+4. deleteProperty(target, propKey)  =>  拦截 `delete` target\[propkey\]
+5. ownKeys(target)                  =>  拦截 `Object.keys`(target), `for...in`
+6. getOwnPropertyDescriptor(target, propKey)
+7. defineProperty(target, propKey, propDesc)
+8. preventExtensions(target)        =>  阻止对象添加属性
+9. isExtensible(target)             =>  判断对象是否为不可扩展的
+10. getPrototypeOf(target)
+11. setProptotypeOf(target, proto)
+12. apply(target, thisArg, args)     =>  拦截 proxy(...args), proxy.call(thisArg, ...args), proxy.apply(...)
     ```javascript
     function Foo(a, b){
         this.a = a
@@ -61,6 +71,7 @@
     let ctx = {c: 3}
     proxy.call(ctx, 1, 2)
     ```
+13. construct(target, args)        => 拦截 `new` Proxy(...args)
 
 
 ## Reflect
@@ -71,7 +82,24 @@
 3. 把命令式的操作改成函数行为. 
 
     比如name in obj和delete obj[name]，而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为。
-4. eflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。可以避免`Proxy`方法拦截后, 无法再调用默认行为, 而通过`Reflect[方法名]`, 可以完成原来的默认行为
+4. eflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。可以避免`Proxy`方法拦截后, 无法再调用默认行为, 而通过`Reflect[方法名]`, 可以完成原来的默认行为  
+
+
+Reflect共有13个静态方法:  
+1. Reflect.apply(target, thisArg, args)
+2. Reflect.construct(target, args)
+3. Reflect.get(target, name, receiver)
+4. Reflect.set(target, name, value, receiver)
+5. Reflect.defineProperty(target, name, desc)
+6. Reflect.deleteProperty(target, name)
+7. Reflect.has(target, name)
+8. Reflect.ownKeys(target)
+9. Reflect.isExtensible(target)
+10. Reflect.preventExtensions(target)
+11. Reflect.getProptotypeOf(target)
+12. Reflect.setProptotypeOf(target, proto)
+13. Reflect.getOwnPropertyDescriptor(target, name)
+
 
 ## Iterator
 
