@@ -36,7 +36,7 @@
 
 ## Proxy   
 拦截对象的方法, 并用新的方法来代理被拦截的方法, Proxy支持的拦截操作共有13种:
-1. get(target, propKey, receiver)
+1. get(target, propKey, receiver)   => receiver参数是返回的Proxy实例自己
 2. set(target, propKey, value, receiver)
 3. has(target, propKey)             =>  拦截 propKey `in` target
 4. deleteProperty(target, propKey)  =>  拦截 `delete` target\[propkey\]
