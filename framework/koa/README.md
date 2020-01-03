@@ -24,3 +24,12 @@
     - [upload-file](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_upload-file/upload-file.js)
     - [static-server](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_static-server/static-server.js)
     - [hook](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/framework/koa/chapter04/code/koa_hook)
+
+* 5. 基于koa封装的框架-egg
+    egg框架主要做了以下事情:
+    - 扩展四个基类(app, context, request, respond)中的方法
+    - 引入插件机制
+    - 固定了文件目录, 自动加载对应目录下的文件,并挂载到对应的对象(controller, middleware, router, extend)
+    - 补充ws的支持
+    - 引入多进程模型
+    - 增加egg-mock的单元测试模块
