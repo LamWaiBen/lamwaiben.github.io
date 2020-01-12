@@ -20,12 +20,10 @@ var firstMissingPositive = function (nums) {
     }
 
     // 当出现索引值与元素值不一样的时候, 则成功找到非递增正数
-    let t = 1
-    for(let i = 1; i < nums.length; i++) {
-        if (nums[i] != i) return i
-        t += 1
+    for(let i = 0; i < nums.length; i++) {
+        if (nums[i] != i + 1) return i + 1
     }
-    return t
+    return i + 1
 };
 // @lc code=end
 
