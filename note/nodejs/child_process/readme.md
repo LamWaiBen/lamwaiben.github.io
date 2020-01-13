@@ -87,6 +87,7 @@
 
 
     ### 使用 fork 模拟 cluster
+    - 通过把 `Server` 发送给所有worker, 在所有worker中监听连接实现.
     [参考](./mock_cluster/master.js) 
 
     
