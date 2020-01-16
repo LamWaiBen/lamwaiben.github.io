@@ -1,8 +1,14 @@
 // 2. 链式调用, Promise.resolve/reject的实现以及Promise.prototype.finally的实现.
-// then方法的两个参数如果不是函数，会导致then方法返回一个与之前promise相同状态的promise。即若对应的handle函数不存在时, 则返回本身
-// 若对应的handle函数不存在时, 则返回本身
+// then方法的两个参数如果不是函数，then方法则返回一个与之前PromiseValue相同的promise。
+// 若对应的handle函数不存在时, 则相当于返回Promise.resolve(PromiseValue)
 
-// 在实现链式调用时, 发现原来的代码并不支持复杂的链式调用及返回值变化.
+// 卡点:
+// .then(doSomething1).then(doSomething2).catch(resason) 链式调用实现思路, 
+//  1. promiseObj.then().then(), promiseObj的状态有3种情况: 1. fulfilled  2. rejected  3. pending
+//  2. fulfilled/rejected 只需要执行 .then(resolveHandle, rejectHandle) 对应的handle, handle中返回新的promiseObj
+//  3. 
+//  resolve值为:
+//  1. 普通值 2.promise对象 3.thenable对象/函数(伪promise) 的处理
 
 const BPromise = (function(){
     let _status = Symbol("status")
@@ -126,7 +132,7 @@ const BPromise = (function(){
       * 由于resolve中的值可能存在几种情况: 1. 普通值 2.promise对象 3.thenable对象/函数(伪promise)
       * 针对resolve中不同情况进行处理
       * @param {*} promise2  promise1中返回的新的promise对象
-      * @param {*} x         promise1中Fonfililled的返回值
+      * @param {*} x         promise1中onFulfilled/onRejected的返回值
       * @param {*} resolve   promise2的resolve方法
       * @param {*} reject    promise2的reject方法
       */

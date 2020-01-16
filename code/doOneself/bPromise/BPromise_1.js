@@ -1,5 +1,10 @@
 // 1. Promise.prototype上的`then/catch`方法的实现
 
+// 未实现:
+// then/catch 未对参数判断, 处理不同类型参数时的情况
+// Promise.resolve/reject
+// 链式调用
+
 const BPromise = (function(){
     let _status = Symbol("status")
     let _value = Symbol('value')

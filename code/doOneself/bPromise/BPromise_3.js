@@ -30,7 +30,7 @@ const BPromise = (function(){
                     this[_status] = "fulfilled"
                     this[_value] = value
                     
-                    // then方法返回新promise的关键
+                    // 执行 .then()中的回调函数
                     this.onFulfilledCallbacks.forEach(cb => cb(this[_value]))
                 }
             })
@@ -82,12 +82,17 @@ const BPromise = (function(){
                 })
             }
 
+            // 把then中的回调函数包装起来, 等待异步执行完后,再调用根据状态这些函数
             if (this[_status] === "pending"){
                 // 把 onFulfilled 与 onRejected的返回值
+
+                // then执行后返回 newPromise
                 return newPromise = new BPromise((resolve, reject) => {
                     this.onFulfilledCallbacks.push(v => {
                         try {
-                            let x = onFulfilled(v)
+                            let x = onFulfilled(v)  // 执行 .then(onFulfilled)的 onFulfilled 函数, 获得返回值v
+
+                            // 链式调用的关键, 对newPromise的resolve和reject, 根据对onFulfilled的返回值v的类型不同进行下一步处理
                             resolvePromise(newPromise, x, resolve, reject)
                         } catch(e){
                             reject(e)
@@ -134,7 +139,7 @@ const BPromise = (function(){
         
         // 如果x是一个BPromise对象 则判断
         if(x instanceof BPromise){
-            if (x[_status] === "pending"){
+            if (x[_status] === "pending"){  // 如果x在等待完成, 则用then处理, 等待完成后继续执行
                 x.then(v => {
                     resolvePromise(promise2, v, resolve, reject)
                 }, reason => {
@@ -149,8 +154,8 @@ const BPromise = (function(){
         }else if(x != null && (typeof x === "object" || typeof x === "function")){
             try {
                 let then = x.then
-                if(typeof then === "function"){ // 含有then方法
-                    then.call(x, v =>{
+                if(typeof then === "function"){ // 含有then方法, 则为thenable对象
+                    then.call(x, v => {
                         if(called) return
                         called = true
                         resolvePromise(promise2, v, resolve, reject)
