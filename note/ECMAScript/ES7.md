@@ -9,7 +9,19 @@ arr.includes(4) // true
 
 ## 装饰器 Decorators
 ```javascript
+
+/////////////////// 装饰器行为如下: ////////////////////////////
+@decorator
+class A {}
+
+// 等同于
+
+class A {}
+A = decorator(A) || A;
+
+
 // 使用方法: @ + functionName
+///////////////////// 装饰类 ///////////////////
 @testable
 class MyTestTableClass {
     // ...
@@ -22,14 +34,26 @@ function testable(target) {
 MyTestTableClass.isTestable // true
 
 
-// 装饰器行为如下:
-@decorator
-class A {}
+///////////////////// 装饰类的方法 ////////////////////////
+class Person {
+  @readonly
+  name() { return `${this.first} ${this.last}` }
+}
 
-// 等同于
+function readonly(target, name, descriptor){
+  // descriptor对象原来的值如下
+  // {
+  //   value: specifiedFunction,
+  //   enumerable: false,
+  //   configurable: true,
+  //   writable: true
+  // };
+  descriptor.writable = false;
+  return descriptor;
+}
 
-class A {}
-A = decorator(A) || A;
-
+readonly(Person.prototype, 'name', descriptor);
+// 类似于
+Object.defineProperty(Person.prototype, 'name', descriptor);
 
 ```
