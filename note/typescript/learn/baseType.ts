@@ -172,3 +172,8 @@ function greeter2(person: Person) {
 }
 
 greeter2(student);
+
+
+export let moment = {
+    CalendarKey: () => {}
+};

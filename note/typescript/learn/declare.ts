@@ -76,11 +76,12 @@ declare namespace jQuery {
 
 // 声明文件中的依赖
 
-import * as moment from 'moment';           // 导入 moment 模块
+import * as moment from './baseType';           // 导入 moment 模块
 
-declare module 'moment' {
+declare module 'url' {
     export function foo(): moment.CalendarKey;      // 使用了 moment 模块的 CalendarKey 类型
 }
+
 
 // 三斜线指令
 // 在书写一个全局变量的声明文件时, 或需要依赖一个全局变量的声明文件时 可以使用三斜线指令, 其余情况建议使用 import
