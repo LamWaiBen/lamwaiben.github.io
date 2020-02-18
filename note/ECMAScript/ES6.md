@@ -1,6 +1,35 @@
 # ES6
 记录平时比较少用,但是又比较重要的ES6语法.
 
+## 变量解构赋值  
+下面两种解构赋值并不一样
+```javascript
+// 第一种
+function move({x = 0, y = 0} = {}) {
+    return [x, y]
+}
+move({x: 3, y: 8})  // [3, 8]
+move({x: 3}) // [3, 0]
+move({}) // [0, 0]
+move() // [0, 0]
+//{x = 0, y = 0} = {}  的意思有两重: 1. 函数默认参数为 {}; 2.参数解构成x, y 默认值分别为0
+
+
+// 第二种
+function move({x, y} = {x: 0, y: 0}) {
+    return [x, y]
+}
+move({x: 3, y: 8})  // [3, 8]
+move({x: 3}) // [3, undefined]
+move({}) // [undefined, undefined]
+move() // [0, 0]
+// {x, y} = {x: 0, y: 0} 的意思有两重: 1.函数默认参数为 {x:0, y: 0}; 2.参数解构成x, y 没有设定默认值
+
+// 上述参数解构默认值的意思是: 当当前值为undefined时, 就采用默认值, 如下:
+[1, undefined, 3].map((v = 'yes') => v) // [1, 'yes', 3]
+
+```
+
 ## import/export
     ```javascript
     // a.js
