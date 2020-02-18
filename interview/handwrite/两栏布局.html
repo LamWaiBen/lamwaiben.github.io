@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两栏布局</title>
+    <style>
+        .left{
+            height: 100px;
+            background-color: peru;
+        }
+        .right{
+            height: 100px;
+            background-color: yellowgreen;
+        }
+        /* flex */
+        .outer1{
+            display: flex;
+        }
+        .outer1 .left{
+            /* flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: 200px; */
+            flex: 0 0 200px;
+        }
+        .outer1 .right{
+            /* flex: auto; */
+            flex: 1 1 auto;
+        }
+        /* 浮动 */
+        .outer2 .left{
+            float: left;
+            width: 200px;
+        }
+        .outer2 .right{
+            width: auto;
+            margin-left: 200px;
+        }
+
+        /* position & margin */
+        .outer3 {
+            position: relative;
+        }
+        .outer3 .left{
+            position: absolute;
+            width: 200px;
+        }
+        .outer3 .right{
+            margin-left: 200px;
+            width: auto;
+        }
+        /* position & left */
+        .outer4{
+            position: relative;
+        }
+        .outer4 .left{
+            width: 200px;
+        }
+        .outer4 .right{
+            position: absolute;
+            top: 0;
+            left: 200px;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左右两栏布局, 左边固定右边自适应的4中方法-->
+    <div class="outer1">
+        <div class="left">1-left</div>
+        <div class="right">1-right</div>
+    </div>
+    <div class="outer2">
+        <div class="left">2-left</div>
+        <div class="right">2-right</div>
+    </div>
+    <div class="outer3">
+        <div class="left">3-left</div>
+        <div class="right">3-right</div>
+    </div>
+    <div class="outer4">
+        <div class="left">4-left</div>
+        <div class="right">4-right</div>
+    </div>
+</body>
+</html>
