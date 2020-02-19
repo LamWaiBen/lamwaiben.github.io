@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用CSS画图</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        section{
+            height: 300px;
+        }
+
+        section div{
+            float: left;
+            margin: 10px;
+        }
+
+        .triangle div{
+            height: 0px;
+            width: 0px;
+            float:left;
+            margin: 10px;
+            border-style: solid;
+        }
+        /* 三角形 */
+        .triangle1{ /* 高为100的等腰直角三角形 */
+            border-width: 100px;
+            border-color: black transparent transparent black;
+        }
+        .triangle2{ /* 等边三角形 */
+            border-width: 100px 173px;
+            border-color: transparent tomato transparent transparent;
+        }
+        .triangle3{ /* 高为100的等腰三角形 */
+            border-width: 100px 80px;
+            border-color: transparent transparent tomato transparent;
+        }
+        .triangle4{ /* 不规则三角形, 高为70 */
+            border-width: 100px 90px 80px 70px;
+            border-color: transparent transparent transparent tomato;
+        }
+
+        /* 正方形 */
+         /* vw 相对于屏幕宽度比例*/
+        .square1{
+            width: 10%;
+            height: 10vw;
+            background: coral;
+        }
+
+         /* padding/margin 是相对于父元素的width的 */
+        .square2{   /* padding/margin 是相对于父元素的width的 */
+            width: 15%;
+            height: 0;
+            padding-top: 15%;
+            background: darkgray;
+        }
+        /* 通过设置子元素(伪类)的margin */
+        .square3{
+            width:10%;
+            overflow: hidden;   /* 触发BFC */
+            background: yellowgreen;
+        }
+
+        .square3::after{
+            content: '';
+            display: block;
+            margin-top: 100%;   /* margin 是相对于父元素的width */
+        }
+
+        /* 圆形 */
+        .circle{
+            display: flex; 
+            justify-content: space-around;
+        }
+        /* 四分之一圆 */
+        .circle1{
+            width: 0px;
+            height: 0px;
+            border-width: 100px;
+            border-style: solid;
+            border-radius: 50%;
+            border-color: turquoise tomato tan thistle;
+        }
+
+          /* 类似三角形的做法加上父元素 overflow: hidden; 也可以实现任意弧度圆 */
+        .circle2{
+            height: 200px;
+            width: 100px;
+            border-radius: 100px 100px 0 0; /* 顺时针, 起点为左上 */
+            overflow: hidden;       /* 把三角形伪类多余的部分去掉 */
+        }
+        .circle2::after{
+            content: "";
+            display: block;
+            height: 0;
+            width: 0;
+            border-style: solid;
+            border-width: 100px 58px 0;             /* 伪类上画一个三角形 */
+            border-color: tomato transparent;
+            transform: translate(42px, 0);          /* 这里位移三角形, 结合父元素的overflow相当于设置扇形弧度 */
+        }
+
+        /* 通过渐变设置60°扇形 */
+        .circle3{
+            height: 200px;
+            width: 200px;
+            background: tomato;
+            border-radius: 50%;
+            background-image: linear-gradient(150deg, transparent 50%, #fff 50%),
+            linear-gradient(90deg, #fff 50%, transparent 50%);
+        }
+        .circle4{
+
+        }
+    </style>
+</head>
+<body>
+    <!-- <section class="triangle">
+        <p>三角形</p>
+        <div class="triangle1"></div>
+        <div class="triangle2"></div>
+        <div class="triangle3"></div>
+        <div class="triangle4"></div>
+    </section>
+    <section>
+        <p>正方形</p>
+        <div class="square1"></div>
+        <div class="square2"></div>
+        <div class="square3"></div>
+    </section> -->
+    <section class="circle">
+        <p>圆形</p>
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </section>
+</body>
+</html>
