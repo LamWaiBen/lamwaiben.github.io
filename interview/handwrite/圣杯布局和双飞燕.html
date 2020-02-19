@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>圣杯布局和双飞燕</title>
+    <style>
+        .outer{
+            height: 100px;
+        }
+        .left{
+            background: aquamarine;
+            height: 100px;
+        }
+        .middle{
+            background: orange;
+            height: 100px;
+        }
+        .right{
+            background: yellowgreen;
+            height: 100px;
+        }
+
+        /* 圣杯布局 */
+        .outer1{
+            position: relative;
+            padding: 0 100px 0 200px;
+        }
+        .outer1 .left{
+            float: left;
+            width: 200px;
+            margin-left: -100%;
+            position: relative;
+            left: -200px;
+        }
+        .outer1 .middle{
+            float: left;
+            width: 100%;
+        }
+        .outer1 .right{
+            float: left;
+            width: 100px;
+            margin-left: -100px;
+            position: relative;
+            left: 100px;
+        }
+
+        /* 双飞燕布局 */
+        .outer2 .middle-wrap{
+            float: left;
+            width: 100%;
+        }
+        .outer2 .middle{
+            margin: 0 100px 0 200px;
+        }
+        .outer2 .left{
+            float: left;
+            width: 200px;
+            margin-left: -100%;
+        }
+        .outer2 .right{
+            float: left;
+            width: 100px;
+            margin-left: -100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 圣杯布局 middle先渲染 -->
+    <div class="outer outer1">
+        <div class="middle">1-middle</div>
+        <div class="left">1-left</div>
+        <div class="right">1-right</div>
+    </div>
+    <!-- 双飞燕布局 middle需要用div包裹起来 -->
+    <div class="outer outer2">
+        <div class="middle-wrap">
+            <div class="middle">2-middle</div>
+        </div>
+        <div class="left">2-left</div>
+        <div class="right">2-right</div>
+    </div>
+</body>
+</html>
+
+<!-- 
+    中间层先渲染设置width: 100%, 都要向float:left, 都要通过设置负的margin-left实现效果
+
+    圣杯布局特点:
+    1. 通过outer层设置padding, 来预留空间给左右两列, 
+    2. 左右两列还需要相对定位设置负的 left
+    双飞燕布局特点:
+    1. 需要用div把middle包裹, 给middle设置margin, 预留空间给左右两列
+
+    这两种布局的本质区别在于, 是否使用div包裹middle, 而选择在哪里预留空间给左右两列, 
+    导致左右两列是否需要额外的相对位移
+ -->
