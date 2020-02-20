@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>清除浮动</title>
+    <style>
+        .outer{
+            position: relative;
+            width: 200px;
+            margin: 10px;
+            background: tomato;
+        }
+        .inner{
+            float:left;
+            height: 100px;
+            width: 100px;
+            margin: 10px;
+            background: yellowgreen;
+        }
+        /* clear:both */
+        .outer1::after{
+            display: block;
+            content: "";
+            clear:both;
+        }
+
+        /* BFC */
+        .outer2{
+            overflow: hidden;
+            /* position: absolute; */   /* 设置绝对定位后, 不在于outer1在同一个BFC内, 所以margin不再共用 */
+        }
+    </style>
+</head>
+<body>
+    <div class="outer outer1">
+        <div class="inner">float1</div>
+    </div>
+    <div class="outer outer2">
+        <div class="inner">float2</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>弹出框</title>
+    <style>
+        .bg{
+            height: 100vh;
+            background:darkturquoise;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        .dialog{
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .dialog .content{
+            position: absolute;
+            width: 400px;
+            min-height: 300px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ebeef5;
+            border-radius: 10%;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+            text-align: center;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg">页面内容</div>
+    <div class="dialog">
+        <div class="content">弹出框内容</div>
+    </div>
+</body>
+</html>
