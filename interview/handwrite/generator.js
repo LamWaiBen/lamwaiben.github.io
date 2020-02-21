@@ -1,5 +1,6 @@
 /* 
     generator自动执行器, 类似 async/await
+    亦可以参考 lamwaiben.github.io/code/doOneself/bAsync 中的实现
 */
 
 function run(gen){
