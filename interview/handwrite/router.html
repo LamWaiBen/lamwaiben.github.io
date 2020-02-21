@@ -1,0 +1,93 @@
+<!-- 
+    实现一个路由
+    原理: 监听url的哈希值变化
+    history
+ -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+     <title>路由实现</title>
+     <style>
+        #content{
+            width: 100%;
+            height: 100%;
+        }
+        #content div{
+            display: none;
+        }
+        #content .active{
+            display: block;
+        }
+     </style>
+ </head>
+ <body>
+     <header>
+         <!-- <a href="#home">首页</a>
+         <a href="#center">个人中心页</a>
+         <a href="#help">帮助页</a> -->
+        <a onclick="changeRoute(this)" data-path="home">首页</a>
+        <a onclick="changeRoute(this)" data-path="center">个人中心页</a>
+        <a onclick="changeRoute(this)" data-path="help">帮助页</a>
+     </header>
+     <section id="content">
+         <div class="home active">首页</div>
+         <div class="center">个人中心页</div>
+         <div class="help">帮助页</div>
+     </section>
+ </body>
+ <script>
+    function changeRoute(router){
+        let path = router.dataset.path
+        /**
+        * window.history.pushState(state, title, url)
+        * state：一个与添加的记录相关联的状态对象，主要用于popstate事件。该事件触发时，该对象会传入回调函数。
+        *        也就是说，浏览器会将这个对象序列化以后保留在本地，重新载入这个页面的时候，可以拿到这个对象。
+        *        如果不需要这个对象，此处可以填 null。
+        * title：新页面的标题。但是，现在所有浏览器都忽视这个参数，所以这里可以填空字符串。
+        * url：新的网址，必须与当前页面处在同一个域。浏览器的地址栏将显示这个网址。
+        */
+        changePage(path)
+        history.pushState({ content: path}, null, path)
+    }
+
+    // window.addEventListener('hashchange', e => {
+    //     let matchStr = e.oldURL.match(/#(\w+)/)
+    //     let oldHash = 'home'
+    //     if(matchStr && matchStr[1]) oldHash= matchStr[1]
+        
+    //     let card = document.querySelector('#content')
+    //     for(let dom of card.children) {
+    //         dom.className = dom.className.split(' ').filter(className => className != 'active').join(' ')
+    //         if(dom.className.match(`${window.location.hash.slice(1)}`)){
+    //             dom.className += " active"
+    //         }
+    //     }
+
+    //     // const content = document.querySelector('#content')
+    
+    //     // content.innerHTML = window.location.hash
+    // })
+
+    window.addEventListener('popstate', e => {
+        let content = e.state && e.state.content
+        changePage(content)
+    })
+
+
+
+    function changePage(path){
+        path = path || `${window.location.hash.slice(1)}`
+        let card = document.querySelector('#content')
+        for(let dom of card.children) {
+            dom.className = dom.className.split(' ').filter(className => className != 'active').join(' ')
+            if(dom.className.match(path)){
+                dom.className += " active"
+            }
+        }
+    }
+ </script>
+ </html>
