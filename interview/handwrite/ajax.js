@@ -3,7 +3,10 @@
  * 1. 初始化参数
  * 2. 创建xhr对象
  * 3. 设置回调, 判断 readyState 和 status
- * 4. 发送请求, 先初始化请求xhr.open(method, url, async) , 然后设置请求头, 最后 xhr.send(data)
+ * 4. 发送请求, 
+ *    4.1 先建立连接xhr.open(method, url, async) 
+ *    4.2 然后设置请求头 
+ *    4.3 最后发送请求 xhr.send(data)
  */
 
 function ajax(options){
@@ -48,8 +51,8 @@ function ajax(options){
         }
     }
 
-    // 4. 初始化请求, 发送请求
-    request.open(method, url, async)    // 初始化一个请求
+    // 4. 初始化请求/建立连接, 发送请求
+    request.open(method, url, async)    // 建立连接
     if(headers){
         Object.keys(headers).forEach(key => {
             request.setRequestHeader(key, headers[key])
