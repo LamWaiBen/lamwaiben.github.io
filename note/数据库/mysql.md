@@ -1,6 +1,43 @@
 # mysql
 记录mysql学习过程
 
+## 安装
+1. 先检查是否已安装mysql  
+    检查是否已安装:
+    > rpm -qa | grep mysql  
+
+    如果已经安装, 那可以选择卸载: 
+    > rpm -e mysql　　// 普通删除模式  
+    > rpm -e --nodeps mysql　　// 强力删除模式
+
+2. 安装mysql
+    > wget https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm  
+    > rpm -ivh mysql-community-release-el7-5.noarch.rpm   
+    > yum install mysql-server  
+3. 权限设置  
+    设置权限:  
+    > chown mysql:mysql -R /var/lib/mysql  
+
+    初始化: 
+    > mysqld --initialize  
+
+    启动MySQL等相关指令:   
+    > systemctl start mysqld    // 启动  
+    > systemctl stop mysqld     // 停止  
+    > systemctl restart mysqld  // 重启  
+    > systemctl status mysqld   // 查看运行状态  
+    > systemctl enable mysqld   // 设置开机启动
+4. 登入  
+    查看初始密码:  
+    > grep "password" /var/log/mysqld.log  
+
+    连接MySQL服务器:  
+    > mysql -u root -p  
+
+    创建root用户的密码:  
+    > mysqladmin -u root password "new_password";
+
+
 ## mysql类型
 ### int类
 类型         | 　占用字节数　  | 有符号取值范围             | 无符号取值范围 
