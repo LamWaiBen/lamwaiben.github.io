@@ -16,17 +16,20 @@
     > yum install mysql-server  
 3. 权限设置  
     设置权限:  
-    > chown mysql:mysql -R /var/lib/mysql  
+    > chmod -R 777 /var/lib/mysql
 
     初始化: 
-    > mysqld --initialize  
+    > mysqld --initialize --console
 
     启动MySQL等相关指令:   
-    > systemctl start mysqld    // 启动  
-    > systemctl stop mysqld     // 停止  
-    > systemctl restart mysqld  // 重启  
-    > systemctl status mysqld   // 查看运行状态  
-    > systemctl enable mysqld   // 设置开机启动
+    - linux 
+        > systemctl start mysqld    // 启动  
+        > systemctl stop mysqld     // 停止  
+        > systemctl restart mysqld  // 重启  
+        > systemctl status mysqld   // 查看运行状态  
+        > systemctl enable mysqld   // 设置开机启动
+    - windows
+        > net start mysql           // 启动
 4. 登入  
     查看初始密码:  
     > grep "password" /var/log/mysqld.log  
@@ -34,9 +37,12 @@
     连接MySQL服务器:  
     > mysql -u root -p  
 
-    创建root用户的密码:  
-    > mysqladmin -u root password "new_password";
+    通过旧密码, 修改root用户的密码:  
+    > mysqladmin -u root -p password "new_password";
 
+5. 其他相关  
+    mysql的默认日志文件在: `/var/log/mysqld.log`  
+    如果出现启动错误之类的问题, 可以在日志中找到错误日志.
 
 ## mysql类型
 ### int类
@@ -47,6 +53,11 @@ smallint     | 2bytes/16bit  | -32768 ~ 32767            | 0 ~ 2^16-1
 mediumint    | 3bytes/24bit  | -8388608 ~ 8388607        | 0 ~ 2^24-1 
 int          | 4bytes/32bit  | -2147483648 ~ 2147483647  | 0 ~ 2^32-1 
 bigint       | 8bytes/64bit  | -2^63 ~ 2^63-1            | 0 ~ 2^64-1 
+
+## 数据库的创建
+    ```
+    mysqladmin -u root -p create test
+    ```
 
 ## mysql表的创建
 
@@ -75,4 +86,3 @@ bigint       | 8bytes/64bit  | -2^63 ~ 2^63-1            | 0 ~ 2^64-1
     ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '我是密码';
     ```
     MySQL8.0.4之前的密码认证插件是"mysql_native_password",  8.0.4之后为"caching_sha2_password"
-    
