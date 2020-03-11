@@ -31,7 +31,7 @@
     > #返回结果 96f1e00ac120e08e8bc61a94edc6e05e4323f53b85153c73824f984b4acf6842
 
 4. 启动已创建的容器
-    > docker container start xxx # xxx 为上一条命令运行得到的结果
+    > docker run -dit xxx /bin/bash # xxx 为上一条命令运行得到的结果
     > docker container ls   # 查看运行中的容器
     > docker container stop xxx # xxx 为需要停止的容器id
 
@@ -43,6 +43,31 @@
 
 1. 容器内的修改提交到镜像
     > docker commit -m="test update" -a="lwb" 96f1e0 hello-docker:1.0.1 # 会另外新生成一个镜像
+
+## 修改映射端口
+三种方法: 
+1. 方法一: 删除原有容器, 重新建容器
+2. 方法二: 修改容器配置文件, 重启docker服务  
+    ```
+    # 编辑配置
+    vi /var/lib/docker/containers/[hash_of_the_container]/hostconfig.json
+
+    # 重启docker服务
+    systemctl restart docker
+    ```
+3. 方法三: 利用 commit 新构建镜像
+    - 停止容器  
+        ```
+        docker stop container01
+        ```
+    - 提交该docker容器  
+        ```
+        docker commit container01 new_image:tag
+        ```
+    - 用前一步生成的新镜像重新启动容器  
+        ```
+        docker run --name container02 -p 80:80 new_image:tag
+        ```
 
 ## 使用mysql
 1. 获取mysql镜像
