@@ -3,6 +3,10 @@
 
 
 ## 打包镜像
+0. 获取docker镜像
+    ```
+    docker pull nginx
+    ```
 1. 创建 Dockerfile
     ```
     cd hello-docker
@@ -40,6 +44,43 @@
 1. 容器内的修改提交到镜像
     > docker commit -m="test update" -a="lwb" 96f1e0 hello-docker:1.0.1 # 会另外新生成一个镜像
 
+## 使用mysql
+1. 获取mysql镜像
+    ```
+    docker pull mysql:5.6
+    ```
+2. 启动mysql镜像
+    ```
+    docker run -itd -p 12345:3306 --name mysqlApp mysql:5.6 bash
+    ```
+3. 连接到mysqlApp容器
+    ```
+    docker exec -it mysqlApp bash
+    ```
+4. 启动mysql服务
+    ```
+    # 查看启动状态
+    service mysql status
+
+    # 命令启动
+    service mysql start
+    ```
+5. 设置mysql, 使其可以通过外部连接使用
+    ```
+    #1 选择mysql表
+    use mysql;
+
+    #2 设置root账号密码
+    update user set authentication_string = password('root') where user = 'root';
+
+    #3 对root授权, 使其不只绑定在localhost上
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+    ```
+6. 容器外使用mysql
+    ```
+    # 连接命令
+    mysql -u root -h 0.0.0.0 -P 12345 -p
+    ```
 
 
 # 管理工具: docker-compose
@@ -51,3 +92,5 @@
 ## 参考
 
 - [写给前端的Docker实战教程](https://zhuanlan.zhihu.com/p/83309276)
+- [Docker部署前后端项目](https://juejin.im/post/5cce4b1cf265da0373719819)
+- [在Docker中使用mysql数据库](https://www.cnblogs.com/areyouready/p/8948552.html)
