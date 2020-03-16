@@ -1,9 +1,11 @@
 # 梳理cookie, session, 浏览器storage
 
 ## cookie
-浏览器实现的一种数据储存功能, 大小有4kb限制, 可以设置时效
+浏览器实现的一种数据储存功能, 大小有4kb限制, 可以设置时效  
 
-maxAge值为cookie的生存周期, 默认关闭浏览器即失效
+保存时长设置: 
+- max-age: 单位为秒, 具体值为cookie的生存周期, 默认值关闭浏览器即失效
+- expries: 某个时间点(Tue, 15-Jan-2013 21:47:38 GMT)
 
 应用场景:
 1. 判断是否登陆过,或记录密码实现自动登录
@@ -13,17 +15,18 @@ maxAge值为cookie的生存周期, 默认关闭浏览器即失效
 1. 默认不支持跨域获取(可以使用CORS或jsonp)
 2. 每次请求都会携带cookie,会带来性能问题, 所以需要会有4kb的限制
 
-## local storage
+## localStorage
 5M以上, 不与服务器通信, 支持Object 和Array
 
 特点:
 1. 持久化储存在浏览器的数据
 
-## session storage
+
+## sessionStorage
 5M以上, 不与服务器通信, 支持Object 和Array
 
 特点:
-1. 页面会话期间可用, 浏览器关闭后失效
+1. 页面会话期间可用, 页面/浏览器关闭后失效
 
 
 ## token
@@ -38,7 +41,6 @@ maxAge值为cookie的生存周期, 默认关闭浏览器即失效
 
 
 ## session
-
 
 用户会话过程中, 保存在服务器的数据.  sid 发送到客户端, 客户端接收后保存在cookie, 服务端可以通过cookie中的sid来获取服务器中的session.
 

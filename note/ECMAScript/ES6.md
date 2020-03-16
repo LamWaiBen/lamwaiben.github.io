@@ -28,6 +28,18 @@ move() // [0, 0]
 // 上述参数解构默认值的意思是: 当当前值为undefined时, 就采用默认值, 如下:
 [1, undefined, 3].map((v = 'yes') => v) // [1, 'yes', 3]
 
+// 第三种
+const m = {value: 10}
+function foo(n = { ...m }) {
+    n.value *= 2
+    console.log(n.value)
+}
+foo()           // 20
+foo({value: 1}) // 2
+foo()           // 20
+foo(m)          // 20
+console.log(m)  // 20
+foo()           // 40
 ```
 
 ## import/export
@@ -147,7 +159,40 @@ Reflect共有13个静态方法:
 
 ## ArrayBuffer
 
+## 箭头函数  
+箭头函数没有自己的`this`, 它的`this`只能是箭头函数定义时所在的对象,   
+所以无法直接修改箭头函数的this, 只能间接修改`它所在的执行对象`.  
+```javascript
+    const cat = {
+        lives: 9,
+        jumps () { 
+            // jumps函数的this 隐含绑定为 cat
+            return () => --this.lives;  // 箭头函数的this固定为jumps作用域内的this
+        }
 
+        eat: () => {
+            // 这里的 this 为 全局对象
+        }
+    }
+
+    cat.jumps()()   // 8
+    cat.jumps.call({lives: 100})()  // 99      // 只能通过修改jump的调用对象,
+
+```
+
+1. 容易用错的场景
+    - 定义对象的方法  
+        ```javascript
+            const cat = {
+                lives: 9,
+                jumps: () => {
+                    this.lives--;
+                }
+            }
+
+            // 由于对象不构成单独的作用域, 所以 jumps箭头函数定义时的作用域是全局作用域
+
+        ```
 # ES6.1
 
 ## 数组的`includes`方法

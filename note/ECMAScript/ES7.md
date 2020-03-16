@@ -57,3 +57,38 @@ readonly(Person.prototype, 'name', descriptor);
 Object.defineProperty(Person.prototype, 'name', descriptor);
 
 ```
+
+
+## 异步 async/await
+
+1. 在遍历中使用async  
+
+    ```javascript
+    const arr = [1, 2, 3, 4, 5]
+    function pro(i) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                console.log(new Date(), i)
+                resolve()
+            }, i * 1000)
+        })
+    }
+
+    // 串行执行: for..of 
+    async function bar() {
+        console.time()
+        for (let v of arr) {
+            await pro(v)
+        }
+        console.timeEnd()
+    }
+
+    // 并行执行: Promise.all
+    async function foo(){
+        console.time()
+        await Promise.all(arr.map(v => {
+            return pro(v)
+        }))
+        console.timeEnd()
+    }
+    ```

@@ -211,8 +211,27 @@
         (p.foo = o.foo)()   // 2,  p.foo = o.foo返回foo函数的间接引用, 这时候this适用默认绑定的规则
         ```
 
-- 词法 this
-    上面讨论的四种规则, 在箭头函数内不适用.箭头函数从他的作用域采用`this`绑定, 即采用作用域里面的`this`作为箭头函数内部的`this`, 有种类似于继承的感觉.
+- 词法 this  
+    上面讨论的四种规则, 在箭头函数内不适用.箭头函数从他的作用域采用`this`绑定, 即采用作用域里面的`this`作为箭头函数内部的`this`, 有种类似于继承的感觉.  
+
+    ```javascript
+    function foo() {
+        return () => {
+            return () => {
+                return () => {
+                    console.log('id:', this.id);
+                };
+            };
+        };
+    }
+
+    var f = foo.call({id: 1});
+    
+    var t1 = f.call({id: 2})()(); // id: 1, 箭头函数没自己的this, 所以无法使用明确绑定修改this
+    var t2 = f().call({id: 3})(); // id: 1
+    var t3 = f()().call({id: 4}); // id: 1
+
+    ```
 
 ## 对象
 - 内建对象  
