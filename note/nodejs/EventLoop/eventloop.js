@@ -1,5 +1,7 @@
 /**
- * 参考: https://segmentfault.com/a/1190000013102056
+ * 参考: 
+ * https://segmentfault.com/a/1190000013102056
+ * https://juejin.im/post/5e5c7f6c518825491b11ce93
  * 
  * 由 libuv 库实现的事件循环   
  * 
@@ -31,7 +33,7 @@
             由poll轮询是否满足时间下限([1, 2147483647]), 满足后便转到timers执行回调
 
     poll: 
-        1. poll队列不为空的时候, 先遍历队列并同步执行回调(timers >= I/O callback), 直到队列清空或回调数达到上限, 则进入 check 阶段
+        1. poll队列不为空的时候, 先遍历队列并同步执行回调(timers > I/O callback), 直到队列清空或回调数达到上限, 则进入 check 阶段
         2. poll队列为空: 
                 1. 如果代码已经被设定 setImmediate 的回调, 那么事件循环结束 poll 阶段进入 check 阶段来执行 check 队列里的回调.
                 2. 如果代码没有被设定 setImmediate 的回调: 

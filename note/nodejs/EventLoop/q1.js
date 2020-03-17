@@ -21,15 +21,15 @@ setTimeout(() => {
         console.log('setTimeout___2');
     }, 0);
     
-    for(let i = 0; i < 1e8; i++) {}
+    for(let i = 0; i < 1e8; i++) {} 
+    //疑问2: 为什么这里插入阻塞代码却不会出现: setTimeout___2 > setImmediate_2 的情况?
 }, 0);
 
 // F
 setTimeout(() => {
     console.log('setTimeout___3');
 }, 0);
-
-// 如果在这里插入下面这段代码则可以出现: setTimeout___1 > setTimeout___3 > setImmediate_1 的情况
+// 疑问1: 怎样才能出现 setTimeout___1 > setTimeout___3 > setImmediate_1 的情况?
 // for (let i = 0; i < 1e8; i++) { }
 
 
@@ -63,9 +63,13 @@ setTimeout(() => {
  * 
  * 
  * 疑问: 
- *  为什么不会出现 setTimeout___1 > setTimeout___3 > setImmediate_1 的情况呢?
- *  这里猜测是因为 B 是最先设定的setTimeout, 后续的代码很容易就消耗1ms的时间, 
- *  如果在 F 定时器后插入一段消耗时间的代码, 则可以出现上面的情况.
+ *  1. 怎样才能出现 setTimeout___1 > setTimeout___3 > setImmediate_1 的情况?
+ *  这里猜测是因为 B(setTimeout___1) 是最先设定的setTimeout, 后续的代码很容易就消耗1ms的时间,
+ *  如果要时 F(setTimeout___3) 也与 B 类似的话, 则需要在 F 设定后, 插入阻塞代码: 
+ *  for (let i = 0; i < 1e8; i++) { }
  * 
+ *  2. 为什么在定时器 C 里面, 插入阻塞代码, 却不会出现 setTimeout___2 > setImmediate_2 的情况?
+ *  因为定时器 C 执行的时候, 处于 timers 阶段, 此时的 setTimeout 是放入下次事件循环的队列中判断, 
+ *  而 setImmediate 则可以在本轮的 poll 阶段执行, 所以即使插入阻塞代码也无法改变执行的先后顺序.
  * 
  */
