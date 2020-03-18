@@ -76,6 +76,7 @@ foo()           // 40
 ## Symbol
 
 ## Proxy   
+### Proxy实例的方法
 拦截对象的方法, 并用新的方法来代理被拦截的方法, Proxy支持的拦截操作共有13种:
 1. get(target, propKey, receiver)   => receiver参数是返回的Proxy实例自己
 2. set(target, propKey, value, receiver)
@@ -114,6 +115,12 @@ foo()           // 40
     ```
 13. construct(target, args)        => 拦截 `new` Proxy(...args)
 
+### 特点
+- 与 Object.defineProperty(obj, key, desc) 相比
+    1. 实现劫持一个对象的所有字段, Proxy只需要传入对象, 而Object.defineProperty需要遍历整个对象的字段
+    2. 如果遇到嵌套对象, Object.defineProperty还需要递归遍历嵌套对象
+    3. 劫持数组, Object.defineProperty 实现比较麻烦且性能不好扩展性差(通过提前监听索引)
+- target的`this`会指向Proxy
 
 ## Reflect
 `Reflect`对象与`Proxy`对象一样，也是ES6为了操作对象而提供的新API.目的是:

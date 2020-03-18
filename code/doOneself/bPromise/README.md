@@ -21,3 +21,9 @@
 1. promise中`status`是不可以人为修改的,所以需要用闭包把它私有化. 
     > 如何在Class中使用私有变量?
 2. 如何在promise1.then()之后返回一个新的promise2对象且promise1触发resolve时,promise2的状态随之而变化?
+
+
+## 文件说明
+    - old: 存放以前写的promise
+    - promise.js:  存放最新的手写promise
+    - simple_promise.js: 简易版(为了说明机制)
