@@ -106,6 +106,28 @@ function handleNotTraverse(target, targetType) {
     }
 }
 
+function handleFunc(func) {
+    const funcString = func.toString()
+    if (func.prototype) {
+        // 非箭头函数
+        const bodyReg = /(?<={)(.|\n)+(?=})/m
+        const paramReg = /(?<=\().+(?=\)\s+{)/
+        const param = paramReg.exec(funcString)
+        const body = bodyReg.exec(funcString)
+        if (body) {
+            if (param) {
+                const paramArr = param[0].split(',')
+                return new Function(...paramArr, body[0])
+            } else {
+                return new Function(body[0])
+            }
+        }
+    }
+
+    return eval ? eval(funcString) : func
+}
+
+
 function handleTraverse(target, targetType, weakMap) {
     let ctor = target.constructor
     let cloneTarget = new ctor()
@@ -137,31 +159,8 @@ function handleTraverse(target, targetType, weakMap) {
 }
 
 
-function handleFunc(func) {
-    const funcString = func.toString()
-    if (func.prototype) {
-        // 非箭头函数
-        const bodyReg = /(?<={)(.|\n)+(?=})/m
-        const paramReg = /(?<=\().+(?=\)\s+{)/
-        const param = paramReg.exec(funcString)
-        const body = bodyReg.exec(funcString)
-        if (body) {
-            if (param) {
-                const paramArr = param[0].split(',')
-                return new Function(...paramArr, body[0])
-            } else {
-                return new Function(body[0])
-            }
-        }
-    }
-
-    return eval ? eval(funcString) : func
-}
-
-
 
 // 测试用例
-
 var a = {
     a: 1,
     b: 'b',
@@ -171,6 +170,7 @@ var a = {
     f: new Set([1,2,3]),
     g: new Map([[a, 1], [{}, ()=>{console.log('clone')}]])
 }
+a.e = a
 
 var b = deepClone(a)
 console.log(a, b)
