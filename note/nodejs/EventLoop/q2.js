@@ -1,74 +1,53 @@
-// 探讨 nodejs11 之后, await + 不同变量时的执行时机
-
-
-
-////////////////////////// 1. await 后面接非Promise变量时的执行时机 //////////////////////////////////////
-console.log('script start')
-
-async function async1() {
-    await async2()
-    console.log('async1 end')
-}
-async function async2() {
-    console.log('async2 end')
-}
-async1()
-
-setTimeout(function () {
-    console.log('setTimeout')
-}, 0)
-
-new Promise(resolve => {
-    console.log('Promise')
-    resolve()
-})
-    .then(function () {
-        console.log('promise1')
-    })
-    .then(function () {
-        console.log('promise2')
-    })
-    .then(function () {
-        console.log('promise3')
-    })
-
-console.log('script end')
-
-// script start
-// async2 end
-// Promise
-// script end
-// async1 end
-// promise1
-// promise2
-// promise3
-// setTimeout
-
-// await async2()  => await Promise.resolve(undefined),   一个已经settled的promise
-// 这样的话, await 会变得更快执行, async1 剩余的代码将被当做 microTask 放进队列
-// 与node11 之前的行为一致
-
-
-
-////////////////////////// 2. await 后面接Promise变量时的执行时机 //////////////////////////////////////
-// console.log('script start')
-
+// eg1: async函数返回非promise类型
 // async function async1() {
 //     await async2()
 //     console.log('async1 end')
 // }
 // async function async2() {
 //     console.log('async2 end')
-//     // return Promise.resolve()
-//     return Promise.resolve().then(()=>{      // promise链的长度, 在nodejs11之前会影响先后执行顺序.
-//         console.log('async2 end1')           // nodejs11之后可以链只看看做一个promise
-//     })
 // }
 // async1()
 
-// setTimeout(function () {
-//     console.log('setTimeout')
-// }, 0)
+
+// new Promise(resolve => {
+//     console.log('Promise')
+//     resolve()
+// })
+// .then(function () {
+//     console.log('promise1')
+// })
+// .then(function () {
+//     console.log('promise2')
+// })
+// .then(function () {
+//     console.log('promise3')
+// })
+
+/**
+ * node11之前, node11之后, 浏览器的行为均一致:
+ *   await剩余的代码立刻进入microTask队列
+ * 
+ * async2 end
+ * Promise
+ * async1 end
+ * promise1
+ * promise2
+ * promise3
+ */
+
+
+
+// eg2: async函数返回promise类型(未被then处理)
+// async function async1() {
+//     await async2()
+//     console.log('async1 end')
+// }
+// async function async2() {
+//     console.log('async2 end')
+//     return Promise.resolve()
+// }
+// async1()
+
 
 // new Promise(resolve => {
 //     console.log('Promise')
@@ -84,32 +63,76 @@ console.log('script end')
 //         console.log('promise3')
 //     })
 
-// console.log('script end')
-
-// script start
-// async2 end
-// Promise
-// script end
-// async2 end1
-// promise1
-// promise2
-// async1 end   // 无论 await pormise的链多长, 都可以看做只有一个promise
-// promise3
-// setTimeout
-
-// nodejs11之前的行为
-// script start
-// async2 end
-// Promise
-// script end
-// async2 end1
-// promise1
-// promise2
-// promise3
-// async1 end    // 执行时机需要根据 await promise_chain 的长度来判断.
-// setTimeout
+/**
+ * node11之前,  与返回非promise的行为一致
+ * async2 end
+ * Promise
+ * async1 end
+ * promise1
+ * promise2
+ * promise3
+ * 
+ * node11之后, 浏览器的行为一致, await延后执行了, 按照promise的层数来处理
+ * async2 end
+ * Promise
+ * promise1
+ * promise2
+ * async1 end
+ * promise3
+ */
 
 
-// await Promise.resolve().then(() => {....}), 一个未被settled的promise
-// async1 的代码暂时先挂起, 把当前的 microTask 执行后 再回来执行 await 的这个promise.
-// async1 剩余的代码 需要等await promise 的状态变为 RESOLVE 之后才会执行, 所以会比较慢.
+
+
+// eg3: async函数返回promise类型(被then处理过)
+async function async1() {
+    await async2()
+    console.log('async1 end')
+}
+async function async2() {
+    console.log('async2 end')
+    return Promise.resolve().then(() => {
+        console.log('async2 then')
+    })
+}
+async1()
+
+
+new Promise(resolve => {
+    console.log('Promise')
+    resolve()
+})
+    .then(function () {
+        console.log('promise1')
+    })
+    .then(function () {
+        console.log('promise2')
+    })
+    .then(function () {
+        console.log('promise3')
+    })
+    .then(function () {
+        console.log('promise4')
+    })
+
+/**
+ * node11之前,  与以前不一样, 比node11延迟一个promise执行
+ * async2 end
+ * Promise
+ * async2 then
+ * promise1
+ * promise2
+ * promise3
+ * async1 end
+ * promise4
+ *
+ * node11之后, 浏览器的行为一致, 有无then处理的promise不影响顺序, 仍然按照promise的层数决定
+ * async2 end
+ * Promise
+ * async2 then
+ * promise1
+ * promise2
+ * async1 end
+ * promise3
+ * promise4
+ */
