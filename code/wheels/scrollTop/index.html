@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>回到顶部</title>
+    <style type='text/css'>
+        .background{
+            background: darkseagreen;
+            width: 100%;
+            height: 180vh;
+        }
+
+        #toTop {
+            position: fixed; 
+            right: 20px; 
+            bottom: 20px; 
+            margin-bottom: 20px; 
+            cursor: pointer; 
+            width: 0; 
+            height: 0; 
+            border-top: 10px solid transparent; 
+            border-bottom: 20px solid #3498db; 
+            border-left: 10px solid transparent; 
+            border-right: 10px solid transparent;
+        }
+        #toTop.scrolling {
+            border-bottom: 20 solid #e74c3c;
+        }
+
+
+    </style>
+    <script type="text/javascript" src="ScrollTop.js"></script>
+</head>
+<body>
+    <div class="background">
+        <p>用JS实现回到顶部</p>
+        <p>兼容移动端和PC(IE7+)</p>
+        <p>支持功能: 按钮淡入淡出; 滚动速度, 淡入淡出速度可配置</p>
+        <p>具体思路: </p>
+        <p>1. 监听scroll方法: 根据滚动的距离控制回到顶部按钮淡入淡出</p>
+        <p>2. 监听按钮的click方法: 使用raf函数控制每一帧scroll一定距离</p>
+    </div>
+    <span id="toTop" class="toTop"></span>
+</body>
+<script type='text/javascript'>
+    const scorllTop = new ScrollTop('#toTop')
+</script>
+</html>

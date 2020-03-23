@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>一键复制</title>
+</head>
+
+<body>
+    <article id="acticle">
+        <h4>造一遍一键复制的轮子</h4>
+        <time>2020.3.23 星期一</time>
+        <p>这里是随便打输入的内容用于测试复制.</p>
+        <p>换行</p>
+    </article>
+    <button id='btn' onclick="copyArticle()">复制文章</button>
+    <textarea name="" id="" cols="30" rows="10" placeholder="按ctrl + v, 查看复制内容"></textarea>
+</body>
+<script>
+    function copyArticle(e) {
+        // 1. 新建一个范围
+        const range = document.createRange();
+        range.selectNode(document.querySelector('#acticle'))
+
+        // 2. 把选择区域清空并设置选择新设置的范围
+        const selection = window.getSelection()
+        if (selection.rangeCount > 0) selection.removeAllRanges()
+        selection.addRange(range)
+
+        // 3. 触发copy指令  等价于用户快捷键 ctrl + c
+        document.execCommand('copy')
+        selection.removeAllRanges()
+    }
+
+    // 对复制行为进行修改
+    document.addEventListener('copy', e => {
+        e.preventDefault()
+        let content = window.getSelection().toString()
+
+        // 可以在复制内容后方, 加上自己的标记
+        content += '\n来自: ben'
+
+        if (e.clipboardData) {
+            e.clipboardData.setData('text/plain', content)
+        } else if (window.clipboardData) {
+            return window.clipboardData.setData('text', content)
+        }
+    })
+
+</script>
+
+</html>

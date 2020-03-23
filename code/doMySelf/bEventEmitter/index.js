@@ -1,8 +1,16 @@
 'use strict';
 (function () {
-    const root = (typeof window === 'object' && window) ||
-        (typeof global === 'object' && global) ||
-        this;
+    // 浏览器环境下 self === window   self.self === window
+    // node环境下  global.global === global
+    const root = (typeof self  == 'object' && self.self === self && self) ||
+        (typeof global == 'object' && global.global === global && global) ||
+        this || {};
+
+    function isValidListener(listener) {
+        if (typeof listener === 'function') return true;
+        else if (listener && typeof listener === 'object') return isValidListener(listener.listener);
+        return false;
+    }
 
     class EventEmitter {
         constructor() {
@@ -70,12 +78,6 @@
             return this;
         }
     };
-
-    function isValidListener(listener) {
-        if (typeof listener === 'function') return true;
-        else if (listener && typeof listener === 'object') return isValidListener(listener.listener);
-        return false;
-    }
 
     // 考虑dom节点, 需要排除存在id #exports 或 #module 的情况, 
     if (typeof exports != 'undefined' && !exports.nodeType) {
