@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>诡异的vertical-align和line-height</title>
+    <style type='text/css' ref="stylesheet">
+        div {
+            margin-bottom: 100px;
+        }
+        .test {
+            background: red;
+            /*  方法3 */
+            /* line-height: 0; */
+
+            /* 方法4 */
+            /* font-size: 0; */
+        }
+        img {
+            width: 50px;
+            height: 50px;
+
+            /* 方法2: vertical-align设置为 baseline以外的属性 */
+            /* vertical-align: text-top; */
+            /* vertical-align: text-bottom; */
+            /* vertical-align: middle; */
+
+            /* 方法1: 脱离IFC */
+            /* display: block; */
+        }
+        span {
+            background: white;
+            line-height: 0;
+        }
+
+        .demo1{
+            font-size: 20px;
+            line-height: 0;
+            border: 1px solid blue;
+            background: red;
+        }
+        .demo2{
+            font-size: 20px;
+            line-height: 20px;
+            border: 1px solid red;
+            background: darkseagreen;
+        }
+
+
+        .dib-baseline {
+            display: inline-block; 
+            width: 400px; 
+            height: 150px;
+            border: 1px solid #cad5eb; 
+            background-color: #f0f3f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+        <img src="https://www.baidu.com/img/bd_logo1.png" alt="">
+        <span>Xx度娘下方有一块空白的东西, 在dom上看不到它的存在</span>
+    </div>
+    <div class="demo1">测试1</div>
+    <div class="demo2">测试222</div>
+
+    <div>
+        <span class="dib-baseline"></span>
+        <span class="dib-baseline">x-baseline</span>
+        没有基线的元素(第一个span元素)，
+        使用外边距的下边缘替代
+    </div>
+</body>
+</html>
