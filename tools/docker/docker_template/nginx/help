@@ -1,0 +1,27 @@
+帮助
+
+1. 每次建立项目是需要先生成证书, 生成证书的命令,  
+ps: window环境需要把'/' 改成'//'
+openssl req -x509 -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -keyout private.key -out cert.pem
+
+2. 配置说明
+#default.conf
+proxy_pass  指定了代理的地址
+access_log  指定了nginx输出日志的地方, 可以与Dockerfile配合, 输出到宿主机器
+
+
+3. 目录配合
+docker-compose.yml 中映射了 
+./nginx/cert, 
+./nginx/conf.d, 
+./logs/nginx 
+三个目录需要与 nginx 的配置配合, 如果修改了其中一方, 另一方也需要同步修改
+
+
+4. 如何更新
+如果修改了映射文件夹内的内容, 则需要重启容器即可更新;
+如果修改了其他非映射文件夹内的内容, 则需要使用重建nginx容器
+docker-compose up -d --build nginx
+
+999. 坑
+post请求 好像无法使用postman发出, 待查明原因

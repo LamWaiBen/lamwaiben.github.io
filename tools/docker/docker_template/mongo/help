@@ -1,0 +1,35 @@
+# 帮助
+
+1. 项目跑起来后, 需要给mongodb 设置账号权限
+
+docker exec -it ${mongodb_container_name} /bin/sh
+
+$ mongo
+> use admin
+// 创建管理员
+> db.createUser({ user: "admin", pwd: "admin", roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})
+
+// 创建 test 数据库
+> use test
+
+// 创建 test 库账号, 读写帐号
+> db.createUser({ user: "test", pwd: "test", roles: [ { role: "readWrite", db: "test" }]})
+
+
+2. 数据存放的位置
+Dockerfile中指定了 容器的 /data/db 为数据存放位置
+而 /data/db 又被 docker-compose.yml 映射到 宿主的 mongo_data 卷中了, 他们的数据互通.
+
+
+
+TODO
+创建数据库账号部分, 可以做成脚本, 写到Dockerfile里面
+setup.sh
+#!/bin/bash
+mongo <<EOF
+use admin;
+db.createUser({ user: 'admin', pwd: 'admin', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
+
+use test;
+db.createUser({ user: "test", pwd: "test", roles: [ { role: "readWrite", db: "test" }]})
+EOF

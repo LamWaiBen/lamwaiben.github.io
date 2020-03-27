@@ -1,0 +1,18 @@
+帮助
+每一层目录底下同样会有一个help文件用于说明步骤
+
+1. 镜像安装过慢可以修改镜像源
+vi /etc/docker/daemon.json
+{
+    "registry-mirrors": ["https://xxf4koul.mirror.aliyuncs.com"]
+}
+
+修改后需要运行下面指令, 再继续安装镜像
+systemctl daemon-reload 
+systemctl restart docker
+
+
+2. 重建容器
+docker-compose up -d --build xxxContainer
+
+

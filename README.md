@@ -22,6 +22,7 @@
 ### 工具类
   - [Git指令](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/Git)
   - [Docker的用法](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/tools/docker/README.md)
+  - [docker-compose模板](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/tools/docker/docker_template/README.md)
   - [TravisCI的用法](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/tools/TravisCI/README.md)
 
 

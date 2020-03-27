@@ -61,3 +61,19 @@ db.getCollection('player').find({pid:179335}).explain('executionStats')
         }
     },
 ```
+
+
+
+## 可视化工具
+- Robo3T
+- [NoSQLBooster](https://nosqlbooster.com/)
+
+### 踩坑
+使用工具进行SSH连接时, 会分3步执行:
+1. SSH连接到宿主主机  
+   如果这一步有问题, 则需要检查私钥的正确性
+2. 根据HOST和PORT连接到数据库  
+   如果这一步有问题, 请检查宿主主机monogodb开放的端口是否正确,   
+   其中 127.0.0.1 只能在本机连接, 0.0.0.0 代表可以被外网访问
+3. 根据用户账号密码连接到数据库
+   如果这一步有问题, 请检查是否为工具的版本与mongodb的版本不一致, 比如mongodb server 的版本为 4.*.*, 而工具只能连接 3.*.*版本的服务

@@ -1,0 +1,57 @@
+version: "3"
+
+networks:          # 自定义网络
+  my-network:      # 网络名字
+    driver: bridge # 由网关驱动
+
+volumes:           # 自定义卷, 下面是卷名, 默认放在 /var/lib/docker/volumes 内
+    node_modules:  # 把node_modules做成卷, 后面每一次build container的时候都不需要重新install
+    mongo_data:    # 还可以把定义成指定文件夹
+      extends:
+        name: /data/mongo_data
+
+services:
+
+### nginx #################
+  nginx:          # nginx 容器 这里的名字可以当做变量使用
+    build:        # 定义需要构建的内容
+      context: ./nginx  # 选取 ./nginx 文件夹中的Dockerfile
+    ports:        # 映射端口
+      -  80:80
+      -  443:443
+    volumes:      # 挂载文件夹，配置我们可以写在宿主机，然后挂载进去
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/cert:/etc/nginx/cert
+      - ./logs/nginx:/var/log/nginx
+    restart: always
+    depends_on:   # 定义容器启动顺序 附带容器间的依赖关系 表示先启动nodejs
+      - nodejs
+    networks:     # 使用我们上面定义的网络
+      - my-network
+
+### node ##############
+  nodejs:
+    build:
+      context: ./node
+    ports:
+      - 0.0.0.0:7001:7001       # 表示0.0.0.0表示直接映射到外网的7001端口, 当然也可以选择使用nginx来做代理
+    volumes:
+      - ./node:/app/                    
+      - node_modules:/app/node_modules  # node_modules 使用自定义卷
+    restart: always
+    depends_on:
+      - mongo
+    networks:
+      - my-network
+
+### mongoDB ########################
+  mongo:
+    build:
+      context: ./mongo
+    ports:
+      - 127.0.0.1:27017:27017 
+    volumes:
+      - mongo_data:/data/db      # 这里的 mongo_data 用的是上面的自定卷
+    restart: always
+    networks:
+      - my-network

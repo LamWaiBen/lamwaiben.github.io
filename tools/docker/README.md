@@ -39,6 +39,27 @@
     > docker container exec -it xxx /bin/bash # xxx 为上一条命令运行得到的结果
 
 
+
+## Dockerfile
+
+### Volume
+Docker的Volume功能类似于Linux的Mount(挂载)功能, 允许将宿主的文件夹绑定到容器内
+```
+#方法一: 在命令设置
+# 把当前目录的my-volume文件夹设置为容器的/mydata文件夹
+docker run -it -v my-volume:/mydata alpine sh
+
+# 但还有另一件只有-v参数能够做到而Dockerfile是做不到的事情就是在容器上挂载指定的主机目录。例如：
+docker run -v /home/data:/data debian ls /data
+
+方法二: 在Dockerfile设置
+#Dockerfile
+VOLUME:
+ - my-volume:/mydata    # 效果与方法一一样
+ - /foo                 # 相当于在宿主上创建一个匿名volume绑定到容器的/foo目录
+
+```
+
 ## 更新镜像
 
 1. 容器内的修改提交到镜像
@@ -109,8 +130,44 @@
 
 
 # 管理工具: docker-compose
+## 安装
+```
+# 方法一:
+curl -L https://get.daocloud.io/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+# 方法二: 
+curl -L https://github.com/docker/compose/releases/download/1.22.0/run.sh > /usr/local/bin/docker-compose
 
+chmod +x /usr/local/bin/docker-compose
 
+docker-compose -v
+```
+
+## 如何更新镜像
+如果修改了容器中的Dockerfile, 可以使用以下命令重建镜像并更新到容器
+```
+docker-compose stop
+
+docker-compose up -d --build        # --build 重建镜像
+```
+
+# 常见问题
+## docker pull 官方镜像太慢
+1. 可以直接从指定源获取镜像  
+   ```
+   docker pull registry.docker-cn.com/library/ubuntu:16.04
+   ```
+2. 可以通过修改配置, 使用国内的源来加速  
+```
+# /etc/docker/daemon.json
+{
+  "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+
+# 修改后重启服务
+systemctl daemon-reload
+systemctl restart docker
+```
+ps: 可以在[阿里云](https://cr.console.aliyun.com/cn-hangzhou/instances/source)临时创建一个加速源. 
 
 
 
@@ -119,3 +176,5 @@
 - [写给前端的Docker实战教程](https://zhuanlan.zhihu.com/p/83309276)
 - [Docker部署前后端项目](https://juejin.im/post/5cce4b1cf265da0373719819)
 - [在Docker中使用mysql数据库](https://www.cnblogs.com/areyouready/p/8948552.html)
+- [这可能是网络上唯一一篇给前端写的Docker+Node+Nginx+Mongo的本地开发+部署实战](https://juejin.im/post/5ddb3f85e51d45231576af3c)
+- [node 项目从构建到使用 jenkins + docker + nginx + mysql + redis 自动化部署](https://juejin.im/post/5dde46b2e51d4554350715f5)
