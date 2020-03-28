@@ -22,22 +22,26 @@
 ### 工具类
   - [Git指令](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/Git)
   - [Docker的用法](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/tools/docker/README.md)
+  - [docker-compose模板](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/tools/docker/docker_template/README.md)
   - [TravisCI的用法](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/tools/TravisCI/README.md)
 
 
 ### HTML&CSS
-  - [CSS选择器](ttps://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/CSS/README.md)
+  - [CSS选择器](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/CSS/README.md)
   
 ### JS
   - [ECMAScript语法备忘录](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/ECMAScript/README.md)
 
 ### 浏览器
   - [缓存机制](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/缓存机制.md)
-  - [跨域-TODO](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/跨域.md)
+  - [跨域](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/跨域.md) TODO待完善
+  
+### Linux
+  - [常用环境配置](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/linux/常见环境的搭建和配置.md)
   
 ### 代码
   - [来写一点代码吧](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/code/readme.md)
   
 ### 读书心得
   - [《你不知道的JS》学习笔记](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/readBook/You-Dont-Know-JS)
-  - [《重构改善既有代码的设计》学习笔记-todo需重新整理](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/readBook/重构)
+  - ~~[《重构改善既有代码的设计》学习笔记](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/readBook/重构)~~ TODO需重新整理

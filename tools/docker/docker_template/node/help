@@ -1,0 +1,23 @@
+帮助
+
+0. Dockerfile 中的COPY操作是做什么? 是先VOLUMES 还是先 COPY?
+应该是先执行Dockerfile中的 COPY 操作, 再执行docker-compose.yml 的 VOLUMES
+以现在的配置为例, 它们的流程是:
+    0. docker-compose.yml 根据 volumes关系 创建映射关系, 某一方的文件不存在, 则自动创建并建立软链接关系
+    1. 先把宿主 ./node/package.json 复制到 容器的 /app 目录下
+    2. 容器安装 node_modules
+    3. 再把宿主 ./node/*的文件 复制到 到容器的 /app 目录下
+    4. 执行命令, 暴露容器端口
+    5. 容器创建完成
+
+1. node_modules 的单独处理
+简单来说就是宿主的node目录中不会有node_modules目录, 
+如果直接映射整个node目录的话, 则会使容器中也没有node_modules目录, 
+为了使代码可以正常映射, 容器中的代码又能正常运转, 只能把node_modules单独处理.
+参考
+https://juejin.im/post/5ddb3f85e51d45231576af3c#heading-7
+
+2. 由于宿主不存node_modules目录, 如果需要更新 node_modules 需要怎么操作?
+进入容器, 执行npm install 即可
+
+3. .env文件中直接使用 mongo(docker中的名字) 作为host 来连接mongodb
