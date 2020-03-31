@@ -41,6 +41,7 @@
   
 ### 代码
   - [来写一点代码吧](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/code/readme.md)
+  - [用JS做一个编译器](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/code/doMySelf/bCompiler/README.md)
   
 ### 读书心得
   - [《你不知道的JS》学习笔记](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/readBook/You-Dont-Know-JS)
