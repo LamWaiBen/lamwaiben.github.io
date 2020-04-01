@@ -80,7 +80,7 @@ $ git describe  <ref>       # 找出任何相关的提交记录
 $ ssh-keygen -f ~/.ssh/somebody             # 生成公钥密钥，如~/.ssh文件夹不存在则需要先创建
 $ ssh -T git@github.com                     # 测试密钥是否能连通github
 $ git clone -b <branch> <repo> [<dir>] # 克隆指定分支
-$ git remote add [<options>] <name> <url>      # 添加远程仓库
+$ git remote add [<options>] <name> <url>   # 添加远程仓库, name通常为origin
 
 
 

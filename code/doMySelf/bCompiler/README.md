@@ -185,3 +185,8 @@ function compiler(input) {
 
 ### 生成代码
 通过递归，将新的 `AST` 对象代码重新拼接, 转换成 JavaScript 可执行代码字符串.
+
+
+
+## 参考资料
+- [The Super Tiny Compiler](https://the-super-tiny-compiler.glitch.me/)
