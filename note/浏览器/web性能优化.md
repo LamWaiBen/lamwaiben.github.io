@@ -26,3 +26,14 @@
 5. 其他
     5.1 HTTP/2
     5.2 CDN
+
+
+# 辅助分析工具
+
+## chrome
+查看[./chrome目录](./chrome)
+- Performance
+- Rendering
+- Layers
+- Memory
+- JavaScript Profiler

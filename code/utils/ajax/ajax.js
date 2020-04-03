@@ -21,7 +21,8 @@ function ajax(options){
         headers
     } = options
 
-    if(params){
+    if (method == "GET" && params){
+        if (url[url.length - 1] != '?') url += "?"
         url += Object.keys(params).map(key => `${key}=${params[key]}`).join('&')
     }
     async = async === false ? false : true  // 只有严格传入false的时候才是 非异步
@@ -75,6 +76,6 @@ ajax({
     // t: 666
   },
   headers: {
-    'Content-Type': 'application/json'
+    'Accept': 'application/json'
   }
 })

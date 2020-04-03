@@ -33,8 +33,13 @@
   - [ECMAScript语法备忘录](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/ECMAScript/README.md)
 
 ### 浏览器
-  - [缓存机制](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/缓存机制.md)
-  - [跨域](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/跨域.md) TODO待完善
+  - [本地缓存](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/本地缓存.md)
+  - [请求缓存](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/请求缓存.md)
+  - [重排与重绘](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/重排与重绘.md)
+  - [XSS和CSRF](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/XSS和CSRF.md)
+  - [跨域](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/跨域.md)
+  - [通过URL如何显示网页](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/通过URL如何显示网页.md)
+  - [网页性能优化](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/浏览器/web性能优化.md)
   
 ### Linux
   - [常用环境配置](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/linux/常见环境的搭建和配置.md)

@@ -21,16 +21,20 @@ async function fetchHttp(options){
             url = '',
             data = {},
             method = 'GET',
+            headers = {},
+            mode = 'cors',
         } = options
 
         let requestConfig = {
-            credentials: 'include',
+            // credentials 与 XHR中的 withCredentials 类似, 表示请求是否携带cookie
+            // 跨域请求时, 使用 include 模式的话服务器需要判断请求来源且允许 
+            // ctx.set('Access-Control-Allow-Origin', '指定源')
+            // ctx.set('Access-Control-Allow-Credentials', 'true')
+
+            // credentials: 'omit',      // omit(default), same-origin, include
             method,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            mode: 'cors',
+            headers: headers
+            mode,
             // cache: 'force-cache',
         }
 
@@ -43,8 +47,8 @@ async function fetchHttp(options){
             requestConfig.body = JSON.stringify(data)
         }
         const response = await fetch(url, requestConfig)
-        const responseJSON = await response.json()
-        return responseJSON
+        // const responseJSON = await response.json()
+        return response
     } catch (error) {
         throw new Error(error)
     }
