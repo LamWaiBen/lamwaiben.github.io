@@ -51,7 +51,8 @@
         * url：新的网址，必须与当前页面处在同一个域。浏览器的地址栏将显示这个网址。
         */
         changePage(path)
-        history.pushState({ content: path}, null, path)
+        history.pushState({ content: path}, '', location.href)
+        // history.pushState({ content: path}, null, path)
     }
 
     // window.addEventListener('hashchange', e => {
