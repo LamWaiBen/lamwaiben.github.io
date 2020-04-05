@@ -86,11 +86,13 @@ HTTP协议的作用是用来规范通信内容的,在HTTP协议中可以分为`�
 5. Cookie相关的头部字段
     - Set-Cookie  响应报文返回的的使用分号分隔的字符串, 内容具体字段如下
         - 键值对   abc=123  存放cookie中的信息, 可以是多个键值对,使用逗号间隔
-        - Domain  域名
+        - max-age 多少秒后过期
         - expire  过期时间,若不指定该属性,关闭浏览器即失效
-        - httponly 可以使js脚本无法获取cookie, 可以防止XSS(跨站脚本攻击)对cookie信息的窃取
+        - Domain  域名
         - path    用于限制指定cookie的发送范围的文件目录
+        - httponly 可以使js脚本无法获取cookie, 可以防止XSS(跨站脚本攻击)对cookie信息的窃取
         - Secure  只在HTTPS通信时才发送Cookie
+        - sameSite Strict Lax None
     - Cookie    浏览器自动加上该域名的Cookie发给服务端
 
 ## HTTP请求方法及响应状态码
@@ -175,3 +177,7 @@ HTTP/1.1 版的头信息肯定是文本（ASCII编码），数据体可以是文
     > HTTP/2 通过gzip压缩头信息与通过维护一张头信息表, 后续的请求不需要在发送cookie与User Agent信息,节约了带宽,提高了速度, 这个机制就是`头信息压缩机制`
 5. 服务器推送 server push
     > 允许服务器未经请求,主动向客户端发送资源
+
+
+## 参考
+- [HTTP灵魂之问，巩固你的 HTTP 知识体系](https://juejin.im/post/5e76bd516fb9a07cce750746)
