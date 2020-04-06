@@ -21,5 +21,22 @@ DNS(域名系统)可以通过域名, 帮我们找到对应机器的IP地址.
 
 ### 5. 发送HTTP请求
 
+### 6. 返回响应, 进入HTML解析阶段
+
 
 ## HTML渲染
+
+### 1. 构建DOM树
+
+### 2. 结合DOM树和CSSOM树, 生成Render树
+
+### 3. 遍历Render树计算几何信息, 生成Layout树
+在chrome dev tools 的 Rendering 功能可以查看:
+- 几何布局信息
+- 重排区域
+- 重绘区域
+
+### 4. 生成绘制列表
+
+### 5. 图层合成, 生成Layer树
+在chrome dev tools 的 Layers 功能可以查看到图层信息

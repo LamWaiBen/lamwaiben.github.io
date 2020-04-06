@@ -769,6 +769,6 @@ console.log("打印输出结果：" + context.getSum()); // 打印输出结果�
 ```
 
 ## 参考
-[菜鸟教程|设计模式](https://www.runoob.com/design-pattern/design-pattern-tutorial.html)
-[Javascript设计模式详解](https://www.cnblogs.com/tugenhua0707/p/5198407.html#_labe4)
-[设计模式之美-前端](https://zhuanlan.zhihu.com/p/111553641)
+- [JavaScript设计模式23种](https://juejin.im/post/5e021eb96fb9a01628014095)
+- [Javascript设计模式详解](https://www.cnblogs.com/tugenhua0707/p/5198407.html#_labe4)
+- [设计模式之美-前端](https://zhuanlan.zhihu.com/p/111553641)
