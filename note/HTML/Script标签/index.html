@@ -5,12 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script defer src="./test.js"></script>
+    <script async src="./test2.js"></script>
     <script type="module" defer async>
         import { addTextToBody } from './utils.mjs';
 
         addTextToBody('Modules are pretty cool.');
     </script>
-
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('DOMContentLoaded!')
+        })
+        window.addEventListener('load', () => {
+            console.log('load!')
+        })
+        window.onload = () => {
+            console.log('onload!')
+        }
+    </script>
     <script nomodule>
         alert('your browsers can not supports es modules! please upgrade it.')
     </script>
@@ -20,8 +32,13 @@
 </body>
 </html>
 <!-- 
-    1. defer: 延迟加载
-    2. aysnc: 异步加载
+    执行时机:  执行时机: 文档解析完 < deferScript执行 < DOMContentLoaded事件触发  < load事件触发
+    1. defer: 延缓执行, 执行时机: 文档解析完 < js执行 < DOMContentLoaded事件触发,  仅对远程js文件有效
+    2. aysnc: 异步加载, 加载完便停止HTML解析去执行脚本,  async的属性优先度比defer高,  js的执行优先度比defer低
+        - defer 与 async 同时设置时, 只有async发挥作用
+        - async的执行在window的load事件之前的任意阶段都有可能, 只要下载完就立即执行, 
+
+    
     3. type="module":  模块化加载
     4. nomodule: 在不支持module的浏览器上会执行里面的代码
  -->

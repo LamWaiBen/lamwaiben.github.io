@@ -19,6 +19,13 @@ XSS的防范措施有四种:
 2. 对所有`输出`数据进行适当的编码，以防止任何已成功注入的脚本在浏览器端运行
 3. cookie设置`httpOnly: true`, 避免通过js获取到cookie信息
 4. 使用 `内容安全策略 (CSP)`
+    - 可以通过两种方式设置
+      - http-header中设置`Content-Security-Policy: default-src 'self`
+      - meta标签: `<meta http-equiv="content-security-policy" content="default-src 'self'">`
+    - 具体指令
+      - default-src
+      - script-src
+      - style-scr等等
 ----------------------------
 ## CSRF
 CSRF:  是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法, 利用网站对用户浏览器的信任(`请求会自动携带cookie这个特性`).

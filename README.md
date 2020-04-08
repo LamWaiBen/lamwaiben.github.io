@@ -51,3 +51,7 @@
 ### 读书心得
   - [《你不知道的JS》学习笔记](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/readBook/You-Dont-Know-JS)
   - ~~[《重构改善既有代码的设计》学习笔记](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/readBook/重构)~~ TODO需重新整理
+
+
+### 踩坑
+  - [是Referer还是Referrer?](https://github.com/lamwaiben/lamwaiben.github.io/tree/master/note/坑/Referer.md)
