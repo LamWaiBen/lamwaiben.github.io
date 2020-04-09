@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        let SW = null
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js', {
+                scope: './'
+            }).then(function (registration) {
+                if (registration.installing) {
+                    SW = registration.installing;
+                    document.querySelector('#kind').textContent = 'installing';
+                } else if (registration.waiting) {
+                    SW = registration.waiting;
+                    document.querySelector('#kind').textContent = 'waiting';
+                } else if (registration.active) {
+                    SW = registration.active;
+                    document.querySelector('#kind').textContent = 'active';
+                }
+                if (SW) {
+                    SW.addEventListener('statechange', function (e) {
+                        console.log(e.target.state)
+                    });
+
+                    SW.postMessage('test postMessage')
+                }
+            }).catch(function (error) {
+                // Something went wrong during registration. The service-worker.js file
+                // might be unavailable or contain a syntax error.
+            });
+        } else {
+            // The current browser doesn't support service workers.
+        }
+    </script>
+    <link href="index.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <p id="kind"></p>
+</body>
+</html>
+
+

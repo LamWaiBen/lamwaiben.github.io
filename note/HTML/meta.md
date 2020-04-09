@@ -19,7 +19,7 @@
 <!-- 网页地址 -->
 <meta name="website" content="https://lamwaiben.com"/>
 <!-- 网页版权信息 -->
- <meta name="copyright" content="2018-2019 demo.com"/>
+<meta name="copyright" content="2018-2019 demo.com"/>
 <!-- 网页关键字, 用于SEO -->
 <meta name="keywords" content="meta,html"/>
 <!-- 网页描述 -->

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>演示3个功能的使用:</p>
+    <ul>
+        <li>requestAnimationFrame</li>
+        <li>history</li>
+        <li>Notification</li>
+    </ul>
+    <div id="raf">
+    </div>
+</body>
+<script>
+    // rAF 的使用
+    let count = 0;
+    let elm = document.querySelector('#raf')
+    function step(timestamp) {
+        count++;
+        console.log(count, timestamp);
+        elm.innerHTML = count;
+        if (timestamp > 2000) return;
+        return window.requestAnimationFrame(step);
+    };
+
+    window.requestAnimationFrame(step);
+</script>
+
+<script>
+    // history 的使用
+    window.onpopstate = function (event) {
+        alert(`location: ${document.location}, state: ${JSON.stringify(event.state)}`)
+    }
+
+    history.pushState({ page: 1 }, "title 1", "?page=1")
+    history.pushState({ page: 2 }, "title 2", "?page=2")
+    history.replaceState({ page: 3 }, "title 3", "?page=3")
+    // history.back() // alerts "location: http://example.com/example.html?page=1, state: {"page":1}"
+    // history.back() // alerts "location: http://example.com/example.html, state: null"
+    // history.go(2)  // alerts "location: http://example.com/example.html?page=3, state: {"page":3}"
+</script>
+
+<script>
+    // Notification 的使用  需要在http环境下才能授予权限
+    // 1. 请求权限
+    Notification.requestPermission()
+        .then(permission => {
+            if (permission === 'granted') {
+                console.log('用户允许通知');
+                notify('通知测试', '我是正文')
+            } else if (permission === 'denied') {
+                console.log('用户拒绝通知');
+            }
+        });
+
+    function notify(title, body){
+        if (Notification.permission === 'granted') {
+            let n = new Notification(title, { body })
+            n.onclick = () => {
+                window.focus()
+                n.close()
+            }
+    
+            setTimeout(() => n && n.close(), 5000)
+        }
+    }
+
+</script>
+
+</html>

@@ -6,3 +6,4 @@
 
 # Service Worker
 支持 `代理请求`, `保存缓存`, `推送消息` 等功能
+[demo示例](../HTML/ServiceWorker/index.html)  
