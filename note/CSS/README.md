@@ -43,3 +43,8 @@ TODO
 ### GFC
 Grid formatting context
 TODO
+
+
+## 移动端
+
+- [移动端的高清设备方案](https://www.cnblogs.com/superlizhao/p/8729190.html)

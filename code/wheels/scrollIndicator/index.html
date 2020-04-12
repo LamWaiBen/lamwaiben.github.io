@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./ScrollIndicator.js"></script>
+    <style>
+
+        .container {
+            height: 200vh;
+            margin-left: 100px;
+        }
+
+        .aside{
+            float: left;
+            height: 200vh;
+            background-color: limegreen;
+            width: 100px;
+            margin-left: -100px;
+            
+        }
+        .box {
+            float: left;
+            height: 200vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="aside"></div>
+        <div class="box">
+            仿制阮一峰老师的ES6入门网站的滚动进度条
+        </div>
+    </div>
+</body>
+<script>
+    let scrollIndicator = new ScrollIndicator()
+    scrollIndicator.once('end', function() {
+        alert('已经到底了')
+    })
+</script>
+</html>

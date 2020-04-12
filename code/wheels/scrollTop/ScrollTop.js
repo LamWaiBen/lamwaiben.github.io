@@ -44,7 +44,7 @@
                 return func.apply(this instanceof fNOP ? this : ctx, args)
             }
 
-            fNOP = this.prototype
+            fNOP.prototype = this.prototype
             fBound.prototype = new fNOP()
             return fBound
         }
