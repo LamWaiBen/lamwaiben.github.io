@@ -147,26 +147,3 @@ class Car implements Alarm, Light {     // 实现多个接口, 也可以通过�
 }
 
 
-
-
-/**
- * 混合类型  定义函数自身的属性和方法
- */
-
-interface Counter {
-    (star: number) : string;
-    interval: number;
-    reset(): void;
-}
-
-function getCounter(): Counter {
-    let counter = <Counter>function (star: number) {}
-    counter.interval = 123
-    counter.reset = function () {}
-    return counter
-}
-
-let c = getCounter()
-c(10)
-c.reset()
-c.interval = 5.0

@@ -56,12 +56,12 @@ getProperty(obj_x, "a")
  * 泛型接口: 使用泛型接口定义函数形状
  */
 
-interface CreateArrayFunc<T> {
-    (length: number, value: T): Array<T>
+interface CreateArrayFunc {
+    <T>(length: number, value: T): Array<T>
 }
 
 
-let createArrayFunc: CreateArrayFunc<any>
+let createArrayFunc: CreateArrayFunc
 createArrayFunc = function<T>(length: number, value: T): Array<T> {
 	let result: T[] = []
 	for (let i = 0; i < length; i++) {
