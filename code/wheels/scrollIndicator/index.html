@@ -8,8 +8,15 @@
     <style>
 
         .container {
-            height: 200vh;
-            margin-left: 100px;
+            padding-left: 100px;
+            overflow:hidden;
+        }
+
+        .container::after {
+            display: block;
+            content: "";
+            visibility: hidden;
+            clear: both;
         }
 
         .aside{
