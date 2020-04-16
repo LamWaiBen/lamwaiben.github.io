@@ -71,6 +71,11 @@ foo()           // 40
     export {
         d as d
     }
+
+    // 异步加载
+    async function main() {
+        const myModule = await import('./myModule.js');
+    }
     ```
 
 ## Symbol
