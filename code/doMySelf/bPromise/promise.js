@@ -51,14 +51,15 @@ class BPromise {
         // 先判断参数合法性, 如果then的参数不是函数时, 默认是一个值传递函数
         onResolve = typeof onResolve == 'function' ? onResolve : val => val
         onReject = typeof onReject == 'function' ? onReject : reason => { throw reason }
+        let newPromise = null
 
         // 如果是Promise.resolve().then()
         if (this[_status] == FULFILLED) {
-            return new BPromise((resolve, reject) => {
+            return newPromise = new BPromise((resolve, reject) => {
                 setTimeout(() => {
                     try {
                         let x = onResolve(this[_value])
-                        this.handleThenReturnPromise(x, resolve, reject)    // 这里控制返回的newPromise的状态
+                        this.handleThenReturnPromise(newPromise, x, resolve, reject)    // 这里控制返回的newPromise的状态
                     } catch (error) {
                         reject(error)
                     }
@@ -66,11 +67,11 @@ class BPromise {
             })
             // 如果是Promise.reject().then()
         } else if (this[_status] == REJECTED) {
-            return new BPromise((resolve, reject) => {
+            return newPromise = new BPromise((resolve, reject) => {
                 setTimeout(() => {
                     try {
                         let x = onReject(this[_value])
-                        this.handleThenReturnPromise(x, resolve, reject)
+                        this.handleThenReturnPromise(newPromise, x, resolve, reject)
                     } catch (error) {
                         reject(error)
                     }
@@ -78,12 +79,12 @@ class BPromise {
             })
             // 如果是new Promise((resolve, reject) => resolve).then(onResolve, onReject)
         } else if (this[_status] == PENDING) {
-            return new BPromise((resolve, reject) => {
+            return newPromise = new BPromise((resolve, reject) => {
                 // 提供回调函数给oldPromise触发
                 this.resolveQueue.push((val) => {
                     try {
                         let x = onResolve(val)
-                        this.handleThenReturnPromise(x, resolve, reject)
+                        this.handleThenReturnPromise(newPromise, x, resolve, reject)
                     } catch (error) {
                         reject(error)
                     }
@@ -92,7 +93,7 @@ class BPromise {
                 this.rejectQueue.push((val) => {
                     try {
                         let x = onReject(val)
-                        this.handleThenReturnPromise(x, resolve, reject)
+                        this.handleThenReturnPromise(newPromise, x, resolve, reject)
                     } catch (error) {
                         reject(error)
                     }
@@ -105,12 +106,14 @@ class BPromise {
         return this.then(null, onReject)
     }
 
-    handleThenReturnPromise(x, resolve, reject) {
+    handleThenReturnPromise(newPromise, x, resolve, reject) {
         // 这里其实可以做更多事情: 处理thenable对象, 返回一个新的promise对象
         try {
+            if (newPromise === x) return reject(new TypeError('循环引用'));
+
             // 判断返回值是否为then中是否返回了Promise对象, 如果是则递归
-            if (x instanceof BPromise) {
-                x.then(resolve)
+            if (x instanceof BPromise || typeof x['then'] === 'function') {
+                x.then(resolve, reject)
             } else {
                 resolve(x)
             }
