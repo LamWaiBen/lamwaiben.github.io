@@ -27,6 +27,11 @@
                     });
 
                     SW.postMessage('test postMessage')
+
+
+
+                    crashListener()
+
                 }
             }).catch(function (error) {
                 // Something went wrong during registration. The service-worker.js file
@@ -34,6 +39,31 @@
             });
         } else {
             // The current browser doesn't support service workers.
+        }
+
+
+
+        function crashListener(){
+            if(!SW) return
+            let HEARTBEAT = 5 * 1000;
+            let sessionId = ~~(Math.random() * 1000)  // todo  uuid
+
+            let heartbeat = function () {
+                SW.postMessage({
+                    type: 'heartbeat',
+                    id: sessionId,
+                    data: {}    // url , path ...
+                })
+            }
+
+            setInterval(heartbeat, HEARTBEAT)
+
+            window.addEventListener('beforeunload', () => {
+                SW.postMessage({
+                    type: 'unload',
+                    id: sessionId,
+                })
+            })
         }
     </script>
     <link href="index.css" type="text/css" rel="stylesheet">

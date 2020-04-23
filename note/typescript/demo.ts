@@ -73,3 +73,18 @@ createArray_ = function <T>(length: number, value: T): Array<T> {
 
 createArray_(3, 'x'); // ['x', 'x', 'x']
 
+
+
+interface somArr {
+    [index: number]: Cat;
+    [index: string]: Animal;
+}
+
+let arr: somArr
+arr = {
+    1: new Cat('1'), 
+    2: new Cat('1')
+}
+
+var a = arr[1]
+var b = arr["1"]
