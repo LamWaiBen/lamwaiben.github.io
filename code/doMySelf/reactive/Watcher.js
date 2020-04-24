@@ -6,9 +6,10 @@ const { Dep, pushTarget, popTarget } = require('./Dep')
  * 避免重复依赖
  */
 
+let uid = 1
 class Watcher {
     constructor(data, expOrFn, cb, options, isRenderWatcher) {
-
+        this.id = uid++
         this.vm = data
         this.cb = cb
 
@@ -128,7 +129,10 @@ class Watcher {
 
 
     run() {
-
+        const value = this.get()
+        const oldValue = this.value
+        this.value = value
+        this.cb.call(this.vm, value, oldValue)
     }
 }
 
@@ -137,8 +141,26 @@ function $watch(data, expOrFn, cb) {
 }
 
 
+const queue = []
+let waiting = false
 function queueWatcher(watcher) {
-    watcher.cb()
+    if (!queue.includes(watcher)) {
+        queue.push(watcher)
+    }
+
+    // 把所有更新都放在队列中, 异步更新&清空队列
+    if(!waiting){
+        waiting = true
+        setTimeout(flushQueue, 0)
+    }
+}
+
+function flushQueue(){
+    queue.forEach(watcher => {
+        watcher.run()
+    })
+    queue.length = 0
+    waiting = false
 }
 
 
