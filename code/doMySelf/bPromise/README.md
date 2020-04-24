@@ -27,3 +27,17 @@
     - old: 存放以前写的promise
     - promise.js:  存放最新的手写promise
     - simple_promise.js: 简易版(为了说明机制)
+
+
+## FIX BUG
+1. 修复BPromise.resolve() 触发时机问题
+   - BPromise.resolve().then(cb) 立刻触发cb
+   - BPromise.resolve(thenable).then(cb)  异步触发cb
+   - 修复下面的bug  
+        ```javascript
+            new BPromise((resolve) => {
+                resolve();
+                BPromise.resolve().then(() => console.log(2));
+            }).then(() => console.log(4));
+            // 修复打印结果不为 2, 4 的问题 
+        ```

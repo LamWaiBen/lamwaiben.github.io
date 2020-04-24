@@ -24,25 +24,25 @@ class BPromise {
 
         function resolve(val) {
             if (this[_status] === PENDING) {
-                setTimeout(() => {
+                // setTimeout(() => {
                     this[_status] = FULFILLED
                     this[_value] = val
                     this.resolveQueue.forEach(cb => {
                         cb(val)
                     });
-                })
+                // })
             }
         }
 
         function reject(err) {
             if (this[_status] === PENDING) {
-                setTimeout(() => {
+                // setTimeout(() => {
                     this[_status] = REJECTED
                     this[_value] = err
                     this.rejectQueue.forEach(cb => {
                         cb(err)
                     });
-                })
+                // })
             }
         }
     }
@@ -82,21 +82,25 @@ class BPromise {
             return newPromise = new BPromise((resolve, reject) => {
                 // 提供回调函数给oldPromise触发
                 this.resolveQueue.push((val) => {
-                    try {
-                        let x = onResolve(val)
-                        this.handleThenReturnPromise(newPromise, x, resolve, reject)
-                    } catch (error) {
-                        reject(error)
-                    }
+                    setTimeout(() => {
+                        try {
+                            let x = onResolve(val)
+                            this.handleThenReturnPromise(newPromise, x, resolve, reject)
+                        } catch (error) {
+                            reject(error)
+                        }
+                    })
                 })
 
                 this.rejectQueue.push((val) => {
-                    try {
-                        let x = onReject(val)
-                        this.handleThenReturnPromise(newPromise, x, resolve, reject)
-                    } catch (error) {
-                        reject(error)
-                    }
+                    setTimeout(() => {
+                        try {
+                            let x = onReject(val)
+                            this.handleThenReturnPromise(newPromise, x, resolve, reject)
+                        } catch (error) {
+                            reject(error)
+                        }
+                    })
                 })
             })
         }
@@ -125,8 +129,17 @@ class BPromise {
 
 
 BPromise.resolve = function (val) {
+    if (val instanceof BPromise) {
+        return val
+    }
     return new BPromise(resolve => {
-        resolve(val)
+        if (val && val.then && typeof val.then === 'function') {
+            setTimeout(() => {
+                val.then(resolve)
+            })
+        } else {
+            resolve(val)        // 这里相当于立刻把
+        }
     })
 }
 
@@ -144,7 +157,7 @@ BPromise.all = function (promises) {
             for (let i = 0; i < promises.length; i++) {
                 promises[i].then(res => {
                     result[i] = res
-                    if(--cnt === 0) resolve(result)
+                    if (--cnt === 0) resolve(result)
                 }, error => reject(error))
             }
         } catch (error) {
@@ -191,3 +204,28 @@ new BPromise((resolve, reject) => {
             return -1000
         }
     )
+
+
+/***************** Promise.resolve(param) 的两种触发时机******************/
+// new BPromise((resolve) => {
+//     resolve();
+//     BPromise.resolve({
+//         then: function (resolve, reject) {
+//             console.log(1);
+//             resolve();
+//         },
+//     }).then(() => console.log(2));
+//     console.log(0);
+// }).then(() => console.log(3));
+// 0
+// 1
+// 3
+// 2
+
+// new BPromise((resolve) => {
+//     resolve();
+//     BPromise.resolve().then(() => console.log(2));
+// }).then(() => console.log(4));
+// 2
+// 4
+
