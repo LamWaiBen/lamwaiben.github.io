@@ -47,8 +47,20 @@ function ajax(options){
 
         status: HTTP 状态码
         **/
-        if (request.readyState === 4 && (request.status >= 200 || request.status < 300)) {
-            success && success(request.responseText)
+        if(request.readyState !== 4) return
+
+        if (request.status >= 200 || request.status < 300) {
+            let res = request.responseText
+            let contentType = request.getRespondHeader('Content-Type')
+            if(/application\/json/.test(contentType)) {
+                res = JSON.parse(res)
+            } else if(/text\/html/.test(contentType)) {
+                
+            }
+
+            success && success(res)
+        } else {
+
         }
     }
 

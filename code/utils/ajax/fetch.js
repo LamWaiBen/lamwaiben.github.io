@@ -33,7 +33,7 @@ async function fetchHttp(options){
 
             // credentials: 'omit',      // omit(default), same-origin, include
             method,
-            headers: headers
+            headers,
             mode,
             // cache: 'force-cache',
         }
@@ -46,8 +46,15 @@ async function fetchHttp(options){
         } else if(method == 'POST' || method == "DELETE"){
             requestConfig.body = JSON.stringify(data)
         }
-        const response = await fetch(url, requestConfig)
-        // const responseJSON = await response.json()
+        let response = await fetch(url, requestConfig)
+        const contentType = response.headers.get('Content-Type')
+     
+        if (/application\/json/.test(contentType)) {
+            response.json()
+        } else if (/text\/html/.test(contentType)) {
+            response.text()
+        }
+        
         return response
     } catch (error) {
         throw new Error(error)
