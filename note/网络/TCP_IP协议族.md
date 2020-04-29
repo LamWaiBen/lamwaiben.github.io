@@ -84,7 +84,18 @@ FTP,HTTP协议的传输层协议, 收发邮件, 远程登录等准确性要求�
 4. 实时性好, 工作效率高, 系统资源要求少
 
 
+## 网络传输路径
+1. HTTP层 包含domain
+2. TCP层 包含PORT
+3. IP层 包含目标地址IP 和 路由器的MAC     
+   1. 把目标IP发送给Gateway地址
+   2. gateway通过ARP 找到路由器的MAC地址 
+4. 数据链路 包含发送方和接收方的MAC地址
+   1. 路由器接收到IP包后, 把自己作为数据包的发送方MAC, 根据路由表匹配子网掩码和目标地址, 来找到对应的网关
+      1. 网关是一个IP地址, 则需要继续ARP网关, 获得网关MAC, 然后把包发送给网关
+      2. 若网关为空, 则说明包已到达终点, ARP目标地址, 获得目标地址的MAC, 然后把包发送给目标地址, 转发结束
 
 ## 参考
 - [面试官，不要再问我三次握手和四次挥手](https://blog.csdn.net/hyg0811/article/details/102366854)
 - [TCP协议灵魂之问，巩固你的网路底层基础](https://juejin.im/post/5e527c58e51d4526c654bf41#heading-21)
+- [探究！一个数据包在网络中的心路历程](https://mp.weixin.qq.com/s?__biz=MzUxODAzNDg4NQ==&mid=2247483989&idx=1&sn=7e2ed852770743d3955ef9d5561fcef3&chksm=f98e46ffcef9cfe98e6c753afac86125b0d5891ca5e63968b5f3a8da4905d14274088f40c34e&scene=126&sessionid=0&clicktime=1588122143&ascene=3&devicetype=iOS12.3.1&version=17000c2c&nettype=WIFI&abtest_cookie=AAACAA%3D%3D&lang=zh_TW&fontScale=100&exportkey=AWYmMn4dbSbO3e8PAaNUTr0%3D&pass_ticket=IlVACmE7g4OcUQ4SA2eCm8eb6qAeIh%2FczgaD7KXel04ZFp5sPRIamAM03RedAa9C&wx_header=1)
