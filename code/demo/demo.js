@@ -526,3 +526,402 @@ new Promise(resolve => {
 }).then(res => {
     console.log(3)
 })
+
+
+
+/**
+ * 
+ * 
+ * TCP
+ * 面向连接, 基于字节流, 可靠
+ * 
+ * 头 标志位  序号 确认序号 窗口 数据体
+ * 标志位: ACK SYN FIN RST PSH
+ * 
+ * 3.1 SYN seq=x  SYN_SEND
+ * 3.2 ACK, SYN , seq=y, ack=x+1  SYN_RCVD
+ * 3.3 ACK ack=y+1, seq=x+1  ENTABLISH
+ * 
+ * SYN_Cookie, 扩充池
+ * 
+ * 4.1 FIN seq=p        FIN_WAIT1
+ * 4.2 ACK ack=p+1      FIN_WAIT2           COLSE_WAIT
+ * 4.3 FIN seq=q                            LAST_ACT
+ * 4.4 ACK ack=q+1, seq=p+1    TIME_WAIT  2MSL( ACK + FIN)
+ * 双工, 传输和发送互不影响, 所以需要等待最后的数据发送完毕才能关闭
+ * 
+ * SYN_FLOOD
+ * 
+ * 流量控制
+ *  接收端根据自身能力返回滑动窗口, 控制发送方发送的数据量
+ * 
+ * 拥塞控制  
+ * 拥塞窗口cwnd
+ * 慢启动, 拥塞避免, 快速重传, 快速恢复 
+ * 
+ * 延迟控制
+ * nagle算法: 延迟发送
+ * 延迟确认
+ * 
+ * 
+ * UDP
+ * 无连接, 基于报文, 
+ * 
+ * 实时性高, 直播, 多人大星游戏 
+ * 
+ * 
+ * 
+ * HTTP
+ * status
+ * 
+ * 100
+ * 101
+ * 
+ * 200
+ * 202
+ * 204
+ * 206
+ * 
+ * 301
+ * 302
+ * 304
+ * 
+ * 400
+ * 401
+ * 403
+ * 404
+ * 405
+ * 
+ * 500
+ * 502
+ * 503
+ * 505
+ * 
+ * 
+ * 请求头
+ * Accept
+ * Accept-Language
+ * Accept-Encoding
+ * Content-Type
+ * Content-Length
+ * Cache-Control
+ * Pragma
+ * Cookie
+ * If-Modified-Since
+ * If-Unmodified-Since
+ * If-Matched
+ * If-None-Matched
+ * Range:btyes=start=end
+ * Via
+ * Host
+ * Referer
+ * Origin
+ * User-agent
+ * Connection
+ * Upgrade
+ * 
+ * 
+ * content-Type
+ * Content-Legiont
+ * Transfer-encode; chunk
+ * Cache-Control
+ * Set-Cookie
+ * Expires
+ * ETag
+ * Last-Modified
+ * Access-Control-Allow-Methods/Headers/Credential
+ * Access-Controll-Max-Age
+ * Accept-Range: bytes
+ * content-range: btyes=start-end/total
+ * 
+ * 
+ * 
+ * Https
+ * 1. r1 + method + version
+ * 2. r2 + cert 
+ * 3. check cert + r3 encode by cert
+ * 4. r3 decode by pem,  r1 + r2 + r3  => r4
+ * 5. session by r4
+ * 
+ * cert = publick domain 
+ * 
+ * 
+ * 
+ * 
+ * HTTP2 
+ * 
+ * 二进制数据流, streamID
+ * 多路复用, 不再堵塞,  通过响应ID 来找到请求
+ * 服务器推送
+ * 头信息压缩, 第一次发送需要, 后续不再需要(维护头信息表)
+ * 
+ * 
+ * 
+ * meta
+ * 
+ * <meta charset="utf-8">
+ * 
+ * name
+ * <meta name="" content="">
+ * author
+ * descript
+ * keywords
+ * viewport  initial-scale width: device-width heigh:device-height maximum-scale minimum-scale (0, 10]
+ * X-UA-Compatible IE=edge
+ * referrer:  no-referrer-when-downgrade,  same-origin
+ * robots: follow index, 
+ * 
+ * http-equiv
+ * <meta http-equiv="" content="">
+ * content-security-policy
+ * content-type
+ * set-cookie
+ * refresh  1;url=asd
+ * expries
+ * pragma
+ * 
+ * 
+ * 
+ * script 
+ * defer async
+ * window.addEventListener('DOMContentLoaded')
+ * 
+ * 
+ * link
+ * rel=""  stylesheet / icon 
+ * href
+ * media
+ * type  text/css  text/html
+ * 
+ * as something 
+ * crossorigin
+ * 
+ * 
+ * a 
+ * href   
+ * target: _blank  
+ * 
+ * form
+ * action
+ * method
+ * 
+ * 
+ */
+
+
+function loop(){
+
+    requestAnimationFrame(loop)
+}
+
+requestAnimationFrame(loop)
+
+
+
+
+history.pushState(data, title, url)
+history.replaceState(data,  title, url)
+window.onpopstate = () => {}
+window.onhashchange = () => {}
+window.location.hash
+
+navigator.serviceWorker.register('url', {}).then(registration => {
+    registration.installing
+    registration.waiting
+    registration.active
+
+    install
+
+    message
+    activate
+    fetch
+    sync
+
+})
+
+
+// document.createDocumentFragment()
+function cb(){
+    console.log('mutationObserver cb')
+}
+let observer = new MutationObserver(cb)
+
+observer.observe(document.body)
+
+
+function trigger(){
+    document.body.innerText += 1
+}
+
+
+
+addEventListener(EventName, fn, false)
+window.attachEvent('on' + EventName, fn)
+dom['on' + EventName] = fn
+
+removeEventListener(EventName, fn)
+detachEvent('on' + EventName)
+
+// stop
+event.preventDefault()
+event.returnValue = false
+
+event.stopPropagation()
+event.cancelBubble = true
+
+
+
+
+/**
+ * HMR
+ * 1. webpack watch file to memory
+ * 2. socket to client file change    hash
+ * 3. client collect file hash, refresh / hmr
+ * 4. client jsonp get new file by hash
+ * 5. js replace cache,  if failure refresh
+ * 
+ * 
+ */
+
+
+/**
+ * DFS
+ */
+
+function dfs_traverse(node){
+    if(!node.value) return null
+
+    // front
+    traverse(node.left)
+    // center
+    traverse(node.right)
+    // back
+}
+
+function bfs_traverse(node) {
+    let arr = [node]
+    while (arr.length) {
+        // 队列先出
+        let n = arr.shift()
+        // do something
+        if(n.left) arr.push(n.left)
+        if (n.right) arr.push(n.right)
+    }
+}
+
+
+/**
+ * dijkstar
+ */
+
+
+ /**
+  * co
+  */
+
+
+const m1 = async (ctx, next) => {
+    console.log('m1 ===>', Object.keys(ctx))
+    ctx.m1 = 1
+    await next()
+
+    console.log('m1 <===', Object.keys(ctx))
+}
+const m2 = async (ctx, next) => {
+    console.log('m2 ===>', Object.keys(ctx))
+    await next()
+    ctx.m2 = 2
+    console.log('m2 <===', Object.keys(ctx))
+}
+const middlewares = [m1, m2]
+function co(ctx) {
+    let index = -1;
+
+    async function next() {
+        index += 1
+        let m = middlewares[index]
+        if (m) {
+            await m(ctx, next)
+        }
+    }
+    return next()
+}
+
+let a = {a: 'a'}
+co(a)
+
+Array.prototype._splice = function splice(start, deleteCount = this.length - start, ...items){
+    while (start < 0) {
+        start = this.length + start
+    }
+    let tmp = items.slice()
+    let res = []
+    let count = deleteCount
+    for(let i = start; i < this.length; i++) {
+        if(count > 0) {
+            count--
+            res.push(this[i])
+        } else {
+            tmp.push(this[i])
+        }
+    }
+    this.length = start
+    for(let v of tmp) {
+        this.push(v)
+    }
+
+    return res
+}
+
+var a = [1, 2, 3, 4, 5, 6]
+var b = [1, 2, 3, 4, 5, 6]
+console.log('splice', a.splice(3), a)
+console.log('_splice', b._splice(3), b)
+
+
+
+class _Promise{
+    constructor(func) {
+        this.status = 0
+        this.val = undefined
+        func(resolve.bind(this))
+
+        this.resolveHandleList = []
+
+        function resolve(val) {
+            if(this.status === 0) {
+                this.status = 1
+                this.val = val
+                this.resolveHandleList.forEach(fn => fn(val))
+            }
+        }
+    }
+
+    then(onResolve) {
+        var newPromise = null
+        return newPromise = new Promise(resolve => {
+            if(this.status === 0 ) {
+                this.resolveHandleList.push(v => {
+                    setTimeout(() => {
+                        let res = onResolve(v)
+                        if (newPromise === res) throw new Error('循环引用')
+                        if (res instanceof _Promise || (res && typeof res.then === 'function')) {
+                            res.then(resolve)
+                        } else {
+                            resolve(res)
+                        }
+                    })
+                })
+            } else if(status === 1) {
+                setTimeout(() => {
+                    let res = onResolve(v)
+                    if (res instanceof _Promise || (res && typeof res.then === 'function')) {
+                        res.then(resolve)
+                    } else {
+                        resolve(res)
+                    }
+                })
+            }
+        })
+    }
+}
