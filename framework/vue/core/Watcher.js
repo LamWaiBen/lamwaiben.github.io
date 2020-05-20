@@ -7,18 +7,10 @@ class Watcher {
 
         this.sync = true
 
-        this.getter = function (vm) {
-            if (typeof expOrFn === 'function') {
-                return expOrFn.call(vm)
-            } else if (/\./.test(expOrFn)) {
-                // 获取对象的深度属性
-                let keys = expOrFn.split('.')
-                let obj = vm
-                for (let key of keys) {
-                    obj = obj[key]
-                }
-                return obj
-            }
+        if (typeof expOrFn === 'function') {
+            this.getter = expOrFn
+        } else {
+            this.getter = parsePath(expOrFn)
         }
         this.get()
     }
@@ -60,5 +52,18 @@ class Watcher {
     }
 }
 
+function parsePath(expOrFn) {
+    return function (obj) {
+        if (/\./.test(expOrFn)) {
+            // 获取对象的深度属性
+            let keys = expOrFn.split('.')
+            for (let key of keys) {
+                obj = obj[key]
+            }
+            return obj
+        }
+        
+    }
+}
 
 module.export = Watcher

@@ -87,6 +87,8 @@
 // eg3: async函数返回promise类型(被then处理过)
 async function async1() {
     await async2()
+    // nodejs11之后与浏览器一致
+    // 只要async2() 返回了promise对象, 那么就相当于 await Promise.resolve(async2()).then(...)
     console.log('async1 end')
 }
 async function async2() {
