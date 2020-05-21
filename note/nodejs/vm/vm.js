@@ -22,3 +22,20 @@ console.log(sandbox)    // {x:42, y:17}
 
 console.log(x)  // 1
 
+
+
+/***
+ * 使用字节码加密代码
+ */
+const vm = require('vm');
+const CODE = 'console.log("Hello world");'; // 源代码
+const script = new vm.Script(CODE, {
+    produceCachedData: true
+});
+const bytecodeBuffer = script.cachedData; // 字节码
+
+
+const anotherScript = new vm.Script(' '.repeat(CODE.length), {
+    cachedData: bytecodeBuffer
+});
+anotherScript.runInThisContext(); // 'Hello world'

@@ -8,27 +8,21 @@
   * start: 可以小于0
   * deleteCount: 小于等于0时表示不删除
   */
-Array.prototype._splice = function splice(start, deleteCount = this.length - start, ...items) {
+Array.prototype._splice = function splice(start, deleteCount = this.length - start, ...addItems) {
     while (start < 0) {
         start = this.length + start
     }
-    let tmp = items.slice()
-    let res = []
-    let count = deleteCount
-    for (let i = start; i < this.length; i++) {
-        if (count > 0) {
-            count--
-            res.push(this[i])
-        } else {
-            tmp.push(this[i])
-        }
-    }
-    this.length = start
-    for (let v of tmp) {
-        this.push(v)
-    }
+    if (start > this.length) start = 0
 
-    return res
+    let restItems = addItems.concat(this.slice(start + deleteCount))
+    let removeItems = this.slice(start, start + deleteCount)
+
+    let addIndex = start
+    for (let v of restItems) {
+        this[addIndex++] = v
+    }
+    this.length = addIndex
+    return removeItems
 }
 // test case
 var a = [1, 2, 3, 4, 5, 6]

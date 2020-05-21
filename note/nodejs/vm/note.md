@@ -30,3 +30,7 @@ vm.runInContext(code, sandbox)
 console.log(sandbox)    // {x:42, y:17}
 console.log(x)  // 1
 ```
+
+
+## 代码加密
+把代码转为字节码

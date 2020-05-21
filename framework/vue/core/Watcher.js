@@ -15,23 +15,23 @@ class Watcher {
         this.get()
     }
 
-    get(){
+    get() {
         // Dep.pushTarget(this)
         const vm = this.vm
         let value = this.getter.call(vm, vm)
 
 
-         // Dep.popTarget(this)
+        // Dep.popTarget(this)
         return value
     }
 
-    addDep(dep){
+    addDep(dep) {
         // 把自己订阅给 Observer 的dep
         dep.addSub(this)
     }
 
-    update(){
-        if(this.sync) {
+    update() {
+        if (this.sync) {
             this.run()
         } else {
             this.queue()
@@ -44,7 +44,7 @@ class Watcher {
         this.cb.call(vm, this.value, oldValue)
     }
 
-    queue(){
+    queue() {
         // $nextTick trigger update
         setTimeout(() => {
             this.run()
@@ -62,7 +62,6 @@ function parsePath(expOrFn) {
             }
             return obj
         }
-        
     }
 }
 
