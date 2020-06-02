@@ -64,6 +64,23 @@
             width: 100px;
             margin-left: -100px;
         }
+
+        /* ie盒模型 */
+        .outer3 {
+        }
+        .outer3 .left {
+            float: left;
+            width: 200px;
+        }
+        .outer3 .right {
+            float: right;
+            width: 100px;
+        }
+        .outer3 .middle {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0 100px 0 200px;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +97,13 @@
         </div>
         <div class="left">2-left</div>
         <div class="right">2-right</div>
+    </div>
+
+    <!-- float + margin -->
+    <div class="outer outer3">
+        <div class="left">3-left</div>
+        <div class="right">3-right</div>
+        <div class="middle">3-middle</div>
     </div>
 </body>
 </html>

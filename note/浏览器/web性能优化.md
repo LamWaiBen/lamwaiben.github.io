@@ -1,37 +1,63 @@
 # Web性能优化
 
 ## 如何监测性能 
+### performance的几个阶段
+- domLoading
+  - 开始解析DOM树
+- domInteractive
+  - DOM树解析完毕
+- domContentLoadedEventStart
+  - 资源加载开始
+- domContentLoadedEventEnd
+  - 资源加载结束
+- domComplete
+  - DOM树及资源加载完毕
+- loadEventStart
+  - 开始执行load事件
+- loadEventEnd
+
+### 几个时间的计算
+- 重定向耗时 = redirectEnd - redirectStart;
+
+- DNS查询耗时 = domainLookupEnd - domainLookupStart;
+
+- TCP链接耗时 = connectEnd - connectStart;
+
+- HTTP请求耗时 = responseEnd - responseStart;
+
+- 解析dom树耗时 = domComplete - domInteractive;
+
+- 白屏时间 = responseStart - navigationStart;
+
+- DOMready时间 = domContentLoadedEventEnd - navigationStart;
+
+- onload时间 = loadEventEnd - navigationStart;
 
 
 
 ## 如何优化
 分4个层面的优化:
-1. 编码优化
-    1.1 数据读取速度: 局部与全局变量, 原型链变量, 嵌套变量
-    1.2 DOM: 减少DOM的获取/访问(缓存), 减少重绘重排(脱离文档流), 事件委托
-    1.3 流程控制: 减少迭代次数, 使用map代替if-esle, 少用for...in(因为也会枚举原型)
-2. 静态资源优化
-    2.1 压缩资源体积
-    2.2 雪碧图
+1. 网络优化
+   1. 使用CDN
+   2. 使用缓存(cookie, localstorage, indexedDB, serviceWorker)
+   3. 升级HTTP/2.0
+2. 资源优化
+   1. 雪碧图
+   2. js代码混淆压缩和treeShanking
+   3. 压缩字体/图片体积(使用体积更小的格式)
+   4. 开启gzip
+3. 编码优化
+   1. 图片懒加载
+   2. 减少重绘重排
+   3. 首屏时间调整资源位置(CSS, script)
+   4. js的加载
+      1. import()按需动态引入(识别兼容性加载profile)
+      2. defer和async减少阻塞
+   5. 事件委托, 引入缓冲动画, 时间切片等
+4. 框架优化
+   1. SSR优化
+   2. 骨架屏
 
-3. 交付优化
-    交付优化指的是对页面加载资源以及用户与网页之间的交付过程进行优化
-    3.1 图片懒加载
-    3.2 JS的异步无阻塞加载: script的defer/async, 可以放到head中
-    3.3 优先加载关键CSS: 对首屏有影响的CSS优先加载
-    3.4 perload: 需要引入外部媒体的资源可以设置perload
-    3.4 提高交互效果: 适当分割函数, 引入缓冲动画, 避免用户感到长时间的运算无响应
-
-4. 构建优化
-    4.1 webpack的代码分割: 代码分割, 提高关键代码的加载速度
-    4.2 SSR: 减少首次访问的白屏时间
-    4.3 import: 使用ES6的import, 动态引入依赖,减少加载时间
-    4.4 HTTP缓存头: 设置 expires 和 cache-control
-
-
-5. 其他
-    5.1 HTTP/2
-    5.2 CDN
 
 
 # 辅助分析工具

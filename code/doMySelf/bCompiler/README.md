@@ -67,7 +67,7 @@ function compiler(input) {
     type: 'CallExpression',     // 调用表达式 
     name: 'add',
     params: [{
-      type: 'NumberLiteral',    // 数字语义
+      type: 'NumberLiteral',    // 数值字面量
       value: '2',
     }, {
       type: 'CallExpression',   // 调用表达式
@@ -82,8 +82,37 @@ function compiler(input) {
     }]
   }]
 }
-```
+```   
 
+AST名词术语:
+- 变量声明(VariableDeclaration)
+  - 标示符(Identifier)
+  - 字面量(NumberLiteral)
+- 函数声明(FunctionDeclaration)
+  - 标示符
+  - 参数(params)
+  - generator/async...
+  - body: BlockStatement
+    - 语句块(BlockStatement)
+      - body[]
+- 表达式语句(ExpressionStatement)
+  - 调用表达式(CallExpression)
+    - 被调用函数(callee)
+    - 实参(arguments)
+  - 成员表达式(MemberExpression)
+    - object
+    - property
+  - 赋值表达式(AssignmentExpression)
+    - left
+    - right
+  - 对象表达式(ObjectExpression)
+    - ObjectProperty
+      - key
+      - value
+    - ObjectMethod
+      - 类型(kind) method/get/set
+      - like-FunctionDeclaration
+- 
 ### 转译AST树
 1. 为了方便将 `LISP风格的AST` 转译成与JS引擎相适应的AST, 我们将会定义一个遍历器`traverser`方法, 用来处理每一个节点的操作.
     ```javascript

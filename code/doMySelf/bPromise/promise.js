@@ -110,6 +110,13 @@ class BPromise {
         return this.then(null, onReject)
     }
 
+    finally(cb) {
+        return this.then(
+            val => BPromise.resolve(cb()).then(() => val),
+            error => BPromise.resolve(cb()).then(() => error),
+        )
+    }
+
     handleThenReturnPromise(newPromise, x, resolve, reject) {
         // 这里其实可以做更多事情: 处理thenable对象, 返回一个新的promise对象
         try {
