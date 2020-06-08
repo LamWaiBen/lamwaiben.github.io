@@ -26,3 +26,5 @@ document.addEventListener('click', function(e: MouseEvent) {
 
 // 内置方法
 Math.pow(2, 2)
+
+export {}

@@ -925,3 +925,26 @@ class _Promise{
         })
     }
 }
+
+
+function test (){
+    return new Promise(resolve => {
+        setTimeout(resolve)
+    }).then(() => {
+        return Promise.reject(123)
+    }).catch(err => {
+        console.log('catch error', err)
+    }).then(() => {
+        console.log('then')
+    })
+}
+
+async function main() {
+    // try {
+        await test()
+        console.log('main')
+    // } catch (error) {
+    //     console.log('main catch', error)
+    // }
+}
+main()

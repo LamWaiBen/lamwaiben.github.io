@@ -88,3 +88,14 @@ arr = {
 
 var a = arr[1]
 var b = arr["1"]
+
+
+
+interface Person{
+    name: string,
+    age: number
+}
+
+const sem: Person = { name: 'sem', age: 26 }
+type Sem = typeof sem
+type k1 = keyof Sem

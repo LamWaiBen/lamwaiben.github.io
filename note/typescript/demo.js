@@ -49,93 +49,20 @@ var Plane = /** @class */ (function (_super) {
     Plane.prototype.alert = function () { console.log(123); };
     return Plane;
 }(PlaneDoor));
-var test = [1, 2, 3, [4, 5, 6]];
-
-
-/////////////////////////////////////////////////////////
-// 1. 原型链
-function Parent(){
-    this.names = ['a', 'b', 'c']
-}
-
-Parent.prototype.getNames = function () {
-    return this.names
-}
-
-function Child(name){
-    this.name = name
-}
-
-Child.prototype = new Parent()
-
-Child.prototype.getNameIndex = function(){
-    return this.names.findIndex(v => v === this.name)
-}
-
-
-
-// 构造函数
-function Parent(sex) {
-    this.sex = sex
-    this.names = ['a', 'b', 'c']
-}
-
-Parent.prototype.getNames = function () {
-    return this.names
-}
-
-function Child(name, age) {
-    this.name = name
-    Parent.call(this, age)
-}
-
-Child.prototype.getNameIndex = function () {
-    return this.names.findIndex(v => v === this.name)
-}
-
-
-// 组合继承
-function Parent(sex) {
-    this.sex = sex
-    this.names = ['a', 'b', 'c']
-}
-
-Parent.prototype.getNames = function () {
-    return this.names
-}
-
-function Child(name, age) {
-    this.name = name
-    Parent.call(this, age)
-}
-
-Child.prototype = new Parent()
-Child.prototype.constructor = Child
-
-Child.prototype.getNameIndex = function () {
-    return this.names.findIndex(v => v === this.name)
-}
-
-
-// 原型式
-
-function createObj(o) {
-    function F(){}
-    F.prototype = o
-    return new F()
-}
-
-Object.create(o.prototype)
-// 寄生式
-
-function createObj(o) {
-    var clone = Object.create(o)
-    clone.sayName = function(){
-        return this.name
+var createArray_;
+createArray_ = function (length, value) {
+    var result = [];
+    for (var i = 0; i < length; i++) {
+        result[i] = value;
     }
-    return clone
-}
-
-// 寄生组合式
-
-Child.prototype = Object.create(Parent.prototype)
+    return result;
+};
+createArray_(3, 'x'); // ['x', 'x', 'x']
+var arr;
+arr = {
+    1: new Cat('1'),
+    2: new Cat('1')
+};
+var a = arr[1];
+var b = arr["1"];
+var sem = { name: 'sem', age: 26 };

@@ -85,7 +85,7 @@ create(null); // OK
 
 
 
-// 函数
+/**************  函数  ******************/
 // 函数声明方式,  默认值
 function sum_fn1(x: number, y: number, z: number = 0): number {
     return x + y + z
@@ -132,48 +132,4 @@ function getLength(something:string|number): number {
     }
 }
 
-
-
-
-
-// 接口
-interface Person {
-    firstName: string,
-    lastName: string,
-    age?: number,           // 可选属性
-    midName?: string,      // 可选属性
-    [propName: string]: any,// 任意属性: 任意值  其他已定义的属性类型都必须是该类型的子集
-    readonly id: number,    // 只读属性, 不可以修改
-}
-
-function greeter1(person: Person) {
-    return "Hello, " + person.firstName + " " + person.lastName;
-}
-
-let user2 = { id: 1, firstName: "Jane", lastName: "User", age: 9 };
-
-document.body.innerHTML = greeter1(user2);
-
-
-
-// 类
-class Student {
-    fullName: string;
-    id: 2
-    constructor(public firstName, public midName, public lastName) {
-        this.fullName = firstName + " " + midName + " " + lastName
-    }
-}
-
-let student = new Student('A', "B", "C")
-
-function greeter2(person: Person) {
-    return "Hello, " + person.firstName
-}
-
-greeter2(student);
-
-
-export let moment = {
-    CalendarKey: () => {}
-};
+export {}

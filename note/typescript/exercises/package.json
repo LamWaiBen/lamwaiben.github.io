@@ -1,0 +1,29 @@
+{
+    "name": "typescript-exercises",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "@types/chai": "^4.2.0",
+        "@types/mz": "^0.0.32",
+        "@types/node": "^12.6.8",
+        "chai": "^4.2.0",
+        "chalk": "^2.4.2",
+        "mz": "^2.7.0",
+        "ts-node": "^8.3.0",
+        "typescript": "^3.5.3"
+    },
+    "scripts": {
+        "0": "ts-node 00.ts",
+        "1": "ts-node 01.ts",
+        "2": "ts-node 02.ts",
+        "3": "ts-node 03.ts",
+        "4": "ts-node 04.ts",
+        "5": "ts-node 05.ts",
+        "6": "ts-node 06.ts",
+        "7": "ts-node 07.ts",
+        "8": "ts-node 08.ts",
+        "9": "ts-node 09.ts",
+    }
+}
