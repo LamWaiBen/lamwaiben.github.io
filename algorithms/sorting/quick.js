@@ -1,10 +1,12 @@
 /**
  * 快速排序
- *
  * 二分法; 在当前序列取中间点, 通过与中间点比较大小, 把数组分为两半, 然后再分别对得到的两数组做同样的操作, 最后把所有数组按合并
+ * 时间复杂度: nlog(n)
+ * 空间复杂度: 原地-log(n), 非原地-n
  */
 
 let arr = [9, 5, 3, 2, 1, 1, 5, 4, 2, 6, 8, 1, 0, -1, 55, 1, 2, 44, 87, 623, 1, 25, 3, 6, 4]
+// let arr = [1,2,3,4,5,6,7,8]
 function exchange(arr, i, j) {
 	[arr[i], arr[j]] = [arr[j], arr[i]]
 }
@@ -57,12 +59,12 @@ function quick(originArr) {
 
 console.log("quick: ", quick(arr))
 
-
+let times = 0
 // 以某个值为划分点 分割数组, 返回划分点的索引
 function partitionArray (arr, lowIndex, highIndex){
     const pivot = arr[highIndex]                    // 取highIndex的值为划分点
     let partitionIndex = lowIndex
-
+    
     for(let curIndex = lowIndex; curIndex < highIndex; curIndex++){
         if(arr[curIndex] > pivot){                  // 比划分值大的值都会移到划分点的左边
             exchange(arr, curIndex, partitionIndex)
@@ -70,11 +72,13 @@ function partitionArray (arr, lowIndex, highIndex){
         }
     }
     exchange(arr, partitionIndex, highIndex)        // 把划分值移到正确的划分点位置, 使得所有比它大的值都在左边, 比它小的值都在右边
+    console.log(times++, lowIndex, highIndex, partitionIndex)
     return partitionIndex
 }
 
 /**
  * 原地快排
+ * 空间复杂度为: log(n), 需要log(n)层嵌套来保存partition
  * @param {Number[]} arr 
  * @param {number} lowIndex 
  * @param {number} highIndex 
@@ -90,3 +94,41 @@ function quickInPlace(arr, lowIndex = 0, highIndex = arr.length - 1) {
 }
 
 console.log("quickInPlace: ", quickInPlace(arr))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function test_quick(arr, lowIndex = 0, highIndex = arr.length - 1){
+    if(lowIndex < highIndex) {
+        const partitionIndex = test_partitionArray(arr, lowIndex, highIndex)
+        test_quick(arr, lowIndex, partitionIndex - 1)
+        test_quick(arr, partitionIndex + 1, highIndex)
+    }
+    return arr
+}
+function test_partitionArray(arr, lowIndex, highIndex) {
+    let partitionIndex = lowIndex
+    let pivot = arr[highIndex]
+    for(let i = lowIndex; i < highIndex; i++) {
+        if(arr[i] > pivot) {
+            [arr[i], arr[partitionIndex]] = [arr[partitionIndex], arr[i]]
+            partitionIndex += 1
+        }
+    }
+    [arr[partitionIndex], arr[highIndex]] = [arr[highIndex], arr[partitionIndex]]
+    return partitionIndex
+}
+console.log("test_quickInPlace: ", test_quick(arr))

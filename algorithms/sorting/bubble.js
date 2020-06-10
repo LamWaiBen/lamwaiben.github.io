@@ -1,7 +1,7 @@
 /**
- * 冒泡排序
- * 
- * 相邻的元素比较
+ * 冒泡排序: 相邻的元素比较
+ * 时间复杂度: n^2
+ * 空间复杂度: 1
  */
 
  
@@ -12,8 +12,13 @@ function exchange(arr, i, j){
 
 function bubble(arr){
     for(let i = arr.length - 1; i > -1; i--){
+        let flag = true // 若没有冒泡时, 则说明当前已经有序
         for(let j = 0; j < i; j++){
-            if(arr[j] < arr[j + 1]) exchange(arr, j, j + 1)
+            if(arr[j] < arr[j + 1]){
+                exchange(arr, j, j + 1)
+                flag = false
+            }
         }
+        if(flag) break
     }
 }
