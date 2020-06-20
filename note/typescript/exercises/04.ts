@@ -105,6 +105,7 @@ function logPerson(person: Person) {
 // function filterUsers(persons: Person[], criteria: Criteria): User[] {
 
 /************ answer2 *************/ 
+// 使用 Partial语法糖 获取User的可选子集
 function filterUsers(persons: Person[], criteria: Partial<User>): User[] {
     return persons.filter(isUser).filter((user) => {
         let criteriaKeys = Object.keys(criteria) as (keyof User)[];

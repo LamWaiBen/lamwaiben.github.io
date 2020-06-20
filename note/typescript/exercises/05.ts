@@ -49,6 +49,9 @@ interface Admin {
 
 type Person = User | Admin;
 
+/*********** answer2 **********/
+// 排除type字段
+type FilterCriteria<T> = Partial<Omit<T, 'type'>>
 
 const persons: Person[] = [
     { type: 'user', name: 'Max Mustermann', age: 25, occupation: 'Chimney sweep' },
@@ -65,13 +68,17 @@ function logPerson(person: Person) {
     );
 }
 
-function filterPersons(persons: Person[], personType: 'user', criteria: Partial<User>): User[]
-function filterPersons(persons: Person[], personType: 'admin', criteria: Partial<Admin>): Admin[]
-function filterPersons(persons: Person[], personType: string, criteria: unknown): unknown[] {
+function filterPersons(persons: Person[], personType: 'user', criteria: FilterCriteria<User>): User[]
+function filterPersons(persons: Person[], personType: 'admin', criteria: FilterCriteria<Admin>): Admin[]
+function filterPersons(persons: Person[], personType: 'admin' | 'user', criteria: FilterCriteria<Person>): Person[] {
     return persons
         .filter((person) => person.type === personType)
         .filter((person) => {
-            let criteriaKeys = Object.keys(criteria) as (keyof Person)[];
+            /*********** answer1 **********/
+            // let criteriaKeys = Object.keys(criteria) as (keyof Person)[];
+
+            /*********** answer2 **********/
+            let criteriaKeys = getObjectKeys(criteria);
             return criteriaKeys.every((fieldName) => {
                 return person[fieldName] === criteria[fieldName];
             });
@@ -88,3 +95,10 @@ console.log();
 
 console.log(chalk.yellow('Admins of age 23:'));
 adminsOfAge23.forEach(logPerson);
+
+
+/*********** answer2 **********/
+function getObjectKeys<O>(obj: O): (keyof O)[] {
+    return Object.keys(obj) as (keyof O)[]
+    
+}
