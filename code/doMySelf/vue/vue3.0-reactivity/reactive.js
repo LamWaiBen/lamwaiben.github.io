@@ -11,7 +11,7 @@ const REACTIVE_FLAGS = {
 
 function createReactive(target, isReadonly, baseHandlers, collectionHandlers) {
     // 1. check target isObject..
-    if (isObject(target)) return target;
+    if (!isObject(target)) return target;
 
     // 2. check flag
     if (hasOwn(target, isReadonly ? REACTIVE_FLAGS.readonly : REACTIVE_FLAGS.reactive)) {
@@ -20,38 +20,18 @@ function createReactive(target, isReadonly, baseHandlers, collectionHandlers) {
 
     // 3. check canObservable
     if (Object.isFrozen(target)) return target;
-
     const observed = new Proxy(target, isCollection(target) ? collectionHandlers : baseHandlers);
     def(target, isReadonly ? REACTIVE_FLAGS.readonly : REACTIVE_FLAGS.reactive, observed)
     return observed;
 }
 
-const activeEffect = undefined
-const targetMap = new Map();
-function track(target, type ,key) {
-    if(!activeEffect) return;
-    let depsMap = targetMap.get(target);
-    if (!depsMap) {
-        targetMap.set(target, (depsMap = new Map()));
-    }
-    let dep = depsMap.get(key)
-    if(!dep) {
-        depsMap.set(key, (dep = new Set()))
-    }
-    
-    if(!dep.has(activeEffect)) {
-        // 
-        dep.add(activeEffect)
-        activeEffect.deps.push(dep)
-    }
-}
 
-function trigger(target, key, newVal, oldVal) {}
-
-const reactive = function (target) {};
+const reactive = function (target) {
+    return createReactive(target, false, mutableHandlers)
+};
 
 const ref = function (value) {};
 
 const readonly = function (value) {};
 
-module.export = { reactive, ref, readonly };
+module.exports = { reactive, ref, readonly };
