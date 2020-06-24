@@ -37,6 +37,12 @@
 - ref
 
 ### 基础方法`effect`的实现
+#### 思考
+1. 在effect中修改依赖对象, 如何不会陷入死循环?
+   1. effect的回调函数中并没有再使用effect包裹修改依赖对象的语句, 所以不会重新触发
+
+
+#### code
 ```javascript
 // 1. 传入回调函数(内部引用ReactiveObj), 返回一个runner函数
 // 2. runner函数里面做了以下事情: 
