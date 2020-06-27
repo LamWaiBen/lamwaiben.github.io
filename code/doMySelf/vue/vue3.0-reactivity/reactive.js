@@ -1,6 +1,8 @@
 const { isObject, def, hasOwn, isCollection } = require("./util");
 
-const { mutableHandlers } = require('./handlers')
+const { mutableHandlers } = require('./handlers');
+const { track, trigger } = require("./reactivity.cjs");
+const { TrackOpTypes, TriggerOpTypes } = require("./effect");
 
 
 const REACTIVE_FLAGS = {
@@ -30,8 +32,37 @@ const reactive = function (target) {
     return createReactive(target, false, mutableHandlers)
 };
 
-const ref = function (value) {};
+const ref = function (value) {
+    if(isRef(value)) {
+        return value
+    }
+    if(isObject(value)) {
+        return value
+    }
+
+    const ref = {
+        __v_isRef: true,
+        get value(){
+
+            track(ref, TrackOpTypes.GET, 'value')
+            return value
+        },
+        set value(newValue) {
+            if(newValue != value) {
+                value = newValue
+                trigger(ref, TriggerOpTypes.SET, 'value', newValue)
+            }
+
+        }
+    }
+
+    return ref
+};
 
 const readonly = function (value) {};
 
-module.exports = { reactive, ref, readonly };
+const isRef = function(target) {
+    return target.__v_isRef
+}
+
+module.exports = { reactive, ref, readonly, isRef };

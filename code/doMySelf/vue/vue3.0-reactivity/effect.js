@@ -89,6 +89,9 @@ function trigger(target, type, key, newVal, oldVal, oldTarget) {
 }
 
 function effect(fn, options = {}) {
+    if(fn.isEffect) {
+        fn = fn.raw
+    }
     const effect = createReactiveEffect(fn, options);
     if (!options.lazy) {
         effect();
@@ -108,10 +111,11 @@ function createReactiveEffect(fn, options) {
     };
 
     effect.uid = uid++;
+    effect.raw = fn;
+    effect.isEffect = true
     effect.active = true;
     effect.options = options;
     effect.deps = [];
-
     return effect;
 }
 
