@@ -28,11 +28,11 @@ function createReactive(target, isReadonly, baseHandlers, collectionHandlers) {
 }
 
 
-const reactive = function (target) {
+export const reactive = function (target) {
     return createReactive(target, false, mutableHandlers)
 };
 
-const ref = function (value) {
+export const ref = function (value) {
     if(isRef(value)) {
         return value
     }
@@ -59,10 +59,13 @@ const ref = function (value) {
     return ref
 };
 
-const readonly = function (value) {};
+export const readonly = function (value) {};
 
-const isRef = function(target) {
-    return target.__v_isRef
+
+export const isReactive = function (target) {
+    return !!target.__v_reactive
 }
 
-module.exports = { reactive, ref, readonly, isRef };
+export const isRef = function(target) {
+    return target.__v_isRef
+}

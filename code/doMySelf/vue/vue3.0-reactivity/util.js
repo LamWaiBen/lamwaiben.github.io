@@ -3,6 +3,14 @@ const util = {
         return v && typeof v === 'object'
     },
 
+    isArray(v){
+        return Array.isArray(v)
+    },
+
+    isFunction(v){
+        return typeof v === 'function'
+    },
+
     def(data, k, v) {
         Object.defineProperty(data, k, {
             enumerable: false,
@@ -18,7 +26,7 @@ const util = {
     isCollection(v){
         if(!v) false
         return [Set, Map, WeakSet, WeakMap].includes(v.constructor)
-    }
+    },
 }
 
 module.exports = util;
