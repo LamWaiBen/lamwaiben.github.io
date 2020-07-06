@@ -926,7 +926,7 @@ class _Promise{
     }
 }
 
-
+// try...catch 只能捕获运行在try..catch同步线程内的错误
 function test (){
     return new Promise(resolve => {
         setTimeout(resolve)
@@ -948,3 +948,19 @@ async function main() {
     // }
 }
 main()
+
+
+
+// regexp 的进阶用法   xxx 为匹配的规则
+// ?<name>(xxx)
+// ?<=(xxx)
+// ?=(xxx) 
+const text1 = "2018-03-14";
+const re1 = /(?<year>\d+)-(?<month>\d+)-(?<day>\d+)/;
+console.log(re1.exec(text1).groups);
+
+
+
+var text2 = `<br/><a target=_blank href="www.baidu.com">百度一下</a>百度才知道`;
+var re2 = /(?<=(href=")).{1,200}(?=(">))/;
+console.log(re2.exec(text2));

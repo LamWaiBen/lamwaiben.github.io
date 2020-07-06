@@ -13,7 +13,7 @@ function createGetter(isReadonly = false, shallow = false) {
         const result = Reflect.get(target, key, receiver);
 
         if(!isReadonly){
-            track(target, TrackOpTypes.GET, key);ß
+            track(target, TrackOpTypes.GET, key);
         }
         
         if(shallow) {
