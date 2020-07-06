@@ -19,20 +19,34 @@
  */
 var flatten = function(root) {
     // 根 -> 左 -> 右
-    if (!root) return
-    if (root.left) {
-        if (root.right) {
-            let leftRightNode = root.left
-            while (leftRightNode.right) {
-                leftRightNode = leftRightNode.right
-            }
-            leftRightNode.right = root.right
-        }
-        root.right = root.left
-        root.left = null
+    // if (!root) return
+    // if (root.left) {
+    //     if (root.right) {
+    //         let leftRightNode = root.left
+    //         while (leftRightNode.right) {
+    //             leftRightNode = leftRightNode.right
+    //         }
+    //         leftRightNode.right = root.right
+    //     }
+    //     root.right = root.left
+    //     root.left = null
+    // }
+    // return flatten(root.right)
+
+    let pre = null
+    travese(root)
+    function travese(node){
+        if(!node) return
+    
+        travese(node.right)
+        travese(node.left)
+
+        node.right = pre
+        node.left = null
+        pre = node
     }
-    return flatten(root.right)
 };
 
-// @lc code=end
 
+
+// @lc code=end
