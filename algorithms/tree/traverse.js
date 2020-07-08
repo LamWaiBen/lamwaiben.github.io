@@ -17,21 +17,14 @@ function traverse(root){
 
 
  //////////////// 迭代 //////////////////
-let nodeList = [], p = root, r = null;
-while (nodeList.length || p != null) {
+let nodeList = [], p = root;
+while (p != null || nodeList.length) {
     if (p != null) {
-        ///////////////////////////////////////////// some code 前序遍历
-        nodeList.push(p) // nodeList 缓存父节点和左节点
-        p = p.left
+        nodeList.push(p);
+        p = p.left;
     } else {
-        p = nodeList[nodeList.length - 1]
-        if (p.right === null || p.right === r) { // 当出栈节点的右节点与上次出栈节点一致, 则不再进入右节点
-            ///////////////////////////////////////// some code 后序遍历
-            r = p       // 标记当前出栈节点
-            nodeList.pop()
-            p = null
-        } else {
-            p = p.right
-        }
+        p = nodeList.pop();
+        // do something 中序遍历
+        p = p.right;
     }
 }

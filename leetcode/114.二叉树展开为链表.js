@@ -43,7 +43,7 @@ var flatten = function(root) {
 
         node.right = pre
         node.left = null
-        pre = node
+        pre = node      // 借助递归的思想, 自下而上拿到底层的节点并记录下来
     }
 };
 
