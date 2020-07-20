@@ -120,7 +120,7 @@ self.addEventListener('message', event => {
     
         if(!timer) {
             timer = setInterval(() => {
-                checkCrash
+                checkCrash()
             }, CHECK_CRASH_INTERVAL)
         }
 

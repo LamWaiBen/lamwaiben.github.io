@@ -24,4 +24,5 @@ function decStackTemplate(arr){
 ### leetcode
 #### 单调递增/减栈
 - 42. 接雨水
+- 84. 柱状图中最大的矩形
 - 496. 下一个更大元素

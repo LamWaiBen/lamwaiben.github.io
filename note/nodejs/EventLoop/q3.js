@@ -2,6 +2,8 @@ setTimeout(() => {
     console.log('timeout1')
     Promise.resolve().then(() => console.log('promise resolve'))
     process.nextTick(() => console.log('next tick1'))
+    setImmediate(() => console.log('setImmediate inner'))
+    setTimeout(() => console.log('timeout inner'))
 });
 setTimeout(() => {
     console.log('timeout2')
@@ -10,6 +12,7 @@ setTimeout(() => {
 setTimeout(() => console.log('timeout3'));
 setTimeout(() => console.log('timeout4'));
 
+setImmediate(() => console.log('setImmediate outter'))
 
 /**
  * 

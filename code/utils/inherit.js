@@ -21,6 +21,7 @@ function Bar(name, label) {
     Foo.call(this, name)
     this.label = label
 }
+inherit(Bar, Foo)
 Bar.prototype.myLable = function(){ return this.label }
 
 let a = new Bar("ben", "I'am label!")
