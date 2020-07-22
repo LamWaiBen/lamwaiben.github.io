@@ -964,3 +964,14 @@ console.log(re1.exec(text1).groups);
 var text2 = `<br/><a target=_blank href="www.baidu.com">百度一下</a>百度才知道`;
 var re2 = /(?<=(href=")).{1,200}(?=(">))/;
 console.log(re2.exec(text2));
+
+
+function shuffled(arr, count) {
+    let temp = arr.slice(0), i = arr.length, min = Math.max(i - count, 0)
+    while (i > min) {
+        let index = Math.floor(i * Math.random())
+        i--
+        [temp[index], temp[i]] = [temp[i], temp[index]]
+    }
+    return temp.slice(min)
+}

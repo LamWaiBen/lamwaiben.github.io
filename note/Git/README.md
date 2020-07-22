@@ -100,7 +100,28 @@ $ git rm -r --cached node_modules       # 移除git对node_modules的记录
 
     ```
 
+## GitHub 
 
+#### Actions
+GitHub自带的'travis CI'  
+http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html  
+
+可以直接使用别人已经写好的actions:  [actions市场](https://github.com/marketplace?type=actions)
+#### gh-pages
+把gh-pages分支上的作为静态内容访问.  
+地址: Github用户名.github.io/创建的仓库名
+
+```
+# 提交某个目录
+$ git subtree push --prefix=dist origin gh-pages
+
+# 提交整个项目
+
+$ git symbolic-ref HEAD refs/heads/gh-pages
+$ git add -A
+$ git commit -m "..."
+$ git push origin gh-pages
+```
 ## 参考
 
 [Git知识总览](https://www.cnblogs.com/ludashi/category/1141984.html)
