@@ -1,5 +1,12 @@
 ## Router
 
+1. install method  => Vue.use(Router)   => Router.prototype.init()
+2. init
+   1. listen url change event (hash/history)
+   2. parse path  =>  match routerMap => update view
+   3. define global component
+
+
 ### hash
 
 ##### browser api
