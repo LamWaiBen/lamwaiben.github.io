@@ -71,6 +71,47 @@ function require(/* ... */) {
     console.log(people);//输出：{name: '萤火虫叔叔'}
     ```
 
+### nodejs的require实现
+```javascript
+Module.prototype.require = function (path) {
+  return Module._load(path, this)
+}
+
+Module._load = function (filename, this) {
+  if(filename in Module._cache) {
+    return Module._cache[filename]
+  }
+  const module = new Module(filename, parent)
+  Module._cache[filename] = module // 先缓存, 解决循环依赖的问题
+  module.load(filename)
+}
+
+Module.prototype.load(filename) {
+  const extension = path.extname(filename)
+  Module._extension[extension](this, filename)
+}
+Module._extension{
+  '.js' (module, filename) {
+    const content = fs.readFileSync(filename, 'utf-8')
+    module._compile(content, filename)
+  }
+}
+
+Module.prototype._compile = function (content, filename) {
+  const self = this;
+  function require(path) {
+    return self.require(path)
+  }
+
+  const code = '(function (exports, require, module, __filename, __dirname) { ' + content + '\n});'
+
+  const compiledWrapper = new vm.Script(code)
+  const args = [self.export, require, self, filename, __dirname]
+  return compiledWrapper.apply(self.exports, args)
+}
+
+```
+
 ## ES6的模块标准
 1. ES6模块输出的是值引用, 且无法在引用者中修改ES6的引用声明的值(相当于const)  
     ```javascript
