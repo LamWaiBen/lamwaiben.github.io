@@ -63,6 +63,31 @@ db.getCollection('player').find({pid:179335}).explain('executionStats')
 ```
 
 
+## 主从数据库配置
+
+1. 主节点配置
+```
+port = 12345
+bind_ip = 127.0.0.1
+# 主节点
+master = true
+auth = true
+# 主从模式下必须要加keyFile
+keyFile = /usr/local/mongodb/db/keyfile
+oplogSize = 2048
+```
+
+2. 副本集, 从节点
+```
+port = 12346
+auth = true
+# 从节点
+slave = true               
+keyFile = /usr/local/mongodb/db/keyfile
+oplogSize = 2048
+#副本集名称
+replSet = rstest 
+```
 
 ## 可视化工具
 - Robo3T
