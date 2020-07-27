@@ -16,27 +16,25 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var maxDepth = function(root) {
-    if(!root) return 0
+var maxDepth = function (root) {
+    if (!root) return 0
     return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
-    // if(!root) return 0
-    // let depth = 0
-    // let nodeList = [root]
-    // let tmp = []
-    // while (nodeList.length) {
-    //     let node = nodeList.shift()
 
-    //     if(node) {
-    //         tmp.push(node.left)
-    //         tmp.push(node.right)
-    //     }
-    //     if (nodeList.length === 0 && tmp.length) {
-    //         depth +=1 
-    //         nodeList = tmp
-    //         tmp = []
-    //     }
-    // }
-    // return depth
+    // bfs
+    let nodeList = []
+    let p = root
+    while (p || nodeList.length > 0) {
+        if (p) {
+            // => p 前序遍历 父 -> 左 -> 右
+            nodeList.push(p)
+            p = p.left
+        } else {
+            p = nodeList.pop()
+            // => p 中序遍历  左 -> 父 -> 右
+
+            p = node.right
+        }
+    }
 };
 // @lc code=end
 

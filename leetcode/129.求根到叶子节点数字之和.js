@@ -17,20 +17,14 @@
  * @return {number}
  */
 var sumNumbers = function(root) {
-    const arr = []
-    preorder(root, '', arr)
-    return arr.reduce((sum, val) => sum += Number(val), 0)
+    function vlr(root, val){
+        if(!root) return ""
+        val += root.val
+        if(!root.left && !root.right) return val
+        return Number(vlr(root.left, val)) + Number(vlr(root.right, val))
+    }
+    return vlr(root, '')
 };
 
-function preorder(root, val, arr) {
-    if(!root) return ""
-
-    val += root.val
-    if(!root.left && !root.right) {
-        arr.push(val)
-    }
-    preorder(root.left, val, arr)
-    preorder(root.right, val, arr)
-}
 // @lc code=end
 

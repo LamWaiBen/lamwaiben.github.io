@@ -30,7 +30,7 @@ var preorderTraversal = function(root) {
     // }
 
     // 遍历
-    // 队列:  [根节点]  ->  [根节点, 根的左节点]  ->  [根节点]  ->  [根节点, 根的右节点]
+    // 队列:  [根节点]  ->  [根节点, 根的左节点]  ->  [根节点]  ->  [] -> [根的右节点]
     let nodeList = [], p = root, r = null;
     let res = []
     while (nodeList.length || p != null) {
