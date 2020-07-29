@@ -34,20 +34,20 @@ const randomArr = [1, 2, 3, 4, 9, 8, 7, 6, 5]
 const K = 5
 class MinHeap {
     constructor(arr) {
-        this.arr = arr
-        this.build()
+        this.arr = []
+        this.build(arr)
     }
     leftIndex(i) {
-        return parseInt(i * 2 + 1)
+        return i * 2 + 1
     }
     rightIndex(i) {
-        return parseInt(i * 2 + 2)
+        return i * 2 + 2
     }
     parentIndex(i) {
         return parseInt((i - 1) / 2)
     }
 
-    build() {
+    build(arr) {
         for (let i = 1; i < this.arr.length; i++) {
             let t = i
             while (t != 0 && this.arr[this.parentIndex(t)] > this.arr[t]) {
@@ -58,6 +58,15 @@ class MinHeap {
             }
         }
     }
+
+    insert(val) {
+
+    }
+
+    remove(val) {
+        
+    }
+
 
     ajust(n) {
         if (n < this.arr[0]) {

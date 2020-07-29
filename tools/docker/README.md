@@ -60,6 +60,13 @@ VOLUME:
 
 ```
 
+### CMD 和 ENTRYPOINT
+1. **CMD** 
+    1. 是进入容器是的默认执行命令, 当启动命令有参数的时候, 如: `docker run containerA /bin/bash`, CMD 的内容将不会执行
+    2. 用法:  `CMD ["executable","param1","param2"]`
+2. **ENTRYPONIT** 
+    1. 进入点, 在容器启动的时候, 会把参数添加到进入点后面, 然后执行命令
+    2. 用法: `ENTRYPOINT ["executable", "param1", "param2"] `
 ## 更新镜像
 
 1. 容器内的修改提交到镜像

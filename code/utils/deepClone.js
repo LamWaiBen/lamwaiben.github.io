@@ -92,8 +92,9 @@ function handleNotTraverse(target, targetType) {
         case '[object String]':
         case '[object Number]':
         case '[object Boolean]':
-        case '[object Symbol]':
             return new Object(Object.prototype.valueOf.call(target)) // 不继承原型        
+        case '[object Symbol]':
+            return Symbol(Object.prototype.valueOf.call(target).description)
         case '[object Date]':
         case '[object Error]':
             return new ctor(target)     // 继承原型的写法

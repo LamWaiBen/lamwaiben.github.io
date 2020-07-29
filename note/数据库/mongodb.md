@@ -67,6 +67,7 @@ db.getCollection('player').find({pid:179335}).explain('executionStats')
 
 1. 主节点配置
 ```
+# master.conf  key field: [ 'master', 'keyFile', 'oplogSize']
 port = 12345
 bind_ip = 127.0.0.1
 # 主节点
@@ -74,13 +75,17 @@ master = true
 auth = true
 # 主从模式下必须要加keyFile
 keyFile = /usr/local/mongodb/db/keyfile
+# oplog 数据同步其实是把oplog同步,  oplog记录了数据操作的记录
 oplogSize = 2048
 ```
 
 2. 副本集, 从节点
 ```
+# slave.conf   key field: [ 'slave', 'source', 'keyFile']
 port = 12346
 auth = true
+# 用于从节点，指定从节点的复制来源（主节点的IP+端口），格式为：<host><:port>
+source = 127.0.0.1:27017
 # 从节点
 slave = true               
 keyFile = /usr/local/mongodb/db/keyfile
