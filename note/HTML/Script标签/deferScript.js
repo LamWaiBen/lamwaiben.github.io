@@ -1,0 +1,1 @@
+console.log('deferScript running, dom<p>: ', document.querySelector('p'))

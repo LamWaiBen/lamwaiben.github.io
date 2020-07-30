@@ -80,16 +80,17 @@ function customRequire(path){
         return customRequire.cache[path].exports
     }
     let code = fs.readFileSync(path)
-    const wrapper = 'function (exports, require, module, __filename, __dirname) {'
+    const wrapper = '(function (exports, require, module, __filename, __dirname) {'
        + code +
-    '}'
+    '})'
     const module = {
         exports: {}
     }
 
     customRequire.cache[path] = module
 
-    const compiledWrapper = new vm.Script(wrapper)
+    // runInThisContext, 无法获取本地作用域, 但可以获取全局对象, (封闭本地作用域版的eval)
+    const compiledWrapper = vm.runInThisContext(wrapper)
     let result = compiledWrapper.call(module.exports, module.exports, customRequire, module, path, __dirname)
 
     return result

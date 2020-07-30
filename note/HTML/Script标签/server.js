@@ -4,7 +4,7 @@ http.createServer(function (req, res) {
     console.log(req.url)
     let path = req.url == "/" ? "./index.html" :  "." + req.url
     if(!fs.existsSync(path)) return
-    if(path.match(/mjs$/)){
+    if(path.match(/js$/)){
         // 设置模块文件的正文类型
         res.setHeader("content-type", "text/javascript")
     }

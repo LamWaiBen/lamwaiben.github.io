@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <script defer src="./test.js"></script>
-    <script async src="./test2.js"></script>
-    <script type="module" defer async>
-        import { addTextToBody } from './utils.mjs';
-
-        addTextToBody('Modules are pretty cool.');
-    </script>
+    <script async src="./asyncScript.js"></script>
+    <script defer src="./deferScript.js"></script>
+    <script type="module" defer async src="./main.js"></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             console.log('DOMContentLoaded!')
@@ -29,6 +25,8 @@
 </head>
 <body>
     <p>test</p>
+    <p>研究 defer 和 async 的关系</p>
+    <p>研究 type="module" 的使用</p>
 </body>
 </html>
 <!-- 
@@ -39,6 +37,6 @@
         - async的执行在window的load事件之前的任意阶段都有可能, 只要下载完就立即执行, 
 
     
-    3. type="module":  模块化加载
+    3. type="module":  模块化加载, 需要等import的代码下载完在执行当前的模块
     4. nomodule: 在支持module的浏览器上不会执行里面的代码
  -->
