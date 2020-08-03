@@ -27,7 +27,7 @@ function rotateLeftLeft(tree) {
         tree.left = leftNode.right
     }
 
-    leftNode.left = tree
+    leftNode.right = tree
     return leftNode
 }
 
@@ -54,7 +54,7 @@ function rotateRightRight(tree) {
         tree.right = rightNode.left
     }
 
-    rightNode.right = tree
+    rightNode.left = tree
     return rightNode
 }
 

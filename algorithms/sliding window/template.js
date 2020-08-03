@@ -1,3 +1,9 @@
+/**
+ * 滑动窗口
+ * 题目: 
+ * 209. 长度最小的子数组
+ * @param {*} str 
+ */
 function slidingWindow(str) {
     let left = 0, right = 0;
     while (right < s.length) {

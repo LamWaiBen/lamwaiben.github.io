@@ -10,6 +10,14 @@
  * @return {number}
  */
 var climbStairs = function(n) {
+    return climbStairs_tail(n, 1, 2)
+    function climbStairs_tail(n, first, second) {
+        if (n === 1) return first
+        if (n === 2) return second
+        return climbStairs_tail(n - 1, second, first + second)
+    }
+
+
     // const dp = Array(n).fill(0)
     // dp[0] = 1
     // dp[1] = 2

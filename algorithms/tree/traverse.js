@@ -59,3 +59,39 @@ while (p != null || nodeList.length) {
         }
     }
 }
+
+
+
+function bfs(root) {
+    const queue = [root]
+    const list = [root]
+
+    while (queue.length) {
+        const node = queue.shift()
+
+        if(node.left) {
+            queue.push(node.left)
+        }
+        if(node.right) {
+            queue.push(node.right)
+        }
+    }
+}
+
+
+
+// 
+function graph_bfs(graph, start){
+    const stack = []
+    stack.push(start)
+    const set = new Set()
+    set.add(start)
+    while (stack.length) {
+        const list = graph[stack.pop()]
+        for(let node of list) {
+            if(set.has(node)) continue
+            stack.push(node)
+            set.add(node)
+        }
+    }
+}
