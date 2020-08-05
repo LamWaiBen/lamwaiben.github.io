@@ -11,7 +11,7 @@ IFC的 vertical-align  和 line-height
 ## JS 
 typeof null		// object  
 怪异的this行为  
-浮点数运算坑 IEEE 574  
+浮点数运算坑 IEEE 754  
 
 ## 移动端
 retina 的 1px问题  

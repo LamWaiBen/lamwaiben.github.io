@@ -24,13 +24,25 @@ class Router {
 
     bindEvent() {
         if (this.$options.model === 'history') {
+            // 仅浏览器前进后退可以触发
+            window.addEventListener('hashchange', this.onStateChange.bind(this));
         } else {
-            window.addEventListener('hashchange', this.onHashChange);
+            window.addEventListener('hashchange', this.onHashChange.bind(this));
         }
     }
 
     onHashChange() {
         this.app.current = window.location.hash.slice(1) || '/';
+    }
+
+    onStateChange() {
+        this.app.current = window.location.pathname
+    }
+
+    onReplace(){
+        // history: pushState, repalceState
+        // hash: hashchange
+        // to from   
     }
 
     createRouterMap() {
