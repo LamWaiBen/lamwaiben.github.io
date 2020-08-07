@@ -2,6 +2,7 @@ let Vue;
 
 class Router {
     constructor(options) {
+        const self = this
         this.$options = options;
         
         this.$routerMap = {} // {'/': {component: ...}}
@@ -10,6 +11,11 @@ class Router {
             data: {
                 current: '/',
             },
+            watch: {
+                current(newVal, oldVal) {
+                    self.triggerHook(newVal, oldVal)
+                }
+            }
         });
     }
 
@@ -43,6 +49,10 @@ class Router {
         // history: pushState, repalceState
         // hash: hashchange
         // to from   
+    }
+
+    triggerHook(toPath, fromPath){
+
     }
 
     createRouterMap() {
