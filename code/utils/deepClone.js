@@ -92,18 +92,20 @@ function handleNotTraverse(target, targetType) {
         case '[object String]':
         case '[object Number]':
         case '[object Boolean]':
-            return new Object(Object.prototype.valueOf.call(target)) // 不继承原型        
+            return new Object(Object.prototype.valueOf.call(target)); // 不继承原型
         case '[object Symbol]':
-            return Symbol(Object.prototype.valueOf.call(target).description)
+        return Symbol(Symbol.keyFor(target)); 
+        // 等价
+        // return Symbol(Object.prototype.valueOf.call(target).description)
         case '[object Date]':
         case '[object Error]':
-            return new ctor(target)     // 继承原型的写法
+            return new ctor(target); // 继承原型的写法
         case '[object RegExp]':
-            return new ctor(target.source, target.flags)
+            return new ctor(target.source, target.flags);
         case '[object Function]':
-            return handleFunc(target)
+            return handleFunc(target);
         default:
-            return new ctor(target)
+            return new ctor(target);
     }
 }
 
@@ -124,8 +126,12 @@ function handleFunc(func) {
             }
         }
     }
-
-    return eval ? eval(funcString) : func
+    let cloneFunc = func
+    if (eval) {
+        // 传入eval的函数不能为匿名函数
+        cloneFunc = eval('cloneFunc = ' + funcString);
+    }
+    return cloneFunc
 }
 
 
