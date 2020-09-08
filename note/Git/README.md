@@ -1,3 +1,30 @@
+# GIT的内部原理
+
+## 信息存储
+1. 主要数据存在``.git/objects/`` 目录下, object的类型分别有:
+    - 整个文件内容(二进制) - blob
+    - 提交信息 - commit
+    - 哈希树(有向无环图) - tree
+    - 标记 - tag
+
+2. HEAD指针和分支数据
+    - HEAD指针
+        ```
+        $ cat .git/HEAD
+        ref: refs/heads/master
+        ```
+    - 分支
+        ```
+        $ cat .git/refs/heads/master
+        0c96bfc59d0f02317d002ebbf8318f46c7e47ab2
+        # 这里的SHA1的值又对应 .git/objects 上的 commit 的值
+        ```
+
+## 提交流程
+1. 根据当前的暂存区的索引, 生成一个``tree object``, 作为新提交的一个快照
+2. 创建一个新的``commit object``, 将这次commit的信息储存起来, 并且把parent指向上一个commit, 组成一条链
+3. 将master分支的指针移到新的commit节点
+
 # 记录GIT常用命令
 > 超棒的可视化的[git模拟工具](https://learngitbranching.js.org/)
 ## 更新提交
@@ -100,7 +127,7 @@ $ git rm -r --cached node_modules       # 移除git对node_modules的记录
 
     ```
 
-## GitHub 
+# GitHub 
 
 #### Actions
 GitHub自带的'travis CI'  
@@ -125,3 +152,6 @@ $ git push origin gh-pages
 ## 参考
 
 [Git知识总览](https://www.cnblogs.com/ludashi/category/1141984.html)
+[这才是真正的GIT——GIT内部原理](https://www.lzane.com/tech/git-internal/)
+[这才是真正的GIT——分支合并](https://www.lzane.com/tech/git-merge/)
+[这才是真正的GIT——GIT实用技巧](https://www.lzane.com/tech/git-tips/)
