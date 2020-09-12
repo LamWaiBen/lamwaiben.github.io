@@ -2,6 +2,22 @@
 
 ## 如何监测性能 
 ### performance的几个阶段
+- navationStart
+  - 加载起始
+- redirectStart
+  - 重定向开始
+- fetchStart
+  - 资源请求发起
+- domainLookupStart
+  - 查询DNS
+- connnectStart
+  - 开始建立TCP
+
+- requestStart
+  - 发起请求
+- respondStart
+  - 开始响应
+
 - domLoading
   - 开始解析DOM树
 - domInteractive
@@ -15,6 +31,8 @@
 - loadEventStart
   - 开始执行load事件
 - loadEventEnd
+- unloadEventStart
+  - unload事件触发
 
 ### 几个时间的计算
 - 重定向耗时 = redirectEnd - redirectStart;
@@ -33,6 +51,12 @@
 
 - onload时间 = loadEventEnd - navigationStart;
 
+### 性能指标
+- 白屏时间 = 首个dom渲染 - 输入url
+- 首屏时间 = 
+- 首次绘制FP
+- 首次有效绘制FCP
+- 可交互时间TTI
 
 
 ## 如何优化

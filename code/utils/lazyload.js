@@ -27,3 +27,37 @@ function lazyLoad(){
     };
 
 }
+
+
+/**
+ * 升级版, 借助 Intersection Observer API 
+ * 解决了 getBoundingClientRect 触发重排导致的性能问题
+ * 参考: 紫云飞 IntersectionObserver API  link: https://www.cnblogs.com/ziyunfei/p/5558712.html
+ */
+
+
+function lazyLoadObserver() {
+    const imgs = document.querySelectorAll('img')
+    function loadImg(el) {
+        if (!el.src) {
+            const source = el.dataset.src
+            el.src = source
+        }
+    }
+
+    const options = {
+        rootMargin: '300px',
+        threshold: [0]
+    }
+
+    let observer = new IntersectionObserver((entries, observer) => {
+        for (let entry of entries) {
+            observer.unobserve(entry.target)
+            loadImg(entry.target)
+        }
+    }, options)
+
+    for(let img of imgs) {
+        observer.observe(img)
+    }
+}
