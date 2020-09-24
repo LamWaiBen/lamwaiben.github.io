@@ -31,6 +31,10 @@ type UnionToIntersection<T> = T extends { a: (x: infer U) => void; b: (x: infer 
 type T3 = UnionToIntersection<{ a: (x: T1) => void; b: (x: T2) => void }>; // T1 & T2
 ```
 
+示例: 
+1. [EffectModule](./exercises/EffectModule.ts)
+
+
 #### 常见语法糖
 
 1. Pick, 在T中选取属于K的类型

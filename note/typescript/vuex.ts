@@ -4,13 +4,18 @@ type GetMutations<Module> = Module extends { mutations: infer M} ? M: never
 type AddPrefix<Prefix, Keys> = `${Prefix & string}/${Keys & string}`
 
 type GetSubModuleKeys<Module, Key> = Module extends { modules: infer SubModules }
-    ? AddPrefix<Key, GetMutations<SubModules>>
+    ? AddPrefix<Key, GetModulesMutationsKeys<SubModules>>
     : never
 
-type GetModuleMutationsKeys<Module, Key> = AddPrefix<Key, keyof GetMutations<Module>> | GetSubModuleKeys<Module, Key>
+type GetModuleMutationsKeys<Module, Key> = 
+    // 'cart/add' | 'cart | remove'
+    AddPrefix<Key, keyof GetMutations<Module>> | 
+    // 'cart/subCart/add'
+    GetSubModuleKeys<Module, Key>
+    
 type GetModulesMutationsKeys<Modules> = {
     [K in keyof Modules]: GetModuleMutationsKeys<Modules, K>
-}
+}[keyof Modules]
 
 type Action<Mutations, Modules> = keyof Mutations | GetModulesMutationsKeys<Modules>
 
