@@ -76,12 +76,17 @@ $ git stash drop # 丢弃储藏的内容
 ## 分支
 
 ```
-$ git cherry-pick <commit_hash> # 从其他分支提取某个commit添加进当前分支
-$ git rebase -i branch_X      # 把当前分支变基到X分支, 结合checkout和merge,可以把提交内容转移到X分支上
-$ git rebase newbase [branch]        # 把newbase当做branch[HEAD]的父节点, 原来的分支会废弃,从newbase分支继续延续下去, (变基: 使原来的基点改为newbase)
-# $ git rebase -i newbase [branch]      -i 参数 可以把branch[HEAD]所在的分支的提交重排,然后再重新基于newbase生成分支
+$ git cherry-pick <commit_hash>     # 从其他分支提取某个commit添加进当前分支
+$ git rebase -i [branchX]           # 把当前分支变基到X分支, 结合checkout和merge,可以把提交内容转移到X分支上
+$ git rebase newbase [branch]       # 把newbase当做branch[HEAD]的父节点, 原来的分支会废弃,从newbase分支继续延续下去, (变基: 使原来的基点改为newbase)
+$ git rebase -i newbase [branch]    # -i 参数 可以把branch[HEAD]所在的分支的提交重排,然后再重新基于newbase生成分支
 
-$ git branch -f branch_X commit # 在X分支的节点强制指到commit上
+$ git branch -f [branchX] commit    # 在X分支的节点强制指到commit上
+$ git branch -m [new_branch]        # 把当前分支重命名
+$ git branch -d [branch]            # 删除本地分支
+$ git push origin --delete [branch] # 删除远程分支
+
+$ git ls-remote --head              # 查看远程仓库中目前存在的分支
 ```
 
 ## 追踪
@@ -108,9 +113,6 @@ $ ssh-keygen -f ~/.ssh/somebody             # 生成公钥密钥，如~/.ssh文�
 $ ssh -T git@github.com                     # 测试密钥是否能连通github
 $ git clone -b <branch> <repo> [<dir>] # 克隆指定分支
 $ git remote add [<options>] <name> <url>   # 添加远程仓库, name通常为origin
-
-
-
 ```
 
 ## 删除
@@ -121,11 +123,36 @@ $ git rm -r --cached node_modules       # 移除git对node_modules的记录
 
 ## 配置信息
 
-    ```
-    $ git config -l       # 查看全部信息
-    $ git config --global user.name [newName]        # 查看/修改信息
+```
+$ git config -l       # 查看全部信息
+$ git config --global user.name [newName]        # 查看/修改信息
 
-    ```
+```
+
+# GitFlow相关流程
+
+## review远程功能分支的代码
+```sh
+## step1. 请求远程功能feature分支的代码
+$ git fetch origin
+$ git checkout -b feature origin/feature
+## step2. 检查本地的feature 的代码
+## step3. 把feature的代码合并到本地master
+$ git fetch origin
+$ git checkout origin/master
+$ git merge --no-ff feature
+## step4. 推送master代码到远端
+$ git push origin master
+```
+
+## 回退的好帮手 revert 和 cherry-pick
+1. 有时候错误合并了分支， 可以使用 revert 命令来撤销合并，撤销后创建一个新的提交
+```sh
+# 1和2代表什么？如果是把feature merge 到 master，那么1代表master，2代表feature，所以该操作是保留master分支的修改， 而撤销feature分支合并过来的修改
+$ git revert -m 1 commit_id
+
+```
+2. 有时候撤销分支合并之后，需要把我们的功能提交到新的分支中，可以使用 cherry-pick 来选择
 
 # GitHub 
 
